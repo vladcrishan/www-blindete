@@ -7,23 +7,17 @@ body {
 
 .navbar-fixed-top {
     background: #723155;
-    opacity: 0.99;
-    border-bottom: hidden
+    border-bottom: hidden;
 }
 
 
-nav.navbar-default a {
+.navbar-default a {
     color: #fff !important;
 }
 
-ul.nav li a:hover,
-ul.nav .active a{
+.navbar-right li a:hover,
+.navbar-right .active a{
     color: #723155 !important;
-    background-color: #fff !important;
-}
-
-ul.nav .active a{
-    color: black !important;
     background-color: #fff !important;
 }
 
