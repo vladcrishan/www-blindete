@@ -44,6 +44,7 @@ ul.dropdown-menu li a:hover {
     margin-bottom: 200px;
     color: #ffffff;
     text-shadow: 0.25px 0.25px 0.25px #000000;
+    font-family: 'Lobster', cursive;
 }
 
 .jumbotron p {
