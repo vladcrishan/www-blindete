@@ -15,6 +15,10 @@ body {
     border-bottom: hidden;
 }
 
+.navbar-brand {
+    font-family: 'Lobster', cursive;
+}
+
 .navbar-default a {
     color: #fff !important;
 }
@@ -34,10 +38,10 @@ ul.dropdown-menu li a:hover {
 /****Jumotron****/
 
 .jumbotron {
-        background: #723155 url("../images/1.jpg") no-repeat center;
-/*    background: #723155;*/
-        background-size: cover;
-/*        background-attachment: fixed;*/
+    /*    background: #723155 url("../images/1.jpg") no-repeat center;*/
+    background: #723155;
+    background-size: cover;
+    /*            background-attachment: fixed;*/
 }
 
 .jumbotron h1 {
@@ -116,53 +120,62 @@ h2 {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 400px;
+    height: 300px;
     background-color: #262626;
     padding: 50px;
 }
 
-#last {
-    text-align: center;
-}
-
-footer .container .row {
+.footer .container .row {
     margin-top: 20px;
 }
 
+.footer .col-sm-6,
+#last {
+    padding: 0 100px;
+    text-align: center;
+    color: #727272;
+}
+
+.footer .col-sm-3 div {
+    margin-bottom: 5px;
+}
+
+.footer,
+.footer a,
 .glyphicon {
     color: #fff;
-    margin-right: 10px;
+}
+
+.footer a:hover {
+    color: #a8487d;
 }
 
 .unu {
-    font-size: 7px;
-    /*    font-family: HelveticaNeue-UltraLight, Helvetica Neue;*/
+    font-size: 16px;
+    font-family: 'Lobster', cursive;
 }
 
 .doi {
-    font-size: 10px;
+    font-size: 12px;
     /*    font-family: GillSans-Light;*/
 }
 
 .trei {
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: bold;
     /*    font-family: Gill Sans;*/
 }
 
-.footer .col-sm-6 {
-    text-align: center;
+.footer .col-sm-3 {
+    padding-left: 55px
 }
 
-.fb img {
+.fb-img {
     height: 20px;
     width: 20px;
 }
 
-.fb {
-    margin: 0 auto 5px;
-    width: 180px;
+.fb-img,
+.glyphicon {
+    margin-right: 10px;
 }
-
-
-
-
