@@ -43,7 +43,7 @@ ul.dropdown-menu li a:hover {
     color: #723155;
 }
 
-s
+
 /****Jumotron****/
 
 .jumbotron-deblindete h1 {
@@ -58,7 +58,6 @@ s
 
 .jumbotron h1 {
     color: #ffffff;
-    /*        text-shadow: 0.25px 0.25px 0.25px #000000;*/
     font-family: 'Lobster', cursive;
 }
 
@@ -68,6 +67,31 @@ s
 
 
 /****Image category****/
+
+.container {
+    max-width: 1000px;
+}
+    
+
+/*
+@media (min-width: 768px) {
+    .container{
+        width:700px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container{
+        width:820px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container{
+        width:1000px;
+    }
+}
+*/
 
 .section-container {
     position: relative;
@@ -115,17 +139,22 @@ s
 
 p,
 h4 {
-    color: #723155;
     font-family: 'Lato', sans-serif;
+}
+
+p {
+    font-size: 16px;
+}
+
+h2 {
+    text-align: center;
+    color: #723155;
+    font-family: 'Raleway', sans-serif;
 }
 
 #history h4 {
     text-align: center;
     margin: 30px 0px 30px 0px;
-}
-
-p {
-    font-size: 16px;
 }
 
 #map {
@@ -225,12 +254,10 @@ h2 {
     font-weight: bold;
 }
 
-#contact .col-sm-4,
-#males .col-sm-4,
-#females .col-sm-4 {
-    margin-top: 50px;
-}
-
 .gp-buttons {
     margin-top: 30px;
+}
+
+hr {
+    margin: 100px;
 }
