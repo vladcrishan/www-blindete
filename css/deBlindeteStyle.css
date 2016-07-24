@@ -43,6 +43,10 @@ ul.dropdown-menu li a:hover {
     color: #723155;
 }
 
+.header-deblindete hr {
+    margin: 0 0 50px 0;
+}
+
 
 /****Jumotron****/
 
@@ -66,40 +70,16 @@ ul.dropdown-menu li a:hover {
 }
 
 
-/****Image category****/
+/****Link Images****/
 
-.container {
-    max-width: 1000px;
-}
-    
-
-/*
-@media (min-width: 768px) {
-    .container{
-        width:700px;
-    }
-}
-
-@media (min-width: 992px) {
-    .container{
-        width:820px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .container{
-        width:1000px;
-    }
-}
-*/
-
-.section-container {
+.img-container {
     position: relative;
     border-radius: 6px;
     background: #000;
+    margin-bottom: 30px;
 }
 
-.row div.section-container img {
+.img-container img {
     border-radius: 6px;
     width: 100%;
     opacity: 1;
@@ -110,12 +90,12 @@ ul.dropdown-menu li a:hover {
     transition: all 0.2s linear;
 }
 
-.section-caption {
+.img-caption {
     position: absolute;
     top: 45%;
     width: 100%;
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
     color: #fff;
     font-family: 'Lato', sans-serif;
     opacity: 0;
@@ -126,18 +106,56 @@ ul.dropdown-menu li a:hover {
     transition: all 0.2s linear;
 }
 
-.row div.section-container:hover img {
+.row div.img-container:hover img {
     opacity: 0.3;
 }
 
-.row div.section-container:hover .section-caption {
+.row div.img-container:hover .img-caption {
     opacity: 0.8;
 }
 
 
-/**** Text styling****/
+/****Sizing****/
+
+.container {
+    max-width: 1000px;
+}
+
+
+/*
+@media (min-width: 768px) {
+    .container {
+        width: 700px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 1000px;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+*/
+
+#link-img {
+    margin: 50px 0 20px 0;
+}
+
+hr {
+    margin: 50px;
+}
+
+
+/**** Styling****/
 
 p,
+a,
 h4 {
     font-family: 'Lato', sans-serif;
 }
@@ -146,10 +164,15 @@ p {
     font-size: 16px;
 }
 
-h2 {
+section {
+    padding-top: 70px;
+    margin-top: -60px;
+    margin-bottom: 50px;
     text-align: center;
     color: #723155;
-    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-family: 'Lato', sans-serif;
+    font-weight: bolder;
 }
 
 #history h4 {
@@ -160,27 +183,24 @@ h2 {
 #map {
     border-radius: 6px;
     width: 100%;
+    height: inherit;
+}
+
+.description-img .col-sm-4,
+.description-img .col-sm-8 {
     height: 400px;
 }
 
-
-/*Fiecare rand sa aiba 30px liberi sub*/
-
-.row {
-    margin-bottom: 30px;
-}
-
-
-/*Pentru linkuri pe pagina. Altfel navbar-ul acopera headingul
-Intotdeauna foloseste h2 pentru capitole pe pagina.*/
-
-h2 {
-    padding-top: 70px;
-    margin-top: -60px;
+.description-img .col-sm-4 div {
+    margin-top: 50px;
 }
 
 
 /****Footer****/
+
+.footer hr {
+    margin: 20px 0 20px 0;
+}
 
 .footer {
     position: absolute;
@@ -192,6 +212,7 @@ h2 {
 }
 
 .footer-muted {
+    font-family: 'Lato', sans-serif;
     text-align: center;
     color: #727272;
 }
@@ -247,7 +268,7 @@ h2 {
 }
 
 #males span {
-    font-family: Lobster;
+    font-family: 'Lobster', cursive;
 }
 
 #males h4 {
@@ -258,6 +279,4 @@ h2 {
     margin-top: 30px;
 }
 
-hr {
-    margin: 100px;
-}
+
