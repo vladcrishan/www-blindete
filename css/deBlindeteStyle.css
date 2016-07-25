@@ -160,7 +160,8 @@ h2 {
 }
 
 h2,
-h3,h4 {
+h3,
+h4 {
     color: #723155;
 }
 
@@ -187,6 +188,7 @@ h2 {
     height: 400px;
 }
 
+
 /****Footer****/
 
 .footer hr {
@@ -212,7 +214,7 @@ h2 {
     margin-bottom: 5px;
 }
 
-.footer .footer-right div{
+.footer .footer-right div {
     float: right;
     width: 190px;
 }
@@ -258,8 +260,6 @@ h2 {
     color: #d1cccc;
 }
 
-
-
 .males-females h3 {
     font-family: 'Lobster', cursive;
 }
@@ -268,8 +268,10 @@ h2 {
     margin-bottom: 30px;
 }
 
-
-
 .gp-buttons {
     margin-top: 30px;
+}
+
+#contact p {
+    margin-bottom: 40px;
 }
