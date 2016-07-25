@@ -50,11 +50,24 @@ ul.dropdown-menu li a:hover {
 
 /****Jumotron****/
 
-.jumbotron-ciobanes-alb-elvetian {
+.jumbotron {
     height: 600px;
-    background: #723155 url("../images/covers/ciobanesc-alb-elvetian.jpg") no-repeat center;
-    background-size: cover;
     margin-bottom: 50px;
+}
+
+.jumbotron-ciobanes-alb-elvetian {
+    background: #723155 url("../images/covers/cae.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.jumbotron-kleinspitz-pomeranian {
+    background: #723155 url("../images/covers/ks.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.jumbotron-persana-chinchilla {
+    background: #723155 url("../images/covers/pps.jpg") no-repeat center;
+    background-size: cover;
 }
 
 .jumbotron h1 {
@@ -118,6 +131,18 @@ ul.dropdown-menu li a:hover {
     max-width: 1000px;
 }
 
+#contact p {
+    margin-bottom: 40px;
+}
+
+#link-img {
+    margin: 50px 0 20px 0;
+}
+
+hr {
+    margin: 70px 50px 50px 50px;
+}
+
 
 /*
 @media (min-width: 768px) {
@@ -139,14 +164,6 @@ ul.dropdown-menu li a:hover {
     }
 }
 */
-
-#link-img {
-    margin: 50px 0 20px 0;
-}
-
-hr {
-    margin: 50px;
-}
 
 
 /**** Styling****/
@@ -172,7 +189,7 @@ p {
 h2 {
     padding-top: 70px;
     margin-top: -60px;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
     text-align: center;
     font-size: 40px;
 }
@@ -260,18 +277,12 @@ h2 {
     color: #d1cccc;
 }
 
-.males-females h3 {
+.lead {
+    font-size: 30px;
+    margin-bottom: 40px;
     font-family: 'Lobster', cursive;
-}
-
-.males-females h3 {
-    margin-bottom: 30px;
 }
 
 .gp-buttons {
     margin-top: 30px;
-}
-
-#contact p {
-    margin-bottom: 40px;
 }
