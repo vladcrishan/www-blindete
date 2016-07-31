@@ -170,7 +170,10 @@ hr {
 
 h2,
 h3,
-h4 {
+h4,
+h4,
+h5,
+h6 {
     font-family: 'Open Sans', sans-serif;
     color: #723155;
 }
@@ -196,6 +199,39 @@ h2 {
     border-radius: 6px;
     width: 100%;
     height: 400px;
+}
+
+.mf {
+    margin-bottom: 100px;
+}
+
+.mf-left{
+    float: left;
+}
+
+.mf-right{
+    float:right;
+}
+
+.mf>div {
+    color: #fff;
+    background: #292929;
+    text-align: center;
+    width: 400px;
+    height: 400px;
+    padding: 0px 20px 0px 20px;
+}
+
+.mf>div h3 {
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 40px;
+    font-family: 'Lobster', cursive;
+}
+
+.mf>div h5 {
+    margin-Top: 30px;
+    color: #727272;
 }
 
 
@@ -269,12 +305,6 @@ h2 {
     color: #d1cccc;
 }
 
-.lead {
-    font-size: 30px;
-    margin-bottom: 40px;
-    font-family: 'Lobster', cursive;
-}
-
 .gp-buttons {
-    margin-top: 30px;
+    margin-Top: 50px;
 }
