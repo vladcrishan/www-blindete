@@ -48,6 +48,78 @@ ul.dropdown-menu li a:hover {
 }
 
 
+/****Footer****/
+
+.footer hr {
+    margin: 20px 0 20px 0;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 300px;
+    background-color: #262626;
+    padding: 50px;
+}
+
+.footer-muted {
+    text-align: center;
+    color: #727272;
+}
+
+.footer .col-sm-4 div {
+    margin-bottom: 5px;
+}
+
+.footer .footer-right div {
+    float: right;
+    width: 190px;
+}
+
+.footer,
+.footer a,
+.glyphicon {
+    color: #fff;
+}
+
+.footer a:hover {
+    color: #a8487d;
+}
+
+.unu {
+    font-size: 16px;
+    font-family: 'Lobster', cursive;
+}
+
+.doi {
+    font-size: 12px;
+    /*    font-family: GillSans-Light;*/
+}
+
+.trei {
+    font-size: 10px;
+    font-weight: bold;
+    /*    font-family: Gill Sans;*/
+}
+
+.fb-img {
+    height: 20px;
+    width: 20px;
+}
+
+.glyphicon {
+    font-size: 17px;
+}
+
+.fb-img,
+.glyphicon {
+    margin-right: 10px;
+    color: #d1cccc;
+}
+
+
+
 /****Jumotron****/
 
 .jumbotron {
@@ -76,6 +148,35 @@ ul.dropdown-menu li a:hover {
     font-family: 'Lobster', cursive;
 }
 
+.standard-button{
+    position: absolute;
+    bottom: 10px;
+    border: 1px solid #fff;
+    width: 100px;
+    padding: 5px;
+    text-decoration: none !important;
+    color: #fff;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -ms-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
+.standard-button:link,
+.standard-button:visited{
+    color: #fff;
+}
+
+.standard-button:hover{
+    background: #fff;
+    color: #723155;
+}
+
+.standard-button p{
+    font-size: 10px;
+    margin: 0;
+}
 
 /****Link Images****/
 
@@ -216,105 +317,10 @@ h2 {
     margin-Top: 50px;
 }
 
-
-/****Footer****/
-
-.footer hr {
-    margin: 20px 0 20px 0;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 300px;
-    background-color: #262626;
-    padding: 50px;
-}
-
-.footer-muted {
-    text-align: center;
-    color: #727272;
-}
-
-.footer .col-sm-4 div {
-    margin-bottom: 5px;
-}
-
-.footer .footer-right div {
-    float: right;
-    width: 190px;
-}
-
-.footer,
-.footer a,
-.glyphicon {
-    color: #fff;
-}
-
-.footer a:hover {
-    color: #a8487d;
-}
-
-.unu {
-    font-size: 16px;
-    font-family: 'Lobster', cursive;
-}
-
-.doi {
+.panel-footer {
+    color: #a9a9a9;
     font-size: 12px;
-    /*    font-family: GillSans-Light;*/
-}
-
-.trei {
-    font-size: 10px;
-    font-weight: bold;
-    /*    font-family: Gill Sans;*/
-}
-
-.fb-img {
-    height: 20px;
-    width: 20px;
-}
-
-.glyphicon {
-    font-size: 17px;
-}
-
-.fb-img,
-.glyphicon {
-    margin-right: 10px;
-    color: #d1cccc;
-}
-
-
-
-.standard-button{
-    position: absolute;
-    bottom: 10px;
-    border: 1px solid #fff;
-    width: 100px;
-    padding: 5px;
-    text-decoration: none !important;
-    color: #fff;
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -ms-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
-}
-
-.standard-button:link,
-.standard-button:visited{
-    color: #fff;
-}
-
-.standard-button:hover{
+    font-weight: 100;
     background: #fff;
-    color: #723155;
-}
-
-.standard-button p{
-    font-size: 10px;
-    margin: 0;
+    border-top: none;
 }
