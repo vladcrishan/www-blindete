@@ -205,35 +205,15 @@ h2 {
     margin-bottom: 100px;
 }
 
-.mf-left{
-    float: left;
-}
-
-.mf-right{
-    float:right;
-}
-
-.mf>div {
-    color: #fff;
-    background: #292929;
+.mf .col-sm-4 {
     text-align: center;
-    width: 400px;
-    height: 400px;
-    padding: 0px 20px 0px 20px;
 }
 
-.mf>div h3 {
-    color: #fff;
+.mf .col-sm-4 h3 {
     font-size: 30px;
     margin-bottom: 40px;
     font-family: 'Lobster', cursive;
 }
-
-.mf>div h5 {
-    margin-Top: 30px;
-    color: #727272;
-}
-
 
 /****Footer****/
 
