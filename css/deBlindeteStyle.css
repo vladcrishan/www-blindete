@@ -304,6 +304,11 @@ h2 {
     transition: all 0.2s linear;
 }
 
+.standard-button:link,
+.standard-button:visited{
+    color: #fff;
+}
+
 .standard-button:hover{
     background: #fff;
     color: #723155;
