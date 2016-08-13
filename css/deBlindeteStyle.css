@@ -50,31 +50,31 @@ ul.dropdown-menu li a:hover {
 
 /****Footer****/
 
-.footer hr {
-    margin: 20px 0 20px 0;
-}
-
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 300px;
     background-color: #262626;
-    padding: 50px;
-}
-
-.footer-muted {
-    text-align: center;
-    color: #727272;
+    padding-top: 50px;
 }
 
 .footer .col-sm-4 div {
     margin-bottom: 5px;
 }
 
-.footer .footer-right div {
+.footer .col-sm-4:nth-child(3) div{
     float: right;
     width: 190px;
+}
+
+.footer-text-muted{
+    text-align: center;
+    color: #727272;
+}
+
+.footer hr {
+    margin: 20px 0 20px 0;
 }
 
 .footer,
