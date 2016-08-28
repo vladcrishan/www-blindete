@@ -94,13 +94,11 @@ ul.dropdown-menu li a:hover {
 
 .doi {
     font-size: 12px;
-    /*    font-family: GillSans-Light;*/
 }
 
 .trei {
     font-size: 10px;
     font-weight: bold;
-    /*    font-family: Gill Sans;*/
 }
 
 .fb-img {
@@ -202,7 +200,6 @@ ul.dropdown-menu li a:hover {
     position: absolute;
     top: 45%;
     width: 100%;
-    text-align: center;
     font-size: 30px;
     color: #fff;
     font-weight: 100;
@@ -226,7 +223,7 @@ ul.dropdown-menu li a:hover {
 /****Sizing****/
 
 .container {
-    max-width: 1000px;
+    /*    max-width: 1000px;*/
 }
 
 #contact p {
@@ -266,6 +263,7 @@ hr {
 
 /**** Styling ****/
 
+h1,
 h2,
 h3,
 h4,
@@ -279,15 +277,15 @@ p {
     font-size: 16px;
 }
 
-.section-header {
+section {
     padding-top: 70px;
     margin-top: -60px;
-    margin-bottom: 60px;
 }
 
-.section-header h2 {
+.section-header h1 {
     text-align: center;
     font-size: 40px;
+    margin-bottom: 60px;
 }
 
 #history h4 {
@@ -388,3 +386,5 @@ p {
     text-align: center;
     font-family: 'Lobster', cursive;
 }
+
+
