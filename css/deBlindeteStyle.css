@@ -206,7 +206,7 @@ ul.dropdown-menu li a:hover {
     font-size: 30px;
     color: #fff;
     font-weight: 100;
-/*    opacity: 0;*/
+    opacity: 0;
     -webkit-transition: all 0.2s linear;
     -moz-transition: all 0.2s linear;
     -ms-transition: all 0.2s linear;
