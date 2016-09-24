@@ -54,7 +54,7 @@ ul.dropdown-menu li a:hover {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     background-color: #262626;
     padding-top: 50px;
 }
@@ -186,7 +186,7 @@ ul.dropdown-menu li a:hover {
 }
 
 .img-container img {
-    border-radius: 6px; 
+    border-radius: 6px;
     width: 100%;
     opacity: 1;
     -webkit-transition: all 0.2s linear;
@@ -386,5 +386,3 @@ section {
     text-align: center;
     font-family: 'Lobster', cursive;
 }
-
-
