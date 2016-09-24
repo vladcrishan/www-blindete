@@ -186,7 +186,7 @@ ul.dropdown-menu li a:hover {
 }
 
 .img-container img {
-    border-radius: 6px;
+    border-radius: 6px; 
     width: 100%;
     opacity: 1;
     -webkit-transition: all 0.2s linear;
