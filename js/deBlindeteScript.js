@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 // Smooth Scroll
 $(document).ready(function () {
-    $(document).on("scroll", onScroll);
+    $(document).on("scroll", activateLinks);
 
         //href^="#" -> href that starts with #
         $('.nav a').on('click', function (e) {
@@ -27,13 +27,13 @@ $(document).ready(function () {
                 'scrollTop': $target.offset().top+2
             }, 500, 'swing', function () {
                 window.location.hash = target;
-                $(document).on("scroll", onScroll);
+                $(document).on("scroll", activateLinks);
             });
         });
 });
 
 // Set link active based on position of scrollbar
-function onScroll(event) {
+function activateLinks(event) {
     $(".nav").find(".active").removeClass("active");
 
     // Scrollbar position
