@@ -1,35 +1,31 @@
-//Navbar click active
+// Navbar
 $(document).ready(function () {
-    // Active navbar button
-    $(".nav a").on("click", function () {
-        $(".nav").find(".active").removeClass("active");
-        $(this).parent().addClass("active");
-    });
-});
 
-// Smooth Scroll
-$(document).ready(function () {
+    // navbar item on scroll
     $(document).on("scroll", activateLinks);
 
-        //href^="#" -> href that starts with #
-        $('.nav a').on('click', function (e) {
-            $(document).off("scroll");
-            
-            $('a').each(function () {
-                $(this).removeClass('active');
-            });
-            $(this).addClass('active');
-          
-            var target = this.hash,
-                menu = target;
-            $target = $(target);
-            $('html, body').stop().animate({
-                'scrollTop': $target.offset().top+2
-            }, 500, 'swing', function () {
-                window.location.hash = target;
-                $(document).on("scroll", activateLinks);
-            });
+    // navbar item on click
+    $('.nav a[href^="#"]').on('click', function (e) {
+        $(document).off("scroll");
+
+        $(".nav").find(".active").removeClass("active");
+        $(this).parent().addClass('active');
+
+        $('html, body').stop().animate({
+            'scrollTop': $(this.hash).offset().top
+        }, 500, function () {
+            $(document).on("scroll", activateLinks);
         });
+    });
+
+    // navbar dropdown animation
+    $('.navbar-default .navbar-nav > li.dropdown').hover(function () {
+        $('ul.dropdown-menu', this).stop(true, true).slideDown('fast');
+        $(this).addClass('open');
+    }, function () {
+        $('ul.dropdown-menu', this).stop(true, true).slideUp('fast');
+        $(this).removeClass('open');
+    });
 });
 
 // Set link active based on position of scrollbar
@@ -41,20 +37,10 @@ function activateLinks(event) {
 
     // Go through every anchor that starts with #
     $('.nav a[href^="#"]').each(function () {
-
-        // $(this) -> the anchor 
-        var anchor = $(this);
-
-        // $(this).attr("href") -> The href attribute of the anchor
-        // $($(this).attr("href")) -> The section element from the href in every anchor
-        var section = $(anchor.attr("href"));
-
-        // Section position
-        var sectionPosition = section.position().top;
-
-        console.log("sectionPos: " + sectionPosition + " --- " + " sectionHeight: " + section.height() + " --- " + "scrollPos: " + scrollPosition);
-        if (sectionPosition <= scrollPosition && sectionPosition + section.height() > scrollPosition) {
-            anchor.parent().addClass("active");
+        var section = $(this.hash);
+        var sectionPosition = section.offset().top;
+        if (sectionPosition <= scrollPosition && sectionPosition + section.height() + 100 > scrollPosition) {
+            $(this).parent().addClass("active");
         }
     });
 }
