@@ -39,7 +39,7 @@ function activateLinks(event) {
     $('.nav a[href^="#"]').each(function () {
         var section = $(this.hash);
         var sectionPosition = section.offset().top;
-        if (sectionPosition <= scrollPosition && sectionPosition + section.height() + 100 > scrollPosition) {
+        if (sectionPosition <= scrollPosition && sectionPosition + section.height() + 130 > scrollPosition) {
             $(this).parent().addClass("active");
         }
     });

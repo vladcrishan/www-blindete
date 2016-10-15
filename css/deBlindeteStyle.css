@@ -8,6 +8,7 @@ body {
     padding-bottom: 400px;
 }
 
+
 /****Navbar****/
 
 .navbar-fixed-top {
@@ -35,15 +36,15 @@ body {
 }
 
 .navbar-right li.dropdown a.dropdown-toggle,
-ul.dropdown-menu{
+ul.dropdown-menu {
     background-color: #723155;
 }
 
-ul.dropdown-menu li.dropdown-header{
+ul.dropdown-menu li.dropdown-header {
     color: #c578a2;
 }
 
-ul.dropdown-menu li.divider{
+ul.dropdown-menu li.divider {
     background-color: #602948;
 }
 
@@ -62,7 +63,6 @@ ul.dropdown-menu li.divider{
 
 /****Footer****/
 
-
 .footer {
     position: absolute;
     bottom: 0;
@@ -71,7 +71,6 @@ ul.dropdown-menu li.divider{
     background-color: #262626;
     padding-top: 50px;
 }
-
 
 .footer .col-sm-4 div {
     margin-bottom: 5px;
@@ -159,36 +158,44 @@ ul.dropdown-menu li.divider{
     font-family: 'Lobster', cursive;
 }
 
-.standard-button {
+.srasa-link {
     position: absolute;
     bottom: 10px;
-    border: 1px solid #fff;
-    width: 100px;
-    padding: 5px;
+}
+
+
+/****Underline effect****/
+
+header .jumbotron-ciobanes-alb-elvetian a {
+    position: relative;
+    color: #a8487d;
     text-decoration: none !important;
-    color: #fff;
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -ms-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
 }
 
-.standard-button:link,
-.standard-button:visited {
-    color: #fff;
+header .jumbotron-ciobanes-alb-elvetian a:hover {
+    color: #a8487d;
 }
 
-.standard-button:hover {
-    background: #fff;
-    color: #723155;
+header .jumbotron-ciobanes-alb-elvetian a:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #a8487d;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
 }
 
-.standard-button p {
-    font-size: 10px;
-    margin: 0;
+header .jumbotron-ciobanes-alb-elvetian a:hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
 }
-
 
 /****Link Images****/
 
@@ -298,8 +305,12 @@ section {
 }
 
 #history h4 {
-    text-align: center;
-    margin: 30px 0px 30px 0px;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#history .row p {
+    margin-bottom: 40px;
 }
 
 #map {
@@ -394,4 +405,8 @@ section {
 .section-header p {
     text-align: center;
     font-family: 'Lobster', cursive;
+}
+
+#males {
+    z-index: 2;
 }
