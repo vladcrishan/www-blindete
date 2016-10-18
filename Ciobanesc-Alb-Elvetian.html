@@ -36,8 +36,7 @@
                     <li><a href="#males">Masculi</a></li>
                     <li><a href="#females">Femele</a></li>
                     <li><a href="#puppies">Cățeluși</a></li>
-                    <li><a href="Galerie.html">Galerie</a></li>
-                    <li><a href="Index.html#contact">Contact</a></li>
+                    <li><a href="#gallery">Galerie</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rase<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -75,7 +74,7 @@
     ================================================== -->
     <section id="history">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header header-deblindete">
                 <h1>Istoric</h1>
             </div>
             <div class="row">
@@ -102,13 +101,13 @@
     <section id="males">
         <div class="container">
 
-            <div class="section-header">
+            <div class="section-header header-deblindete">
                 <h1>Masculi</h1>
                 <hr/>
             </div>
 
             <div class="row text-center">
-                <div class="col-md-3">
+                <div class="col-sm-3">
                     <div class="img-container img-rounded">
                         <a href="#" data-toggle="modal" data-target="#caluModal">
                             <img src="images/400X300/calu.jpg" class="img-responsive img-rounded">
@@ -156,16 +155,16 @@
     </section>
 
     <!-- Femele
-	    ================================================== -->
+    ================================================== -->
     <section id="females">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header header-deblindete">
                 <h1>Femele</h1>
                 <hr/>
             </div>
 
             <div class="row text-center">
-                <div class="col-md-3">
+                <div class="col-sm-3">
                     <div class="img-container img-rounded">
                         <a href="#" data-toggle="modal" data-target="#beautyModal">
                             <img src="images/400X300/beauty.jpg" class="img-responsive img-rounded">
@@ -208,7 +207,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-3">
                     <div class="img-container img-rounded">
                         <a href="#" data-toggle="modal" data-target="#irisModal">
                             <img src="images/400X300/iris.JPG" class="img-responsive img-rounded">
@@ -255,51 +254,135 @@
         </div>
     </section>
 
-    <hr/>
+    <div class="container">
+        <hr/>
+    </div>
 
     <!-- Catelusi
-	    ================================================== -->
+    ================================================== -->
     <section id="puppies">
-        <div class="section-header">
-            <h1>Cățeluși</h1>
-        </div>
+        <div class="container">
+            <div class="section-header header-deblindete">
+                <h1>Cățeluși</h1>
+            </div>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <p>O mică descriere...</p>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>O mică descriere...</p>
 
-                <!--Media-->
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="media-object" src="..." alt="...">
+                    <!--Media-->
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="..." alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Media heading</h4> ...
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="photo">
+                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <a class="thumbnail" href="#">
+                                <img class="img-responsive" src="images/400x300/sandokan.JPG">
                             </a>
                         </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4> ...
+                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <a class="thumbnail" href="#">
+                                <img class="img-responsive" src="images/400x300/sandokan.JPG">
+                            </a>
                         </div>
-                    </li>
-                </ul>
+                    </div>
 
-                <div class="photo">
-                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                        <a class="thumbnail" href="#">
-                            <img class="img-responsive" src="images/400x300/sandokan.JPG">
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                        <a class="thumbnail" href="#">
-                            <img class="img-responsive" src="images/400x300/sandokan.JPG">
-                        </a>
-                    </div>
                 </div>
-
+                <div class="panel-footer">17:23 - 1 Aug 2016</div>
             </div>
-            <div class="panel-footer">17:23 - 1 Aug 2016</div>
         </div>
     </section>
 
+    <div class="container">
+        <hr/>
+    </div>
+
+    <!-- Galerie
+    ================================================== -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-header header-deblindete">
+                <h1>Galerie</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="images/400x300/sandokan.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="#">
+                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <hr/>
+    </div>
 
     <div class="row row-slim shadow">
         <div class="col-md-6 img-cont">
