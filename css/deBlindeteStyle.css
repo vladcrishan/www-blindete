@@ -201,13 +201,11 @@ header .jumbotron-ciobanes-alb-elvetian a:hover:before {
 
 .img-container {
     position: relative;
-    border-radius: 6px;
     background: #000;
     margin-bottom: 30px;
 }
 
 .img-container img {
-    border-radius: 6px;
     width: 100%;
     opacity: 1;
     -webkit-transition: all 0.2s linear;
