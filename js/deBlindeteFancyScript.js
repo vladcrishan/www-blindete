@@ -1,6 +1,6 @@
 //FancyBox
 $(document).ready(function () {
-//    $(".fancybox").fancybox();
+    $(".fancybox").fancybox();
 
     //Thumbnails
     $(document).ready(function () {

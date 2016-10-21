@@ -488,7 +488,7 @@ section#males {
 }
 
 .modal-deBlindete .modal-content p {
-    margin: 0px;
+    margin-top: 30px;
     font-style: italic;
 }
 
@@ -499,7 +499,7 @@ section#males {
 }
 
 .modal-deBlindete .modal-content h3 {
-    margin: 0px 0px 40px;
+    margin: 0px 0px 5px 0px;
     font-size: 30px;
     font-weight: bold;
 }
@@ -516,4 +516,5 @@ section#males {
 
 .img-centered {
     margin: 0 auto;
+    max-height: 486px;
 }

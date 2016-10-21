@@ -38,7 +38,7 @@
                     <li><a href="#puppies">Cățeluși</a></li>
                     <li><a href="#gallery">Galerie</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rase<span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rase<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Canise de Blîndețe</li>
                             <li><a href="Ciobanesc-Alb-Elvetian.html">Ciobănesc Alb Elvețian</a></li>
@@ -109,7 +109,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="img-container img-rounded">
-                        <a href="#" data-toggle="modal" data-target="#caluModal">
+                        <a href="#" id="calu" data-toggle="modal" data-target="#caluModal">
                             <img src="images/400X300/calu.jpg" class="img-responsive img-rounded">
                             <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
                             <div class="img-caption">Calu</div>
@@ -122,7 +122,7 @@
                     <div class="modal-content">
 
                         <!-- X -->
-                        <div class="close-modal" data-dismiss="modal">
+                        <div class="close-modal close-calu-preview" data-dismiss="modal">
                             <div class="lr">
                                 <div class="rl">
                                 </div>
@@ -138,42 +138,48 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <img src="images/individual-gallery/masculi-calu/1.jpg" class="img-responsive img-centered" alt="" />
+                                        <img id="caluPreview" src="images/individual-gallery/masculi-calu/1.jpg" class="img-responsive img-centered" alt="" />
                                     </div>
                                     <div class="col-md-4 text-left">
                                         <p>născut</p>
                                         <h3>19.06.2006</h3>
                                         <p>rezultate expoziție</p>
-                                        <h3>Excelent 1, RPG, Best Of Breed, CAC, Best Male</h3>
+                                        <h3>Excelent 1</h3>
+                                        <h3>RPG</h3>
+                                        <h3>Best Of Breed</h3>
+                                        <h3>CAC</h3>
+                                        <h3>Best Male</h3>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                                    <div class="col-lg-2 col-md-3 col-xs-4">
                                         <a class="thumbnail" href="#">
-                                            <img class="img-responsive" src="images/individual-gallery/masculi-calu/1.JPG" alt="">
+                                            <img class="img-responsive img-calu" src="images/individual-gallery/masculi-calu/1.JPG" alt="">
                                         </a>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                                    <div class="col-lg-2 col-md-3 col-xs-4">
                                         <a class="thumbnail" href="#">
-                                            <img class="img-responsive" src="images/individual-gallery/masculi-calu/2.JPG" alt="">
+                                            <img class="img-responsive img-calu" src="images/individual-gallery/masculi-calu/2.JPG" alt="">
                                         </a>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                                    <div class="col-lg-2 col-md-3 col-xs-4">
                                         <a class="thumbnail" href="#">
-                                            <img class="img-responsive" src="images/individual-gallery/masculi-calu/3.JPG" alt="">
+                                            <img class="img-responsive img-calu" src="images/individual-gallery/masculi-calu/3.JPG" alt="">
                                         </a>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                                    <div class="col-lg-2 col-md-3 col-xs-4">
                                         <a class="thumbnail" href="#">
-                                            <img class="img-responsive" src="images/individual-gallery/masculi-calu/4.JPG" alt="">
+                                            <img class="img-responsive img-calu" src="images/individual-gallery/masculi-calu/4.JPG" alt="">
                                         </a>
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                                    <div class="col-lg-2 col-md-3 col-xs-4">
                                         <a class="thumbnail" href="#">
-                                            <img class="img-responsive" src="images/individual-gallery/masculi-calu/5.jpg" alt="">
+                                            <img class="img-responsive img-calu" src="images/individual-gallery/masculi-calu/5.jpg" alt="">
                                         </a>
                                     </div>
                                 </div>
+                                <br/>
+                                <button class="btn btn-default btn-lg close-calu-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
                             </div>
                         </div>
                     </div>
@@ -195,7 +201,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="img-container img-rounded">
-                        <a href="#" data-toggle="modal" data-target="#beautyModal">
+                        <a href="#" id="beauty" data-toggle="modal" data-target="#beautyModal">
                             <img src="images/400X300/beauty.jpg" class="img-responsive img-rounded">
                             <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
                             <div class="img-caption">Beauty</div>
@@ -207,7 +213,7 @@
                         <div class="modal-content">
 
                             <!-- X -->
-                            <div class="close-modal" data-dismiss="modal">
+                            <div class="close-modal close-beauty-preview" data-dismiss="modal">
                                 <div class="lr">
                                     <div class="rl">
                                     </div>
@@ -216,19 +222,75 @@
 
                             <!-- Modal Content -->
                             <div class="container">
-                                <div class="row">
-                                    <div>
-                                        <div class="modal-body">
-                                            <h2>Beauty</h2>
-                                            <p class="text-muted">de Blîndețe</p>
-                                            <img src="images/400X300/beauty.JPG" class="img-responsive img-centered" alt="">
-                                            <ul class="list-inline item-details">
-                                                <li>Născut: <strong>03.01.2005</strong></li>
-                                                <li>Rezultate expoziție: <strong>Excelent 1, Excelent, RPG, Best Of Breed, CAC</strong></li>
-                                            </ul>
-
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Beauty</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="beautyPreview" src="images/individual-gallery/femele-beauty/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născută</p>
+                                            <h3>03.01.2005</h3>
+                                            <p>rezultate expoziție</p>
+                                            <h3>Excelent 1</h3>
+                                            <h3>Excelent</h3>
+                                            <h3>RPG</h3>
+                                            <h3>Best Of Breed</h3>
+                                            <h3>CAC</h3>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/1.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/2.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/4.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/5.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/6.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/7.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/8.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-beauty" src="images/individual-gallery/femele-beauty/9.jpg" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-beauty-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
                                 </div>
                             </div>
 
@@ -238,7 +300,7 @@
 
                 <div class="col-sm-3">
                     <div class="img-container img-rounded">
-                        <a href="#" data-toggle="modal" data-target="#irisModal">
+                        <a href="#" id="iris" data-toggle="modal" data-target="#irisModal">
                             <img src="images/400X300/iris.JPG" class="img-responsive img-rounded">
                             <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
                             <div class="img-caption">Iris</div>
@@ -250,7 +312,7 @@
                         <div class="modal-content">
 
                             <!-- X -->
-                            <div class="close-modal" data-dismiss="modal">
+                            <div class="close-modal close-iris-preview" data-dismiss="modal">
                                 <div class="lr">
                                     <div class="rl">
                                     </div>
@@ -259,19 +321,45 @@
 
                             <!-- Modal Content -->
                             <div class="container">
-                                <div class="row">
-                                    <div>
-                                        <div class="modal-body">
-                                            <h2>Iris</h2>
-                                            <p class="text-muted">de Blîndețe</p>
-                                            <img src="images/400X300/iris.jpg" class="img-responsive img-centered" alt="">
-                                            <ul class="list-inline item-details">
-                                                <li>Născut: <strong>26.10.2011</strong></li>
-                                                <li>Rezultate expoziție: <strong>Excelent 1, Excelent, RPG, Best Of Breed, CAC</strong></li>
-                                            </ul>
-
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Iris</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="irisPreview" src="images/individual-gallery/femele-iris/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>26.10.2011</h3>
+                                            <p>rezultate expoziție</p>
+                                            <h3>Excelent 1</h3>
+                                            <h3>Excelent</h3>
+                                            <h3>RPG</h3>
+                                            <h3>Best Of Breed</h3>
+                                            <h3>CAC</h3>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-iris" src="images/individual-gallery/femele-iris/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-iris" src="images/individual-gallery/femele-iris/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-iris" src="images/individual-gallery/femele-iris/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-iris-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
                                 </div>
                             </div>
 
@@ -293,38 +381,114 @@
 
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <p>O mică descriere...</p>
+                    <p>Faust și Gloria</p>
 
                     <!--Media-->
                     <ul class="media-list">
                         <li class="media">
                             <div class="media-left">
                                 <a href="#">
-                                    <img class="media-object" src="..." alt="...">
+                                    <img class="media-object" src="" alt="...">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4> ...
+                                <h4 class="media-heading">13.07.2014</h4>
                             </div>
                         </li>
                     </ul>
 
                     <div class="photo">
-                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                            <a class="thumbnail" href="#">
-                                <img class="img-responsive" src="images/400x300/sandokan.JPG">
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-13.07.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/1.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/1.JPG">
                             </a>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                            <a class="thumbnail" href="#">
-                                <img class="img-responsive" src="images/400x300/sandokan.JPG">
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-13.07.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/2.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/2.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-13.07.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/3.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/3.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-13.07.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/4.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/4.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-13.07.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/5.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-13.07.2014/5.JPG">
                             </a>
                         </div>
                     </div>
 
                 </div>
-                <div class="panel-footer">17:23 - 1 Aug 2016</div>
+                <div class="panel-footer">01:40 - 22 Octombrie 2016</div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>Faust și Gloria după doua luni</p>
+
+                    <!--Media-->
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">21.09.2014</h4>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="photo">
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/1.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/1.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/2.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/2.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/3.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/3.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/4.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/4.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/5.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/5.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/6.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/6.JPG">
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-xs-4">
+                            <a class="thumbnail fancybox" rel="gallery-faust&gloria-21.09.2014" href="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/7.JPG">
+                                <img class="img-responsive" src="images/ciobanesc-alb-elvetian/cubs-gallery/Faust&Gloria-21.09.2014/7.JPG">
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">01:56 - 22 Octombrie 2016</div>
+            </div>
+
         </div>
     </section>
 
@@ -341,64 +505,64 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="images/400x300/sandokan.JPG" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/1.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/1.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/2.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/2.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/3.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/3.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/4.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/4.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/5.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/5.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/6.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/6.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/7.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/7.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/8.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/8.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/9.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/9.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/10.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/10.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/11.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/11.JPG" alt="">
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a class="thumbnail" href="#">
-                        <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/12.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/12.JPG" alt="">
                     </a>
                 </div>
             </div>
