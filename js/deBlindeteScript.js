@@ -45,91 +45,91 @@ $(document).ready(function () {
     $('#bobby').on('click', IndividualGallery.setCurrentPreview);
     $('.img-bobby').on('click', IndividualGallery.setPreview);
     $('.close-bobby-preview').on('click', function () {
-        $('#bobbyPreview').attr('src', 'images/individual-gallery/masculi-bobby/1.JPG');
+        $('#bobbyPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/masculi-bobby/big/1.jpg');
     });
 
     // Zorro
     $('#zorro').on('click', IndividualGallery.setCurrentPreview);
     $('.img-zorro').on('click', IndividualGallery.setPreview);
     $('.close-zorro-preview').on('click', function () {
-        $('#zorroPreview').attr('src', 'images/individual-gallery/masculi-zorro/1.JPG');
+        $('#zorroPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/masculi-zorro/big/1.JPG');
     });
 
     // Zefyr
     $('#zefyr').on('click', IndividualGallery.setCurrentPreview);
     $('.img-zefyr').on('click', IndividualGallery.setPreview);
     $('.close-zefyr-preview').on('click', function () {
-        $('#zefyrPreview').attr('src', 'images/individual-gallery/masculi-zefyr/1.JPG');
+        $('#zefyrPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/masculi-zefyr/big/1.jpg');
     });
 
     // Lili
     $('#lili').on('click', IndividualGallery.setCurrentPreview);
     $('.img-lili').on('click', IndividualGallery.setPreview);
     $('.close-lili-preview').on('click', function () {
-        $('#liliPreview').attr('src', 'images/individual-gallery/femele-lili/1.JPG');
+        $('#liliPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-lili/big/1.jpg');
     });
 
     // Zita
     $('#zita').on('click', IndividualGallery.setCurrentPreview);
     $('.img-zita').on('click', IndividualGallery.setPreview);
     $('.close-zita-preview').on('click', function () {
-        $('#zitaPreview').attr('src', 'images/individual-gallery/femele-zita/1.JPG');
+        $('#zitaPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-zita/big/1.jpg');
     });
 
     // Linda
     $('#linda').on('click', IndividualGallery.setCurrentPreview);
     $('.img-linda').on('click', IndividualGallery.setPreview);
     $('.close-linda-preview').on('click', function () {
-        $('#lindaPreview').attr('src', 'images/individual-gallery/femele-linda/1.JPG');
+        $('#lindaPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-linda/big/1.jpg');
     });
 
     // Princess
     $('#princess').on('click', IndividualGallery.setCurrentPreview);
     $('.img-princess').on('click', IndividualGallery.setPreview);
     $('.close-princess-preview').on('click', function () {
-        $('#princessPreview').attr('src', 'images/individual-gallery/femele-princess/1.JPG');
+        $('#princessPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-princess/big/1.JPG');
     });
 
     // Mozzart
     $('#mozzart').on('click', IndividualGallery.setCurrentPreview);
     $('.img-mozzart').on('click', IndividualGallery.setPreview);
     $('.close-mozzart-preview').on('click', function () {
-        $('#mozzartPreview').attr('src', 'images/individual-gallery/masculi-mozzart/1.JPG');
+        $('#mozzartPreview').attr('src', 'images/persana-chinchilla/individual-gallery/masculi-mozzart/big/1.jpg');
     });
 
     // Sunny
     $('#sunny').on('click', IndividualGallery.setCurrentPreview);
     $('.img-sunny').on('click', IndividualGallery.setPreview);
     $('.close-sunny-preview').on('click', function () {
-        $('#sunnyPreview').attr('src', 'images/individual-gallery/masculi-sunny/1.JPG');
+        $('#sunnyPreview').attr('src', 'images/persana-chinchilla/individual-gallery/masculi-sunny/big/1.jpg');
     });
 
     // Greata
     $('#greta').on('click', IndividualGallery.setCurrentPreview);
     $('.img-greta').on('click', IndividualGallery.setPreview);
     $('.close-greta-preview').on('click', function () {
-        $('#gretaPreview').attr('src', 'images/individual-gallery/femele-greta/1.JPG');
+        $('#gretaPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-greta/big/1.jpg');
     });
 
     // Szofia
     $('#szofia').on('click', IndividualGallery.setCurrentPreview);
     $('.img-szofia').on('click', IndividualGallery.setPreview);
     $('.close-szofia-preview').on('click', function () {
-        $('#szofiaPreview').attr('src', 'images/individual-gallery/femele-szofia/1.JPG');
+        $('#szofiaPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-szofia/big/1.jpg');
     });
 
     // Dalia
     $('#dalia').on('click', IndividualGallery.setCurrentPreview);
     $('.img-dalia').on('click', IndividualGallery.setPreview);
     $('.close-dalia-preview').on('click', function () {
-        $('#daliaPreview').attr('src', 'images/individual-gallery/femele-dalia/1.JPG');
+        $('#daliaPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-dalia/big/1.jpg');
     });
 
     // Bellie Jean
     $('#bellie-jean').on('click', IndividualGallery.setCurrentPreview);
     $('.img-bellie-jean').on('click', IndividualGallery.setPreview);
     $('.close-bellie-jean-preview').on('click', function () {
-        $('#bellie-jeanPreview').attr('src', 'images/individual-gallery/femele-billiejean/1.jpg');
+        $('#bellie-jeanPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-billiejean/big/1.jpg');
     });
 });
 
@@ -180,6 +180,6 @@ IndividualGallery = {
 
     // Setting the preview picture at individual gallery
     setPreview: function () {
-        $(currentPreview).attr('src', this.src.replace("400x300","big"));
+        $(currentPreview).attr('src', this.src.replace("400x300", "big"));
     }
 }
