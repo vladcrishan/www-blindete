@@ -17,16 +17,16 @@
 <body>
 
     <!-- NAVBAR
-	================================================== -->
+    ================================================== -->
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="Index.html">de Blîndețe</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
@@ -34,10 +34,10 @@
                     <li><a href="Index.html">Acasă</a></li>
                     <li><a href="#males">Masculi</a></li>
                     <li><a href="#females">Femele</a></li>
-                    <li><a href="Galerie.html">Galerie</a></li>
-                    <li><a href="Index.html#contact">Contact</a></li>
+                    <li><a href="#puppies">Cățeluși</a></li>
+                    <li><a href="#gallery">Galerie</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rase<span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rase<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Canise de Blîndețe</li>
                             <li><a href="Ciobanesc-Alb-Elvetian.html">Ciobănesc Alb Elvețian</a></li>
@@ -55,241 +55,646 @@
     </nav>
 
     <!-- Jumbotron
-	================================================== -->
-    <div class="container">
-        <div class="jumbotron jumbotron-kleinspitz-pomeranian">
-            <h1>Kleinspitz, Pomeranian</h1>
-            <a href="http://www.fci.be/Nomenclature/Standards/097g05-en.pdf" target="_blank" class="standard-button">
-                <p><b>FCI</b></p>
-                <p>Standardul rasei</p>
-            </a>
+    ================================================== -->
+    <header>
+        <div class="container">
+            <div class="jumbotron jumbotron-kleinspitz-pomeranian">
+                <h1>Kleinspitz, Pomeranian</h1>
+                <div class="srasa-link">
+                    <a href="http://www.fci.be/Nomenclature/Standards/097g05-en.pdf" target="_blank">
+                        <b>FCI</b>Standardul rasei
+                    </a>
+                </div>
+            </div>
         </div>
+    </header>
 
-        <!-- Masculi Kleinspitz
-	    ================================================== -->
-        <section id="males">
-            <div class="section-header">
-                <h1>Masculi</h1>
-                <p class="text-muted">- Kleinspitz -</p>
+    <!-- Masculi Kleinspitz
+    ================================================== -->
+    <section id="males">
+        <div class="container text-center">
+
+            <div class="section-header header-deblindete">
+                <h1>Masculi <small>kleinspitz</small></h1>
+                <hr/>
             </div>
 
-            <div class="row row-slim shadow">
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/bobby.jpg" />
-                </div>
-                <div class="col-md-6 cont-img">
-                    <h3>Bobby de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUT</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-bobby" href="images/individual-gallery/masculi-bobby/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+            <div class="row">
+
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="bobby" data-toggle="modal" data-target="#bobbyModal">
+                            <img src="images/400X300/bobby.jpg" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Bobby</div>
+                        </a>
                     </div>
-
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-bobby" href="images/individual-gallery/masculi-bobby/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-bobby" href="images/individual-gallery/masculi-bobby/3.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-bobby" href="images/individual-gallery/masculi-bobby/4.jpg"></a>
                 </div>
-            </div>
+                <div class="modal fade modal-deBlindete" id="bobbyModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
-            <div class="row row-slim shadow">
-                <div class="col-md-6 cont-img">
-                    <h3>Bijou de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUT</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-bijou" href="images/individual-gallery/masculi-bijou/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+                            <!-- X -->
+                            <div class="close-modal close-bobby-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Bobby</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="bobbyPreview" src="images/individual-gallery/masculi-bobby/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-bobby" src="images/individual-gallery/masculi-bobby/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-bobby" src="images/individual-gallery/masculi-bobby/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-bobby" src="images/individual-gallery/masculi-bobby/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-bobby" src="images/individual-gallery/masculi-bobby/4.jpg" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-bobby-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-bijou" href="images/individual-gallery/masculi-bijou/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-bijou" href="images/individual-gallery/masculi-bijou/3.jpg"></a>
-                </div>
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/bijou.jpg" />
-                </div>
-            </div>
-            
-            <div class="row row-slim shadow">
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/zorro.jpg" />
-                </div>
-                <div class="col-md-6 cont-img">
-                    <h3>Zorro de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUT</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-zorro" href="images/individual-gallery/masculi-zorro/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="zorro" data-toggle="modal" data-target="#zorroModal">
+                            <img src="images/400X300/zorro.jpg" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Zorro</div>
+                        </a>
                     </div>
-
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-zorro" href="images/individual-gallery/masculi-zorro/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zorro" href="images/individual-gallery/masculi-zorro/3.jpg"></a>
                 </div>
+                <div class="modal fade modal-deBlindete" id="zorroModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- X -->
+                            <div class="close-modal close-zorro-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Zorro</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="zorroPreview" src="images/individual-gallery/masculi-zorro/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zorro" src="images/individual-gallery/masculi-zorro/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zorro" src="images/individual-gallery/masculi-zorro/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zorro" src="images/individual-gallery/masculi-zorro/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-zorro-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Masculi Pomeranian
-	    ================================================== -->
-            <div class="section-header">
-                <p class="text-muted">- Pomeranian -</p>
+            ================================================== -->
+            <div class="section-header header-deblindete">
+                <h1>Masculi <small>pomeranian</small></h1>
+                <hr/>
             </div>
-            <div class="row row-slim shadow">
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/zefyr.jpg" />
-                </div>
-                <div class="col-md-6 cont-img">
-                    <h3>Zefyr de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUT</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-zefyr" href="images/individual-gallery/masculi-zefyr/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+            <div class="row">
+
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="zefyr" data-toggle="modal" data-target="#zefyrModal">
+                            <img src="images/400X300/zefyr.jpg" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Zefyr</div>
+                        </a>
                     </div>
-
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-zefyr" href="images/individual-gallery/masculi-zefyr/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zefyr" href="images/individual-gallery/masculi-zefyr/3.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zefyr" href="images/individual-gallery/masculi-zefyr/4.jpg"></a>
                 </div>
-            </div>
-        </section>
+                <div class="modal fade modal-deBlindete" id="zefyrModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
-        <hr>
+                            <!-- X -->
+                            <div class="close-modal close-zefyr-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
 
-        <!-- Femele Kleinspitz
-	    ================================================== -->
-        <section id="females">
-            <div class="section-header">
-                <h1>Femele</h1>
-                <p class="text-muted">- Kleinspitz -</p>
-            </div>
-            <div class="row row-slim shadow">
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/lili.jpg" />
-                </div>
-                <div class="col-md-6 cont-img">
-                    <h3>Lili de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUTĂ</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-lili" href="images/individual-gallery/femele-lili/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Zefyr</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="zefyrPreview" src="images/individual-gallery/masculi-zefyr/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zefyr" src="images/individual-gallery/masculi-zefyr/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zefyr" src="images/individual-gallery/masculi-zefyr/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zefyr" src="images/individual-gallery/masculi-zefyr/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zefyr" src="images/individual-gallery/masculi-zefyr/4.jpg" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-zefyr-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-lili" href="images/individual-gallery/femele-lili/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-lili" href="images/individual-gallery/femele-lili/3.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-lili" href="images/individual-gallery/femele-lili/4.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-lili" href="images/individual-gallery/femele-lili/5.jpg"></a>
                 </div>
             </div>
 
-            <div class="row row-slim shadow">
-                <div class="col-md-6 cont-img">
-                    <h3>Zita de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUTĂ</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-zita" href="images/individual-gallery/femele-zita/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+        </div>
+    </section>
+
+    <!-- Femele Kleinspitz
+    ================================================== -->
+    <section id="females">
+        <div class="container text-center">
+
+            <div class="section-header header-deblindete">
+                <h1>Femele <small>kleinspitz</small></h1>
+                <hr/>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="lili" data-toggle="modal" data-target="#liliModal">
+                            <img src="images/400X300/lili.jpg" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Lili</div>
+                        </a>
                     </div>
+                </div>
+                <div class="modal fade modal-deBlindete" id="liliModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-zita" href="images/individual-gallery/femele-zita/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zita" href="images/individual-gallery/femele-zita/3.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zita" href="images/individual-gallery/femele-zita/4.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zita" href="images/individual-gallery/femele-zita/5.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-zita" href="images/individual-gallery/femele-zita/6.jpg"></a>
-                </div>
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/zita.jpg" />
-                </div>
-            </div>
+                            <!-- X -->
+                            <div class="close-modal close-lili-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="row row-slim shadow">
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/linda.jpg" />
-                </div>
-                <div class="col-md-6 cont-img">
-                    <h3>Linda de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUTĂ</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Lili</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="liliPreview" src="images/individual-gallery/femele-lili/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născută</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-lili" src="images/individual-gallery/femele-lili/1.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-lili" src="images/individual-gallery/femele-lili/2.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-lili" src="images/individual-gallery/femele-lili/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-lili" src="images/individual-gallery/femele-lili/4.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-lili" src="images/individual-gallery/femele-lili/5.jpg" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-lili-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/3.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/4.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/5.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/6.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/7.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/8.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-linda" href="images/individual-gallery/femele-linda/9.jpg"></a>
                 </div>
-            </div>
 
-            <div class="row row-slim shadow">
-                <div class="col-md-6 cont-img">
-                    <h3>Princess de Blîndețe</h3>
-                    <hr/>
-                    <h5>NĂSCUTĂ</h5>
-                    <p class="text-muted">-</p>
-                    <h5>REZULTATE EXPOZIȚIE</h5>
-                    <p class="text-muted">-</p>
-                    <div class="gp-buttons">
-                        <a type="button" class="btn btn-deBlindete btn-galery btn-lg fancybox-thumb" rel="gallery-princess" href="images/individual-gallery/femele-princess/1.jpg">Galerie</a>
-                        <a type="button" class="btn btn-deBlindete  btn-pedigree btn-lg ">Pedigree</a>
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="zita" data-toggle="modal" data-target="#zitaModal">
+                            <img src="images/400X300/zita.JPG" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Zita</div>
+                        </a>
                     </div>
+                </div>
+                <div class="modal fade modal-deBlindete" id="zitaModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
-                    <!-- The rest of the images-->
-                    <a class="fancybox-thumb" rel="gallery-princess" href="images/individual-gallery/femele-princess/2.jpg"></a>
-                    <a class="fancybox-thumb" rel="gallery-princess" href="images/individual-gallery/femele-princess/3.jpg"></a>
+                            <!-- X -->
+                            <div class="close-modal close-zita-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Zita</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="zitaPreview" src="images/individual-gallery/femele-zita/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zita" src="images/individual-gallery/femele-zita/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zita" src="images/individual-gallery/femele-zita/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zita" src="images/individual-gallery/femele-zita/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zita" src="images/individual-gallery/femele-zita/4.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zita" src="images/individual-gallery/femele-zita/5.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-zita" src="images/individual-gallery/femele-zita/6.JPG" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-zita-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 img-cont">
-                    <img class="img-responsive" src="images/400X300/princess.jpg" />
+
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="linda" data-toggle="modal" data-target="#lindaModal">
+                            <img src="images/400X300/linda.JPG" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Linda</div>
+                        </a>
+                    </div>
                 </div>
+                <div class="modal fade modal-deBlindete" id="lindaModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- X -->
+                            <div class="close-modal close-linda-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Linda</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="lindaPreview" src="images/individual-gallery/femele-linda/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/4.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/5.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/6.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/7.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/8.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-linda" src="images/individual-gallery/femele-linda/9.JPG" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-linda-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="img-container img-rounded">
+                        <a href="#" id="princess" data-toggle="modal" data-target="#princessModal">
+                            <img src="images/400X300/princess.JPG" class="img-responsive img-rounded">
+                            <span class="glyphicon glyphicon-fullscreen glyphicon-caption" aria-hidden="true"></span>
+                            <div class="img-caption">Princess</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal fade modal-deBlindete" id="princessModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- X -->
+                            <div class="close-modal close-princess-preview" data-dismiss="modal">
+                                <div class="lr">
+                                    <div class="rl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Content -->
+                            <div class="container">
+                                <div class="modal-body">
+                                    <div class="header-deblindete">
+                                        <h2>Princess</h2>
+                                        <h4 class="text-muted">de Blîndețe</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <img id="princessPreview" src="images/individual-gallery/femele-princess/1.jpg" class="img-responsive img-centered" alt="" />
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <p>născut</p>
+                                            <h3>-</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-princess" src="images/individual-gallery/femele-princess/1.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-princess" src="images/individual-gallery/femele-princess/2.JPG" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-xs-4">
+                                            <a class="thumbnail" href="#">
+                                                <img class="img-responsive img-princess" src="images/individual-gallery/femele-princess/3.JPG" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-default btn-lg close-princess-preview" type="button" data-dismiss="modal"><span class="glyphicon glyphicon-remove" ></span>Închide</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </section>
+        </div>
+    </section>
 
-        <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Femele Pomeranian</h3>
+    <!-- Catelusi
+    ================================================== -->
+    <section id="puppies">
+        <div class="container">
+            <div class="section-header header-deblindete">
+                <h1>Cățeluși</h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <hr/>
+    </div>
+
+    <!-- Galerie
+    ================================================== -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-header header-deblindete">
+                <h1>Galerie</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/1.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/1.JPG" alt="">
+                    </a>
                 </div>
-                <div class="panel-body">
-                    Canisa deBlîndețe nu deține încă femele aparținând rasei pomeranian.
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/2.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/2.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/3.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/3.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/4.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/4.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/5.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/5.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/6.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/6.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/7.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/7.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/8.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/8.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/9.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/9.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/10.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/10.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/11.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/11.JPG" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-6">
+                    <a class="thumbnail fancybox" rel="gallery" href="images/ciobanesc-alb-elvetian/gallery/big/12.JPG">
+                        <img class="img-responsive" src="images/ciobanesc-alb-elvetian/gallery/small/12.JPG" alt="">
+                    </a>
                 </div>
             </div>
         </div>
-
-    </div>
+    </section>
 
     <!-- Footer
     ================================================== -->

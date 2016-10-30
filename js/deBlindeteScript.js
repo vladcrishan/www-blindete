@@ -33,7 +33,7 @@ $(document).ready(function () {
     $('.close-beauty-preview').on('click', function () {
         $('#beautyPreview').attr('src', 'images/individual-gallery/femele-beauty/1.JPG');
     });
-    
+
     // Iris
     $('#iris').on('click', IndividualGallery.setCurrentPreview);
     $('.img-iris').on('click', IndividualGallery.setPreview);
@@ -41,6 +41,96 @@ $(document).ready(function () {
         $('#irisPreview').attr('src', 'images/individual-gallery/femele-iris/1.JPG');
     });
 
+    // Bobby
+    $('#bobby').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-bobby').on('click', IndividualGallery.setPreview);
+    $('.close-bobby-preview').on('click', function () {
+        $('#bobbyPreview').attr('src', 'images/individual-gallery/masculi-bobby/1.JPG');
+    });
+
+    // Zorro
+    $('#zorro').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-zorro').on('click', IndividualGallery.setPreview);
+    $('.close-zorro-preview').on('click', function () {
+        $('#zorroPreview').attr('src', 'images/individual-gallery/masculi-zorro/1.JPG');
+    });
+
+    // Zefyr
+    $('#zefyr').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-zefyr').on('click', IndividualGallery.setPreview);
+    $('.close-zefyr-preview').on('click', function () {
+        $('#zefyrPreview').attr('src', 'images/individual-gallery/masculi-zefyr/1.JPG');
+    });
+
+    // Lili
+    $('#lili').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-lili').on('click', IndividualGallery.setPreview);
+    $('.close-lili-preview').on('click', function () {
+        $('#liliPreview').attr('src', 'images/individual-gallery/femele-lili/1.JPG');
+    });
+
+    // Zita
+    $('#zita').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-zita').on('click', IndividualGallery.setPreview);
+    $('.close-zita-preview').on('click', function () {
+        $('#zitaPreview').attr('src', 'images/individual-gallery/femele-zita/1.JPG');
+    });
+
+    // Linda
+    $('#linda').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-linda').on('click', IndividualGallery.setPreview);
+    $('.close-linda-preview').on('click', function () {
+        $('#lindaPreview').attr('src', 'images/individual-gallery/femele-linda/1.JPG');
+    });
+
+    // Princess
+    $('#princess').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-princess').on('click', IndividualGallery.setPreview);
+    $('.close-princess-preview').on('click', function () {
+        $('#princessPreview').attr('src', 'images/individual-gallery/femele-princess/1.JPG');
+    });
+
+    // Mozzart
+    $('#mozzart').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-mozzart').on('click', IndividualGallery.setPreview);
+    $('.close-mozzart-preview').on('click', function () {
+        $('#mozzartPreview').attr('src', 'images/individual-gallery/masculi-mozzart/1.JPG');
+    });
+
+    // Sunny
+    $('#sunny').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-sunny').on('click', IndividualGallery.setPreview);
+    $('.close-sunny-preview').on('click', function () {
+        $('#sunnyPreview').attr('src', 'images/individual-gallery/masculi-sunny/1.JPG');
+    });
+
+    // Greata
+    $('#greta').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-greta').on('click', IndividualGallery.setPreview);
+    $('.close-greta-preview').on('click', function () {
+        $('#gretaPreview').attr('src', 'images/individual-gallery/femele-greta/1.JPG');
+    });
+
+    // Szofia
+    $('#szofia').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-szofia').on('click', IndividualGallery.setPreview);
+    $('.close-szofia-preview').on('click', function () {
+        $('#szofiaPreview').attr('src', 'images/individual-gallery/femele-szofia/1.JPG');
+    });
+
+    // Dalia
+    $('#dalia').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-dalia').on('click', IndividualGallery.setPreview);
+    $('.close-dalia-preview').on('click', function () {
+        $('#daliaPreview').attr('src', 'images/individual-gallery/femele-dalia/1.JPG');
+    });
+
+    // Bellie Jean
+    $('#bellie-jean').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-bellie-jean').on('click', IndividualGallery.setPreview);
+    $('.close-bellie-jean-preview').on('click', function () {
+        $('#bellie-jeanPreview').attr('src', 'images/individual-gallery/femele-billiejean/1.jpg');
+    });
 });
 
 // navbar active class

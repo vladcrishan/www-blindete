@@ -178,6 +178,11 @@ ul.dropdown-menu li.divider {
     background-size: cover;
 }
 
+.jumbotron-akhal-teke {
+    background: #723155 url("../images/covers/at.jpg") no-repeat center;
+    background-size: cover;
+}
+
 .jumbotron h1 {
     color: #ffffff;
     font-family: 'Lobster', cursive;
@@ -191,17 +196,23 @@ ul.dropdown-menu li.divider {
 
 /****Underline effect****/
 
-header .jumbotron-ciobanes-alb-elvetian a {
+header .jumbotron-ciobanes-alb-elvetian a,
+header .jumbotron-kleinspitz-pomeranian a,
+header .jumbotron-persana-chinchilla a {
     position: relative;
     color: #a8487d;
     text-decoration: none !important;
 }
 
-header .jumbotron-ciobanes-alb-elvetian a:hover {
+header .jumbotron-ciobanes-alb-elvetian a:hover,
+header .jumbotron-kleinspitz-pomeranian a:hover,
+header .jumbotron-persana-chinchilla a:hover {
     color: #a8487d;
 }
 
-header .jumbotron-ciobanes-alb-elvetian a:before {
+header .jumbotron-ciobanes-alb-elvetian a:before,
+header .jumbotron-kleinspitz-pomeranian a:before,
+header .jumbotron-persana-chinchilla a:before {
     content: "";
     position: absolute;
     width: 100%;
@@ -216,7 +227,9 @@ header .jumbotron-ciobanes-alb-elvetian a:before {
     transition: all 0.3s ease-in-out 0s;
 }
 
-header .jumbotron-ciobanes-alb-elvetian a:hover:before {
+header .jumbotron-ciobanes-alb-elvetian a:hover:before,
+header .jumbotron-kleinspitz-pomeranian a:hover:before,
+header .jumbotron-persana-chinchilla a:hover:before {
     visibility: visible;
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
@@ -444,7 +457,7 @@ section#males {
     box-shadow: none;
     border: none;
     min-height: 100%;
-    /*    padding: 50px 0px;*/
+    padding: 100px 0px;
 }
 
 .modal-deBlindete .close-modal {
