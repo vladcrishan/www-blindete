@@ -24,21 +24,21 @@ $(document).ready(function () {
     $('#calu').on('click', IndividualGallery.setCurrentPreview);
     $('.img-calu').on('click', IndividualGallery.setPreview);
     $('.close-calu-preview').on('click', function () {
-        $('#caluPreview').attr('src', 'images/individual-gallery/masculi-calu/1.JPG');
+        $('#caluPreview').attr('src', 'images/ciobanesc-alb-elvetian/individual-gallery/masculi-calu/big/1.JPG');
     });
 
     // Beauty
     $('#beauty').on('click', IndividualGallery.setCurrentPreview);
     $('.img-beauty').on('click', IndividualGallery.setPreview);
     $('.close-beauty-preview').on('click', function () {
-        $('#beautyPreview').attr('src', 'images/individual-gallery/femele-beauty/1.JPG');
+        $('#beautyPreview').attr('src', 'images/ciobanesc-alb-elvetian/individual-gallery/femele-beauty/big/1.jpg');
     });
 
     // Iris
     $('#iris').on('click', IndividualGallery.setCurrentPreview);
     $('.img-iris').on('click', IndividualGallery.setPreview);
     $('.close-iris-preview').on('click', function () {
-        $('#irisPreview').attr('src', 'images/individual-gallery/femele-iris/1.JPG');
+        $('#irisPreview').attr('src', 'images/ciobanesc-alb-elvetian/individual-gallery/femele-iris/big/1.jpg');
     });
 
     // Bobby
@@ -180,6 +180,6 @@ IndividualGallery = {
 
     // Setting the preview picture at individual gallery
     setPreview: function () {
-        $(currentPreview).attr('src', this.src);
+        $(currentPreview).attr('src', this.src.replace("400x300","big"));
     }
 }
