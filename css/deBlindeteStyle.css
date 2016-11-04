@@ -196,23 +196,17 @@ ul.dropdown-menu li.divider {
 
 /****Underline effect****/
 
-header .jumbotron-ciobanes-alb-elvetian a,
-header .jumbotron-kleinspitz-pomeranian a,
-header .jumbotron-persana-chinchilla a {
+.underline-effect {
     position: relative;
     color: #a8487d;
     text-decoration: none !important;
 }
 
-header .jumbotron-ciobanes-alb-elvetian a:hover,
-header .jumbotron-kleinspitz-pomeranian a:hover,
-header .jumbotron-persana-chinchilla a:hover {
+.underline-effect:hover {
     color: #a8487d;
 }
 
-header .jumbotron-ciobanes-alb-elvetian a:before,
-header .jumbotron-kleinspitz-pomeranian a:before,
-header .jumbotron-persana-chinchilla a:before {
+.underline-effect:before {
     content: "";
     position: absolute;
     width: 100%;
@@ -227,9 +221,7 @@ header .jumbotron-persana-chinchilla a:before {
     transition: all 0.3s ease-in-out 0s;
 }
 
-header .jumbotron-ciobanes-alb-elvetian a:hover:before,
-header .jumbotron-kleinspitz-pomeranian a:hover:before,
-header .jumbotron-persana-chinchilla a:hover:before {
+.underline-effect:hover:before {
     visibility: visible;
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
