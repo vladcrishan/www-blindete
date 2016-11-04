@@ -190,7 +190,8 @@ ul.dropdown-menu li.divider {
 
 .srasa-link {
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
+    right: 20px
 }
 
 
