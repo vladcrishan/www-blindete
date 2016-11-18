@@ -174,22 +174,22 @@ ul.dropdown-menu li.divider {
 }
 
 .jumbotron-ciobanes-alb-elvetian {
-    background: #723155 url("../images/covers/cae.jpg") no-repeat center;
+    background: #723155 url("../images/ciobanesc-alb-elvetian/covers/cae.jpg") no-repeat center;
     background-size: cover;
 }
 
 .jumbotron-kleinspitz-pomeranian {
-    background: #723155 url("../images/covers/ks.jpg") no-repeat center;
+    background: #723155 url("../images/kleinspitz-pomeranian/covers/ks.jpg") no-repeat center;
     background-size: cover;
 }
 
 .jumbotron-persana-chinchilla {
-    background: #723155 url("../images/covers/pps.jpg") no-repeat center;
+    background: #723155 url("../images/persana-chinchilla/covers/pps.jpg") no-repeat center;
     background-size: cover;
 }
 
 .jumbotron-akhal-teke {
-    background: #723155 url("../images/covers/at.jpg") no-repeat center;
+    background: #723155 url("../images/akhal-teke/covers/at.jpg") no-repeat center;
     background-size: cover;
 }
 
