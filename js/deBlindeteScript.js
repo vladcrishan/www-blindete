@@ -23,113 +23,113 @@ $(document).ready(function () {
     // Calu
     $('#calu').on('click', IndividualGallery.setCurrentPreview);
     $('.img-calu').on('click', IndividualGallery.setPreview);
-    $('.close-calu-preview').on('click', function () {
+    $('#close-calu-preview').on('click', function () {
         $('#caluPreview').attr('src', 'images/ciobanesc-alb-elvetian/individual-gallery/masculi-calu/big/1.JPG');
     });
 
     // Beauty
     $('#beauty').on('click', IndividualGallery.setCurrentPreview);
     $('.img-beauty').on('click', IndividualGallery.setPreview);
-    $('.close-beauty-preview').on('click', function () {
+    $('#close-beauty-preview').on('click', function () {
         $('#beautyPreview').attr('src', 'images/ciobanesc-alb-elvetian/individual-gallery/femele-beauty/big/1.jpg');
     });
 
     // Iris
     $('#iris').on('click', IndividualGallery.setCurrentPreview);
     $('.img-iris').on('click', IndividualGallery.setPreview);
-    $('.close-iris-preview').on('click', function () {
+    $('#close-iris-preview').on('click', function () {
         $('#irisPreview').attr('src', 'images/ciobanesc-alb-elvetian/individual-gallery/femele-iris/big/1.jpg');
     });
 
     // Bobby
     $('#bobby').on('click', IndividualGallery.setCurrentPreview);
     $('.img-bobby').on('click', IndividualGallery.setPreview);
-    $('.close-bobby-preview').on('click', function () {
+    $('#close-bobby-preview').on('click', function () {
         $('#bobbyPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/masculi-bobby/big/1.jpg');
     });
 
     // Zorro
     $('#zorro').on('click', IndividualGallery.setCurrentPreview);
     $('.img-zorro').on('click', IndividualGallery.setPreview);
-    $('.close-zorro-preview').on('click', function () {
+    $('#close-zorro-preview').on('click', function () {
         $('#zorroPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/masculi-zorro/big/1.JPG');
     });
 
     // Zefyr
     $('#zefyr').on('click', IndividualGallery.setCurrentPreview);
     $('.img-zefyr').on('click', IndividualGallery.setPreview);
-    $('.close-zefyr-preview').on('click', function () {
+    $('#close-zefyr-preview').on('click', function () {
         $('#zefyrPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/masculi-zefyr/big/1.jpg');
     });
 
     // Lili
     $('#lili').on('click', IndividualGallery.setCurrentPreview);
     $('.img-lili').on('click', IndividualGallery.setPreview);
-    $('.close-lili-preview').on('click', function () {
+    $('#close-lili-preview').on('click', function () {
         $('#liliPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-lili/big/1.jpg');
     });
 
     // Zita
     $('#zita').on('click', IndividualGallery.setCurrentPreview);
     $('.img-zita').on('click', IndividualGallery.setPreview);
-    $('.close-zita-preview').on('click', function () {
+    $('#close-zita-preview').on('click', function () {
         $('#zitaPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-zita/big/1.jpg');
     });
 
     // Linda
     $('#linda').on('click', IndividualGallery.setCurrentPreview);
     $('.img-linda').on('click', IndividualGallery.setPreview);
-    $('.close-linda-preview').on('click', function () {
+    $('#close-linda-preview').on('click', function () {
         $('#lindaPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-linda/big/1.jpg');
     });
 
     // Princess
     $('#princess').on('click', IndividualGallery.setCurrentPreview);
     $('.img-princess').on('click', IndividualGallery.setPreview);
-    $('.close-princess-preview').on('click', function () {
+    $('#close-princess-preview').on('click', function () {
         $('#princessPreview').attr('src', 'images/kleinspitz-pomeranian/individual-gallery/femele-princess/big/1.JPG');
     });
 
     // Mozzart
     $('#mozzart').on('click', IndividualGallery.setCurrentPreview);
     $('.img-mozzart').on('click', IndividualGallery.setPreview);
-    $('.close-mozzart-preview').on('click', function () {
+    $('#close-mozzart-preview').on('click', function () {
         $('#mozzartPreview').attr('src', 'images/persana-chinchilla/individual-gallery/masculi-mozzart/big/1.jpg');
     });
 
     // Sunny
     $('#sunny').on('click', IndividualGallery.setCurrentPreview);
     $('.img-sunny').on('click', IndividualGallery.setPreview);
-    $('.close-sunny-preview').on('click', function () {
+    $('#close-sunny-preview').on('click', function () {
         $('#sunnyPreview').attr('src', 'images/persana-chinchilla/individual-gallery/masculi-sunny/big/1.jpg');
     });
 
     // Greata
     $('#greta').on('click', IndividualGallery.setCurrentPreview);
     $('.img-greta').on('click', IndividualGallery.setPreview);
-    $('.close-greta-preview').on('click', function () {
+    $('#close-greta-preview').on('click', function () {
         $('#gretaPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-greta/big/1.jpg');
     });
 
     // Szofia
     $('#szofia').on('click', IndividualGallery.setCurrentPreview);
     $('.img-szofia').on('click', IndividualGallery.setPreview);
-    $('.close-szofia-preview').on('click', function () {
+    $('#close-szofia-preview').on('click', function () {
         $('#szofiaPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-szofia/big/1.jpg');
     });
 
     // Dalia
     $('#dalia').on('click', IndividualGallery.setCurrentPreview);
     $('.img-dalia').on('click', IndividualGallery.setPreview);
-    $('.close-dalia-preview').on('click', function () {
+    $('#close-dalia-preview').on('click', function () {
         $('#daliaPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-dalia/big/1.jpg');
     });
 
     // Bellie Jean
-    $('#bellie-jean').on('click', IndividualGallery.setCurrentPreview);
-    $('.img-bellie-jean').on('click', IndividualGallery.setPreview);
-    $('.close-bellie-jean-preview').on('click', function () {
-        $('#bellie-jeanPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-billiejean/big/1.jpg');
+    $('#billieJean').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-billieJean').on('click', IndividualGallery.setPreview);
+    $('#close-billieJean-preview').on('click', function () {
+        $('#billieJeanPreview').attr('src', 'images/persana-chinchilla/individual-gallery/femele-billiejean/big/1.jpg');
     });
 });
 
