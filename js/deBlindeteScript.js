@@ -166,7 +166,7 @@ function activateLinks() {
 
 // Include footer
 $(function () {
-    $("#footer").load("Footer.html");
+    $("#footer").load("footer.html");
 });
 
 // Individual gallery logic
