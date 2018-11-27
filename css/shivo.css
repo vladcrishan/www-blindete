@@ -1,0 +1,40 @@
+h1 {
+    color: #fff;
+    font-size: 5em;
+    font-family: 'Permanent Marker', cursive;
+    text-align: center;
+    margin-top: 20%;
+}
+
+body {
+    background-color: #e44c3c;
+    animation: colorchange 30s; /* animation-name followed by duration in seconds*/
+    -webkit-animation: colorchange 30s; /* Chrome and Safari */
+    animation-iteration-count: infinite;
+}
+
+@keyframes colorchange
+{
+    0%   {background: #e44c3c;}
+    25%  {background: #1D5EB1;}
+    50%  {background: #CEE854;}
+    75%  {background: #3CE48B;}
+    100% {background: #e44c3c;}
+}
+
+@-webkit-keyframes colorchange /* Safari and Chrome - necessary duplicate */
+{
+    0%   {background: #e44c3c;}
+    25%  {background: #1D5EB1;}
+    50%  {background: #CEE854;}
+    75%  {background: #3CE48B;}
+    100% {background: #e44c3c;}
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    right: 1em;
+}

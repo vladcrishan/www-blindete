@@ -90,7 +90,7 @@ ul.dropdown-menu li.divider {
 }
 
 #puppies h3,
-#kittens h3{
+#kittens{
     text-align: center;
     margin-bottom: 80px;
 }
@@ -131,7 +131,9 @@ ul.dropdown-menu li.divider {
     color: #fff;
 }
 
-.footer a:hover {
+.footer a:hover,
+#puppies a:hover,
+#kittens a:hover {
     color: #a8487d;
 }
 

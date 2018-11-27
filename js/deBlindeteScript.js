@@ -104,7 +104,14 @@ $(document).ready(function () {
         $('#sunnyPreview').attr('src', 'images/persana-chinchilla/individual-gallery/sunny/big/1.jpg');
     });
 
-    // Greata
+    // Napoleon
+    $('#napoleon').on('click', IndividualGallery.setCurrentPreview);
+    $('.img-napoleon').on('click', IndividualGallery.setPreview);
+    $('#close-napoleon-preview').on('click', function () {
+        $('#napoleonPreview').attr('src', 'images/persana-chinchilla/individual-gallery/napoleon/big/1.jpg');
+    });
+
+    // Greta
     $('#greta').on('click', IndividualGallery.setCurrentPreview);
     $('.img-greta').on('click', IndividualGallery.setPreview);
     $('#close-greta-preview').on('click', function () {
