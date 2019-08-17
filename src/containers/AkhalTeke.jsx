@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class AkhalTeke extends Component {
-  state = {}
-  render() {
-    return <div>AkhalTeke page</div>
-  }
+function AkhalTeke() {
+  return <div>AkhalTeke page</div>
 }
 
 export default AkhalTeke

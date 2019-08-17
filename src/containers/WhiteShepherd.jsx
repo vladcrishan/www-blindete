@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class WhiteShepherd extends Component {
-  state = {}
-  render() {
-    return <div>WhiteShepherd page</div>
-  }
+function WhiteShepherd() {
+  return <div>WhiteShepherd page</div>
 }
 
 export default WhiteShepherd
