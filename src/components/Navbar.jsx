@@ -14,7 +14,10 @@ const Navbar = () => (
       <Nav.Link>About</Nav.Link>
     </Nav>
     <RbNavbar.Toggle aria-controls="responsive-navbar-nav" />
-    <RbNavbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+    <RbNavbar.Collapse
+      id="responsive-navbar-nav"
+      className="justify-content-end"
+    >
       <Nav className="justify-content-end">
         <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
           <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -30,7 +33,6 @@ const Navbar = () => (
 
 const BlindeteNavbar = styled(RbNavbar)`
   background-color: #723155;
-  font-family: 'Lato', sans-serif;
 `
 
 const Brand = styled(NavbarBrand)`

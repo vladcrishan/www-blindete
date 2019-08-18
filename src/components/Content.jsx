@@ -1,16 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import i18n from 'utils/i18n'
+import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
 
 function Content() {
-  return <Body className="container">{i18n.t('Content')}</Body>
+  return <Div>{i18n.t('Content')}</Div>
 }
 
-const Body = styled.div`
-  display: flex;
+const Div = styled(Container)`
   flex: 1;
   background: lightgreen;
+  display: flex;
   justify-content: center;
   align-items: center;
 `
