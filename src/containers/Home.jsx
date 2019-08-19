@@ -7,15 +7,15 @@ import Footer from 'components/Footer'
 
 function Home() {
   return (
-    <Container>
+    <SHome>
       <Headline />
       <Content />
       <Footer />
-    </Container>
+    </SHome>
   )
 }
 
-const Container = styled.div`
+const SHome = styled.div`
   display: flex;
   height: 100vh;
   flex-direction: column;

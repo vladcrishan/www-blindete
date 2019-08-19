@@ -6,7 +6,6 @@ const BMap = ({ google }) => {
     <Map
       google={google}
       zoom={8}
-      style={{ height: '150px', width: '200px' }}
       initialCenter={{
         lat: 47.444,
         lng: -122.176
