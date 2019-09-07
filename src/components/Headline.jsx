@@ -9,9 +9,7 @@ import * as languageActions from 'state/ducks/languageDuck'
 function Headline(languageActions) {
   const changeLanguage = async () => {
     try {
-      console.log('asdfasf')
       i18n.locale = i18n.locale === 'ro' ? 'en' : 'ro'
-      console.log('new Language:  ', i18n.locale)
       await languageActions.languageActions.setLanguage(i18n.locale)
     } catch (error) {
       console.log(error)
@@ -50,7 +48,6 @@ const Title = styled.div`
 `
 
 const Subtitle = styled.div`
-  /* font-size: 12px; */
   width: 200px;
   letter-spacing: 0.4em;
   display: flex;

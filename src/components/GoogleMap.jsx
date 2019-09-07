@@ -1,7 +1,7 @@
 import React from 'react'
 import { Map, GoogleApiWrapper } from 'google-maps-react'
 
-const BMap = ({ google }) => {
+const GoogleMap = ({ google }) => {
   return (
     <Map
       google={google}
@@ -16,4 +16,4 @@ const BMap = ({ google }) => {
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyAG7SiiTf_x-3IDCQ7itLVWkZFkRKLdj6U'
-})(BMap)
+})(GoogleMap)

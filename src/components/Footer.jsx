@@ -1,7 +1,6 @@
 import React from 'react'
 import i18n from 'utils/i18n'
 import { connect } from 'react-redux'
-import BMap from 'components/BMap'
 import { Phone, Mail, MapPin, Facebook } from 'react-feather'
 import styled from 'styled-components'
 
@@ -9,46 +8,60 @@ import styled from 'styled-components'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { underline } from 'ansi-colors'
 
 function Footer() {
   return (
     <SFooter>
       <Container>
         <Row>
-          <MapWrapper sm={4}>
-            <BMap />
-          </MapWrapper>
+          <MapWrapper sm={4}></MapWrapper>
           <ContactWrapper sm={8} className="d-flex align-items-center">
             <Container>
               <Row>
                 <Col sm={6}>
                   <DetailWrapper>
-                    <Phone color="#f5e8ef" />
+                    <Phone />
                     <Detail>+40 722 352 909</Detail>
                   </DetailWrapper>
                   <DetailWrapper>
-                    <Mail color="#f5e8ef" />
+                    <Mail />
                     <Detail>deblindete@gmail.com</Detail>
                   </DetailWrapper>
                   <DetailWrapper>
-                    <MapPin color="#f5e8ef" size="31" />
+                    <MapPin size="30" />
                     <Detail>Str. Bagdasar Nr. 36 310231, Arad, România</Detail>
                   </DetailWrapper>
                 </Col>
                 <Col sm={6}>
-                  <DetailFacebookWrapper>
-                    <Facebook color="#f5e8ef" />
+                  <DetailFacebookWrapper
+                    onClick={() =>
+                      window.open(
+                        'https://www.facebook.com/PomeranianBlindete/',
+                        '_blank'
+                      )
+                    }
+                  >
+                    <Facebook />
                     <Detail>Pomeranian</Detail>
                   </DetailFacebookWrapper>
-                  <DetailFacebookWrapper>
-                    <Facebook color="#f5e8ef" />
-                    <Detail>Pisică Persană Chinchilla</Detail>
+                  <DetailFacebookWrapper
+                    onClick={() =>
+                      window.open(
+                        'https://www.facebook.com/ChinchillaBlindete/',
+                        '_blank'
+                      )
+                    }
+                  >
+                    <Facebook />
+                    <Detail>{i18n.t('chinchilla')}</Detail>
                   </DetailFacebookWrapper>
                 </Col>
               </Row>
             </Container>
           </ContactWrapper>
+        </Row>
+        <Row>
+          <Copyright className="text-right">Copyright© 2019</Copyright>
         </Row>
       </Container>
     </SFooter>
@@ -64,26 +77,34 @@ const DetailFacebookWrapper = styled.div`
   padding: 10px;
   :hover {
     cursor: pointer;
-    text-decoration: underline;
+    background: #964070;
   }
 `
 
 const Detail = styled.div`
   padding-left: 5px;
+  color: white;
 `
 
 const MapWrapper = styled(Col)`
-  height: 300px;
+  height: 200px;
+  background: lightgrey;
 `
 
 const ContactWrapper = styled(Col)`
-  padding-left: 60px;
+  padding-left: 50px;
+`
+
+const Copyright = styled(Col)`
+  font-size: 12px;
+  color: #964070;
+  font-weight: bold;
 `
 
 const SFooter = styled.div`
   margin-top: auto;
-  padding-top: 50px;
-  padding-bottom: 100px;
+  padding-top: 30px;
+  padding-bottom: 50px;
   background: #723155;
   color: #f5e8ef;
 `
