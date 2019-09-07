@@ -1,15 +1,31 @@
 import React from 'react'
 import i18n from 'utils/i18n'
-import { connect } from 'react-redux'
 import { Phone, Mail, MapPin, Facebook } from 'react-feather'
 import styled from 'styled-components'
+
+import en from '../images/en.png'
+import ro from '../images/ro.png'
+
+// redux
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as languageActions from 'state/ducks/languageDuck'
 
 // Bootstrap
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-function Footer() {
+function Footer(languageActions) {
+  const changeLanguage = async language => {
+    try {
+      i18n.locale = language
+      await languageActions.languageActions.setLanguage(i18n.locale)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <SFooter>
       <Container>
@@ -60,7 +76,19 @@ function Footer() {
             </Container>
           </ContactWrapper>
         </Row>
-        <Row>
+        <Row style={{ paddingTop: '10px' }}>
+          <Col style={{ paddingLeft: '0px' }}>
+            <Language
+              onClick={() => changeLanguage('en')}
+              src={en}
+              alt="language"
+            />
+            <Language
+              onClick={() => changeLanguage('ro')}
+              src={ro}
+              alt="language"
+            />
+          </Col>
           <Copyright className="text-right">Copyright© 2019</Copyright>
         </Row>
       </Container>
@@ -95,9 +123,17 @@ const ContactWrapper = styled(Col)`
   padding-left: 50px;
 `
 
+const Language = styled.img`
+  margin-left: 10px;
+  height: 20px;
+  :hover {
+    cursor: pointer;
+  }
+`
+
 const Copyright = styled(Col)`
   font-size: 12px;
-  color: #964070;
+  color: #602948;
   font-weight: bold;
 `
 
@@ -113,5 +149,7 @@ export default connect(
   state => ({
     language: state.internationalization.language
   }),
-  null
+  dispatch => ({
+    languageActions: bindActionCreators(languageActions, dispatch)
+  })
 )(Footer)

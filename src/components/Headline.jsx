@@ -2,39 +2,41 @@ import React from 'react'
 import styled from 'styled-components'
 import i18n from 'utils/i18n'
 
+// redux
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as languageActions from 'state/ducks/languageDuck'
 
-function Headline(languageActions) {
-  const changeLanguage = async () => {
-    try {
-      i18n.locale = i18n.locale === 'ro' ? 'en' : 'ro'
-      await languageActions.languageActions.setLanguage(i18n.locale)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+// Bootstrap
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
+function Headline() {
   return (
-    <Div onClick={changeLanguage}>
-      <Title>{i18n.t('company')}</Title>
-      <Subtitle>
-        <div>{i18n.t('kennel')}</div>
-        <div>{i18n.t('cattery')}</div>
-      </Subtitle>
-    </Div>
+    <SHeadline>
+      <Container>
+        <Row>
+          <Col>
+            <Title>{i18n.t('company')}</Title>
+            <Subtitle>
+              <div>{i18n.t('kennel&cattery')}</div>
+              <div></div>
+            </Subtitle>
+          </Col>
+        </Row>
+      </Container>
+    </SHeadline>
   )
 }
 
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
+const SHeadline = styled.div`
   font-family: 'Lobster', cursive;
+
+  padding: 30px 0px 20px 0px;
+`
+
+const Title = styled.div`
   color: #723155;
+  font-size: 48px;
   font-weight: bold;
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
     0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
@@ -43,23 +45,15 @@ const Div = styled.div`
     0 20px 20px rgba(0, 0, 0, 0.15);
 `
 
-const Title = styled.div`
-  font-size: 48px;
-`
-
 const Subtitle = styled.div`
-  width: 200px;
-  letter-spacing: 0.4em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  letter-spacing: 0.2em;
+  font-weight: bold;
+  color: #964070;
 `
 
 export default connect(
   state => ({
     language: state.internationalization.language
   }),
-  dispatch => ({
-    languageActions: bindActionCreators(languageActions, dispatch)
-  })
+  null
 )(Headline)
