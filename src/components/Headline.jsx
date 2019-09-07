@@ -46,7 +46,7 @@ const Title = styled.div`
 `
 
 const Subtitle = styled.div`
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   font-weight: bold;
   color: #964070;
 `
