@@ -30,8 +30,7 @@ function Headline() {
 
 const SHeadline = styled.div`
   font-family: 'Lobster', cursive;
-
-  padding: 30px 0px 20px 0px;
+  padding: 30px 0px 60px 0px;
 `
 
 const Title = styled.div`
@@ -46,7 +45,7 @@ const Title = styled.div`
 `
 
 const Subtitle = styled.div`
-  letter-spacing: 0.1em;
+  letter-spacing: 0.1 em;
   font-weight: bold;
   color: #964070;
 `

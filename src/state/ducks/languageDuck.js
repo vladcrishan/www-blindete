@@ -1,7 +1,7 @@
 import createReducer from 'state/utils/createReducer'
 
 // Types
-export const SET_LANGUAGE_SUCCESS = '[language] LOGIN / REQUEST'
+export const SET_LANGUAGE_SUCCESS = '[language] LANGUAGE / REQUEST'
 
 // Initial State
 const initialState = {
