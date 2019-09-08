@@ -3,15 +3,15 @@ import i18n from 'utils/i18n'
 import { Phone, Mail, MapPin, Facebook } from 'react-feather'
 import styled from 'styled-components'
 
-import en from '../images/en.png'
-import ro from '../images/ro.png'
+import en from '../images/i18n/en.png'
+import ro from '../images/i18n/ro.png'
 
 // redux
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as languageActions from 'state/ducks/languageDuck'
 
-// Bootstrap
+// bootstrap
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -89,7 +89,9 @@ function Footer(languageActions) {
               alt="language"
             />
           </Col>
-          <Copyright className="text-right">Copyright© 2019</Copyright>
+          <Copyright className="text-right">
+            © 2019 Copyright <span style={{ color: '#fff' }}>blindete.ro</span>
+          </Copyright>
         </Row>
       </Container>
     </SFooter>
@@ -133,7 +135,7 @@ const Language = styled.img`
 
 const Copyright = styled(Col)`
   font-size: 12px;
-  color: #602948;
+  color: #3c1a2d;
   font-weight: bold;
 `
 

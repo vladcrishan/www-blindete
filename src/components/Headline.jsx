@@ -5,7 +5,7 @@ import i18n from 'utils/i18n'
 // redux
 import { connect } from 'react-redux'
 
-// Bootstrap
+// bootstrap
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -19,7 +19,6 @@ function Headline() {
             <Title>{i18n.t('company')}</Title>
             <Subtitle>
               <div>{i18n.t('kennel&cattery')}</div>
-              <div></div>
             </Subtitle>
           </Col>
         </Row>
