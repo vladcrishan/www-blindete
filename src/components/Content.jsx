@@ -10,13 +10,13 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
 // images
-import pomeranianThumbnail from '../images/pomeranian/thumbnail.jpg'
-import pomeranianFacebook from '../images/pomeranian/facebook.jpg'
-import chinchillaPersianThumbnail from '../images/chinchillaPersian/thumbnail.jpg'
-import chinchillaPersianDiamond from '../images/chinchillaPersian/diamondHome.jpg'
-import chinchillaPersianFacebook from '../images/chinchillaPersian/facebook.jpg'
-import akhalTekeThumbnail from '../images/akhalTeke/thumbnail.jpg'
-import whiteShepherdThumbnail from '../images/whiteShepherd/thumbnail.jpg'
+import pomeranianThumbnail from '../images/pomeranian/400x300/thumbnail.jpg'
+import pomeranianFacebook from '../images/pomeranian/800x300/facebook.jpg'
+import chinchillaPersianThumbnail from '../images/chinchillaPersian/400x300/thumbnail.jpg'
+import chinchillaPersianDiamond from '../images/chinchillaPersian/450x300/diamondHome.jpg'
+import chinchillaPersianFacebook from '../images/chinchillaPersian/800x300/facebook.jpg'
+import akhalTekeThumbnail from '../images/akhalTeke/400x300/thumbnail.jpg'
+import whiteShepherdThumbnail from '../images/whiteShepherd/400x300/thumbnail.jpg'
 
 function Content() {
   return (
