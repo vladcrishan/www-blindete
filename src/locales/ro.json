@@ -2,6 +2,12 @@
   "company": "Blindețe",
   "kennel&cattery": "Canisă și Felisă",
   "Content": "ro",
-  "chinchilla": "Chinchilla Persan",
-  "welcome": "Bine ai venit pe site-ul meu! \n Mă numesc Crișan Claudia Georgeta și am avut din totdeauna o pasiune pentru animale. Sunt o crescătoare de câini și pisici de rasă. Pe acest site veți putea găsi exemplare alese din câteva rase dragi mie. Din dragostea mea față de animale am ales să cresc și să îngrijesc responsabil și cu mare drag rasele de câini Ciobănesc Alb Elvețian, Pomeranian, Kleinspitz, pisicile Persane Chincilla și nu în ultimul rând un cal aparținând minunatei rase akhal teke."
+  "pomeranian": "Pomeranian",
+  "whiteShepherd": "Ciobănesc Alb",
+  "chinchillaPersian": "Persană Chinchilla",
+  "akhalTeke": "Akhal Teke",
+  "welcomeTitle": "Bine ai venit!",
+  "welcomeDescription": "Mă numesc Crișan Claudia Georgeta și am avut din totdeauna o pasiune pentru animale. Sunt o crescătoare de câini și pisici de rasă și pe acest site veți putea găsi exemplare alese din câteva rase dragi mie. Din dragostea mea față de animale am ales să cresc și să îngrijesc responsabil și cu mare drag rasele de câini Pomeranian și Ciobănesc Alb Elvețian, pisici Persane Chinchilla și nu în ultimul rând un cal aparținând minunatei rase akhal teke.",
+  "aboutUs": "Despre Noi",
+  "facebook": "facebook"
 }

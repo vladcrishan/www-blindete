@@ -11,7 +11,10 @@ import Card from 'react-bootstrap/Card'
 
 // images
 import pomeranianThumbnail from '../images/pomeranian/thumbnail.jpg'
-import persianThumbnail from '../images/persian/thumbnail.jpg'
+import pomeranianFacebook from '../images/pomeranian/facebook.jpg'
+import chinchillaPersianThumbnail from '../images/chinchillaPersian/thumbnail.jpg'
+import chinchillaPersianDiamond from '../images/chinchillaPersian/diamondHome.jpg'
+import chinchillaPersianFacebook from '../images/chinchillaPersian/facebook.jpg'
 import akhalTekeThumbnail from '../images/akhalTeke/thumbnail.jpg'
 import whiteShepherdThumbnail from '../images/whiteShepherd/thumbnail.jpg'
 
@@ -21,85 +24,118 @@ function Content() {
       <Container>
         <Row>
           <SCol sm={3}>
-            <Card border="light">
+            <Card>
               <Card.Img
                 src={pomeranianThumbnail}
                 alt="Pomeranian Thumbnail"
                 className="rounded-0"
               />
               <Overlay className="d-flex justify-content-center align-items-center">
-                <Card.Title>pomeranian</Card.Title>
+                <OverlayTitle>{i18n.t('pomeranian')}</OverlayTitle>
               </Overlay>
             </Card>
           </SCol>
           <SCol sm={3}>
-            <Card border="light">
+            <Card>
               <Card.Img
                 src={whiteShepherdThumbnail}
                 alt="White Shepherd Thumbnail"
                 className="rounded-0"
               />
               <Overlay className="d-flex justify-content-center align-items-center">
-                <Card.Title>white shepherd</Card.Title>
+                <OverlayTitle>{i18n.t('whiteShepherd')}</OverlayTitle>
               </Overlay>
             </Card>
           </SCol>
           <SCol sm={3}>
-            <Card border="light">
+            <Card>
               <Card.Img
-                src={persianThumbnail}
-                alt="Persian Thumbnail"
+                src={chinchillaPersianThumbnail}
+                alt="Chinchilla Persian Thumbnail"
                 className="rounded-0"
               />
               <Overlay className="d-flex justify-content-center align-items-center">
-                <Card.Title>persian</Card.Title>
+                <OverlayTitle className="text-center">
+                  {i18n.t('chinchillaPersian')}
+                </OverlayTitle>
               </Overlay>
             </Card>
           </SCol>
           <SCol sm={3}>
-            <Card border="light">
+            <Card>
               <Card.Img
                 src={akhalTekeThumbnail}
                 alt="Akhal Teke Thumbnail"
                 className="rounded-0"
               />
               <Overlay className="d-flex justify-content-center align-items-center">
-                <Card.Title>akhal teke</Card.Title>
+                <OverlayTitle>{i18n.t('akhalTeke')}</OverlayTitle>
               </Overlay>
             </Card>
           </SCol>
         </Row>
         <Row>
           <SCol md={4}>
-            <Diamond border="light">
-              <Card.Body>
-                <Card.Title>Diamond</Card.Title>
-              </Card.Body>
-            </Diamond>
+            <Card>
+              <Card.Img
+                src={chinchillaPersianDiamond}
+                alt="Diamond"
+                className="rounded-0"
+              />
+              <Overlay className="d-flex justify-content-center align-items-center">
+                <OverlayTitle>{i18n.t('aboutUs')}</OverlayTitle>
+              </Overlay>
+            </Card>
           </SCol>
-          <SCol md={8}>
-            <Description border="light">
+          <SCol md={8} className="d-flex align-items-stretch">
+            <Card>
               <Card.Body>
-                <Card.Title>Description</Card.Title>
-                <Card.Text>{i18n.t('welcome')}</Card.Text>
+                <OverlayTitle>{i18n.t('welcomeTitle')}</OverlayTitle>
+                <Card.Text>{i18n.t('welcomeDescription')}</Card.Text>
               </Card.Body>
-            </Description>
+            </Card>
           </SCol>
         </Row>
         <Row>
           <SCol md={6}>
-            <FacebookLink border="light">
-              <Card.Body>
-                <Card.Title>Facebook 1</Card.Title>
-              </Card.Body>
-            </FacebookLink>
+            <Card>
+              <Card.Img
+                src={pomeranianFacebook}
+                alt="Pomeranian Facebook"
+                className="rounded-0"
+              />
+              <Overlay
+                className="d-flex justify-content-center align-items-center"
+                onClick={() =>
+                  window.open(
+                    'https://www.facebook.com/PomeranianBlindete/',
+                    '_blank'
+                  )
+                }
+              >
+                <OverlayTitle>{i18n.t('facebook')}</OverlayTitle>
+              </Overlay>
+            </Card>
           </SCol>
           <SCol md={6}>
-            <FacebookLink border="light">
-              <Card.Body>
-                <Card.Title>Facebook 2</Card.Title>
-              </Card.Body>
-            </FacebookLink>
+            <Card>
+              <Card.Img
+                src={chinchillaPersianFacebook}
+                alt="Chinchilla Persian Facebook"
+                className="rounded-0"
+              />
+              <Overlay
+                className="d-flex justify-content-center align-items-center"
+                onClick={() =>
+                  window.open(
+                    'https://www.facebook.com/ChinchillaBlindete/',
+                    '_blank'
+                  )
+                }
+              >
+                <OverlayTitle>{i18n.t('facebook')}</OverlayTitle>
+              </Overlay>
+            </Card>
           </SCol>
         </Row>
       </Container>
@@ -109,10 +145,14 @@ function Content() {
 
 const SContent = styled.div``
 
+const SCol = styled(Col)`
+  padding: 5px;
+`
+
 const Overlay = styled(Card.ImgOverlay)`
   color: #fff;
   background: #000;
-  opacity: 0.2;
+  opacity: 0.3;
   cursor: pointer;
   :hover {
     background: #fff;
@@ -125,20 +165,9 @@ const Overlay = styled(Card.ImgOverlay)`
     transition: all 0.2s linear;
   }
 `
-const Diamond = styled(Card)`
-  border-radius: 0px;
-`
 
-const Description = styled(Card)`
-  border-radius: 0px;
-`
-
-const FacebookLink = styled(Card)`
-  border-radius: 0px;
-`
-
-const SCol = styled(Col)`
-  padding: 5px;
+const OverlayTitle = styled(Card.Title)`
+  font-size: 24px;
 `
 
 export default connect(

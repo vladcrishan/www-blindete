@@ -69,7 +69,7 @@ function Footer(languageActions) {
                     }
                   >
                     <Facebook />
-                    <Detail>{i18n.t('chinchilla')}</Detail>
+                    <Detail>{i18n.t('chinchillaPersian')}</Detail>
                   </DetailFacebookWrapper>
                 </Col>
               </Row>
@@ -90,7 +90,7 @@ function Footer(languageActions) {
             />
           </Col>
           <Copyright className="text-right">
-            © 2019 Copyright <span style={{ color: '#fff' }}>blindete.ro</span>
+            © 2020 Copyright <span style={{ color: '#fff' }}>blindete.ro</span>
           </Copyright>
         </Row>
       </Container>
