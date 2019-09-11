@@ -9,7 +9,6 @@ import CardDescription from './CardDescription'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Card from 'react-bootstrap/Card'
 
 // images
 import pomeranianThumbnail from '../images/pomeranian/400x300/homeThumbnail.jpg'
