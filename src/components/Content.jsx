@@ -95,6 +95,7 @@ function Content() {
 }
 
 const SContent = styled.div`
+  margin-top: 60px;
   margin-bottom: 100px;
 `
 

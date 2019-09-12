@@ -29,7 +29,7 @@ function Headline() {
 
 const SHeadline = styled.div`
   font-family: 'Lobster', cursive;
-  padding: 30px 0px 60px 0px;
+  margin-top: 30px;
 `
 
 const Title = styled.div`
