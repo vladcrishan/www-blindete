@@ -76,7 +76,7 @@ function Footer(languageActions) {
             </Container>
           </ContactWrapper>
         </Row>
-        <Row style={{ paddingTop: '10px' }}>
+        <BottomRow style={{ paddingTop: '10px' }}>
           <Col style={{ paddingLeft: '0px' }}>
             <Language
               onClick={() => changeLanguage('en')}
@@ -85,14 +85,15 @@ function Footer(languageActions) {
             />
             <Language
               onClick={() => changeLanguage('ro')}
+              style={{ marginLeft: '10px' }}
               src={ro}
               alt="language"
             />
           </Col>
-          <Copyright className="text-right">
+          <Copyright className="d-flex justify-content-end align-items-end">
             © 2020 Copyright <span style={{ color: '#fff' }}>blindete.ro</span>
           </Copyright>
-        </Row>
+        </BottomRow>
       </Container>
     </SFooter>
   )
@@ -126,8 +127,7 @@ const ContactWrapper = styled(Col)`
 `
 
 const Language = styled.img`
-  margin-left: 10px;
-  height: 20px;
+  height: 25px;
   :hover {
     cursor: pointer;
   }
@@ -145,6 +145,10 @@ const SFooter = styled.div`
   padding-bottom: 50px;
   background: #723155;
   color: #f5e8ef;
+`
+
+const BottomRow = styled(Row)`
+  padding-top: 10px;
 `
 
 export default connect(
