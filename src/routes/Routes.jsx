@@ -4,13 +4,14 @@ import { Switch, Route } from 'react-router-dom'
 // routes
 import Home from 'containers/Home'
 import About from 'containers/About'
-import NotFound from './NotFound'
+import NotFound from '../components/NotFound'
+import FooterRoute from './FooterRoute'
 
 const Routes = () => (
   <Switch>
-    <Route path="/" exact={true} component={Home} />
-    <Route path="/home" exact={true} component={Home} />
-    <Route path="/about" exact={true} component={About} />
+    <FooterRoute path="/" exact={true} component={Home} />
+    <FooterRoute path="/home" exact={true} component={Home} />
+    <FooterRoute path="/about" exact={true} component={About} />
     <Route component={NotFound} />
   </Switch>
 )

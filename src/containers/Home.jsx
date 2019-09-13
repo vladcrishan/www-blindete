@@ -10,7 +10,7 @@ function Home() {
     <SHome>
       <Headline />
       <Content />
-      <Footer />
+      {/* <Footer /> */}
     </SHome>
   )
 }
