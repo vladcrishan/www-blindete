@@ -19,8 +19,8 @@ const Routes = () => (
         <Route path="/about" exact={true} component={About} />
         <Route component={NotFound} />
       </Switch>
+      <Footer />
     </Background>
-    <Footer />
   </React.Fragment>
 )
 
