@@ -82,7 +82,7 @@ function Footer(languageActions) {
             </Container>
           </ContactWrapper>
         </Row>
-        <BottomRow style={{ paddingTop: '10px' }}>
+        <Row style={{ paddingTop: '10px' }}>
           <Col style={{ paddingLeft: '0px' }}>
             <Language
               onClick={() => changeLanguage('en')}
@@ -97,9 +97,12 @@ function Footer(languageActions) {
             />
           </Col>
           <Copyright className="d-flex justify-content-end align-items-end">
-            © 2020 Copyright <span style={{ color: '#fff' }}>blindete.ro</span>
+            © 2020 Copyright
+            <span style={{ color: '#fff', marginLeft: '5px' }}>
+              blindete.ro
+            </span>
           </Copyright>
-        </BottomRow>
+        </Row>
       </Container>
     </SFooter>
   )
@@ -151,10 +154,6 @@ const SFooter = styled.div`
   padding-bottom: 50px;
   background: #723155;
   color: #f5e8ef;
-`
-
-const BottomRow = styled(Row)`
-  padding-top: 10px;
 `
 
 export default connect(

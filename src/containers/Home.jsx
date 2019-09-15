@@ -14,8 +14,6 @@ function Home() {
 }
 
 const SHome = styled.div`
-  display: flex;
-  flex-direction: column;
   font-family: 'Roboto Slab', serif;
 `
 
