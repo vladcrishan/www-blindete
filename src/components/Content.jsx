@@ -95,8 +95,8 @@ function Content() {
 }
 
 const SContent = styled.div`
-  margin-top: 60px;
-  margin-bottom: 100px;
+  padding-top: 60px;
+  padding-bottom: 100px;
 `
 
 const SCol = styled(Col)`

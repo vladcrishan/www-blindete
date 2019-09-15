@@ -1,6 +1,7 @@
 import React from 'react'
 import i18n from 'utils/i18n'
 import { Phone, Mail, MapPin, Facebook } from 'react-feather'
+import map from '../images/background/map.png'
 import styled from 'styled-components'
 
 import en from '../images/i18n/en.png'
@@ -31,11 +32,11 @@ function Footer(languageActions) {
       <Container>
         <Row>
           <MapWrapper sm={4}>
-            <iframe
-              title="bla"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6575.152104739471!2d21.315172160602422!3d46.14057140122728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47459936a785dd61%3A0xf39fbf4f1decef1!2sStrada%20Dumitru%20Bagdasar%2036%2C%20Arad!5e0!3m2!1sen!2sro!4v1568211287326!5m2!1sen!2sro"
-              style={{ border: '0' }}
-            ></iframe>
+            <MapImage
+              onClick={() =>
+                window.open('https://goo.gl/maps/WQFSCyk911kNsvCTA', '_blank')
+              }
+            />
           </MapWrapper>
           <ContactWrapper sm={8} className="d-flex align-items-center">
             <Container>
@@ -128,7 +129,15 @@ const Detail = styled.div`
 
 const MapWrapper = styled(Col)`
   height: 200px;
-  background: lightgrey;
+  padding: 0px;
+`
+
+const MapImage = styled.div`
+  height: 100%;
+  background-image: url(${map});
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const ContactWrapper = styled(Col)`
