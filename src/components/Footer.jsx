@@ -1,20 +1,20 @@
-import React from 'react'
-import i18n from 'utils/i18n'
-import { Phone, Mail, MapPin, Facebook } from 'react-feather'
-import styled from 'styled-components'
+import React from "react"
+import i18n from "utils/i18n"
+import { Phone, Mail, MapPin, Facebook } from "react-feather"
+import styled from "styled-components"
 
-import en from '../images/i18n/en.png'
-import ro from '../images/i18n/ro.png'
+import en from "../images/i18n/en.png"
+import ro from "../images/i18n/ro.png"
 
 // redux
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as languageActions from 'state/ducks/languageDuck'
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import * as languageActions from "state/ducks/languageDuck"
 
 // bootstrap
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
 
 function Footer(languageActions) {
   const changeLanguage = async language => {
@@ -30,7 +30,13 @@ function Footer(languageActions) {
     <SFooter>
       <Container>
         <Row>
-          <MapWrapper sm={4}></MapWrapper>
+          <MapWrapper sm={4}>
+            <iframe
+              title="bla"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6575.152104739471!2d21.315172160602422!3d46.14057140122728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47459936a785dd61%3A0xf39fbf4f1decef1!2sStrada%20Dumitru%20Bagdasar%2036%2C%20Arad!5e0!3m2!1sen!2sro!4v1568211287326!5m2!1sen!2sro"
+              style={{ border: "0" }}
+            ></iframe>
+          </MapWrapper>
           <ContactWrapper sm={8} className="d-flex align-items-center">
             <Container>
               <Row>
@@ -52,8 +58,8 @@ function Footer(languageActions) {
                   <DetailFacebookWrapper
                     onClick={() =>
                       window.open(
-                        'https://www.facebook.com/PomeranianBlindete/',
-                        '_blank'
+                        "https://www.facebook.com/PomeranianBlindete/",
+                        "_blank"
                       )
                     }
                   >
@@ -63,35 +69,49 @@ function Footer(languageActions) {
                   <DetailFacebookWrapper
                     onClick={() =>
                       window.open(
-                        'https://www.facebook.com/ChinchillaBlindete/',
-                        '_blank'
+                        "https://www.facebook.com/ChinchillaBlindete/",
+                        "_blank"
                       )
                     }
                   >
                     <Facebook />
-                    <Detail>{i18n.t('chinchillaPersian')}</Detail>
+                    <Detail>{i18n.t("chinchillaPersian")}</Detail>
                   </DetailFacebookWrapper>
                 </Col>
               </Row>
             </Container>
           </ContactWrapper>
         </Row>
+<<<<<<< HEAD
         <BottomRow style={{ paddingTop: '10px' }}>
           <Col style={{ paddingLeft: '0px' }}>
+=======
+        <Row style={{ paddingTop: "10px" }}>
+          <Col style={{ paddingLeft: "0px" }}>
+>>>>>>> fc6c381799f44b3aea19a9412442b485c82b412d
             <Language
-              onClick={() => changeLanguage('en')}
+              onClick={() => changeLanguage("en")}
               src={en}
               alt="language"
             />
             <Language
+<<<<<<< HEAD
               onClick={() => changeLanguage('ro')}
               style={{ marginLeft: '10px' }}
+=======
+              onClick={() => changeLanguage("ro")}
+>>>>>>> fc6c381799f44b3aea19a9412442b485c82b412d
               src={ro}
               alt="language"
             />
           </Col>
+<<<<<<< HEAD
           <Copyright className="d-flex justify-content-end align-items-end">
             © 2020 Copyright <span style={{ color: '#fff' }}>blindete.ro</span>
+=======
+          <Copyright className="text-right">
+            © 2020 Copyright <span style={{ color: "#fff" }}>blindete.ro</span>
+>>>>>>> fc6c381799f44b3aea19a9412442b485c82b412d
           </Copyright>
         </BottomRow>
       </Container>
