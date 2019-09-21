@@ -3,12 +3,20 @@ import Routes from 'routes/Routes'
 import { BrowserRouter as Router } from 'react-router-dom'
 import background from 'images/background/symphony.png'
 import Footer from 'components/Footer'
+import styled from 'styled-components'
 
 export default () => (
-  <div style={{ backgroundImage: `url(${background})` }}>
+  <Background>
     <Router>
       <Routes />
     </Router>
     <Footer />
-  </div>
+  </Background>
 )
+
+const Background = styled.div`
+  background-image: url(${background});
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`
