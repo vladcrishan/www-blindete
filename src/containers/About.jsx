@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import i18n from 'utils/i18n'
 import { withRouter } from 'react-router-dom'
-import CardOverlay from 'components/CardOverlay'
 import CardDescription from 'components/CardDescription'
 import { ArrowLeft } from 'react-feather'
 
@@ -10,6 +9,7 @@ import { ArrowLeft } from 'react-feather'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
 
 // images
 import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
@@ -38,7 +38,13 @@ function About({ history }) {
         <Container>
           <Row>
             <SCol md={4}>
-              <CardOverlay imageSrc={chinchillaPersianDiamond} />
+              <Card className="rounded-0">
+                <Card.Img
+                  src={chinchillaPersianDiamond}
+                  alt="CardOverlay"
+                  className="rounded-0"
+                />
+              </Card>
             </SCol>
             <SCol md={8} className="d-flex align-items-stretch">
               <CardDescription

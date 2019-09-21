@@ -125,7 +125,7 @@ const Copyright = styled(Col)`
 
 const SFooter = styled.div`
   margin-top: auto;
-  padding-top: 30px;
+  padding-top: 50px;
   padding-bottom: 50px;
   background: #723155;
   color: #f5e8ef;

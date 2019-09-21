@@ -72,6 +72,7 @@ function Home({ languageActions, history }) {
               <CardOverlay
                 imageSrc={pomeranianThumbnail}
                 text={i18n.t('pomeranian')}
+                onClick={() => history.push('/pomeranian')}
               />
             </SCol>
             <SCol md={3}>
