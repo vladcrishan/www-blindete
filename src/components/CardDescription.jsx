@@ -8,7 +8,7 @@ function CardDescription({ title, description }) {
   return (
     <Card className="rounded-0" style={{ color: '#723155' }}>
       <Card.Body>
-        <OverlayTitle>{title}</OverlayTitle>
+        {title && <OverlayTitle>{title}</OverlayTitle>}
         <Card.Text>{description}</Card.Text>
       </Card.Body>
     </Card>

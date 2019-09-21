@@ -41,14 +41,12 @@ function Home({ languageActions, history }) {
 
   return (
     <SHome>
-      <Headline>
+      <Header>
         <Container>
           <Row>
             <Col>
               <Title>{i18n.t('company')}</Title>
-              <Subtitle>
-                <div>{i18n.t('kennel&cattery')}</div>
-              </Subtitle>
+              <Subtitle>{i18n.t('kennel&cattery')}</Subtitle>
             </Col>
             <Col className="d-flex justify-content-end align-items-end">
               <Language
@@ -65,7 +63,7 @@ function Home({ languageActions, history }) {
             </Col>
           </Row>
         </Container>
-      </Headline>
+      </Header>
 
       <Content>
         <Container>
@@ -142,7 +140,7 @@ function Home({ languageActions, history }) {
   )
 }
 
-const Headline = styled.div`
+const Header = styled.div`
   font-family: 'Lobster', cursive;
   padding-top: 30px;
 `
