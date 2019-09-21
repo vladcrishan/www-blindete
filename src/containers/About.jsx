@@ -88,8 +88,6 @@ const SCol = styled(Col)`
   padding: 5px;
 `
 
-const SAbout = styled.div`
-  font-family: 'Roboto Slab', serif;
-`
+const SAbout = styled.div``
 
 export default withRouter(About)

@@ -178,9 +178,7 @@ const SCol = styled(Col)`
   padding: 5px;
 `
 
-const SHome = styled.div`
-  font-family: 'Roboto Slab', serif;
-`
+const SHome = styled.div``
 
 export default compose(
   connect(
