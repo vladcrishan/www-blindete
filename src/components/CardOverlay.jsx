@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card'
 
 function CardOverlay({ imageSrc, text, onClick }) {
   return (
-    <Card>
+    <Card className="rounded-0">
       <Card.Img src={imageSrc} alt="CardOverlay" className="rounded-0" />
       <Overlay
         className="d-flex justify-content-center align-items-center"
