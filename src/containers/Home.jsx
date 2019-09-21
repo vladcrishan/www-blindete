@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import i18n from 'utils/i18n'
 import { withRouter } from 'react-router-dom'
-import CardOverlay from '../components/CardOverlay'
-import CardDescription from '../components/CardDescription'
+import CardOverlay from 'components/CardOverlay'
+import CardDescription from 'components/CardDescription'
 
 // languages
-import en from '../images/i18n/en.png'
-import ro from '../images/i18n/ro.png'
+import en from 'images/i18n/en.png'
+import ro from 'images/i18n/ro.png'
 
 // redux
 import { compose } from 'redux'
@@ -21,13 +21,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 // images
-import pomeranianThumbnail from '../images/pomeranian/400x300/homeThumbnail.jpg'
-import pomeranianFacebook from '../images/pomeranian/800x300/homeFacebook.jpg'
-import chinchillaPersianThumbnail from '../images/chinchillaPersian/400x300/homeThumbnail.jpg'
-import chinchillaPersianDiamond from '../images/chinchillaPersian/450x300/homeDiamond.jpg'
-import chinchillaPersianFacebook from '../images/chinchillaPersian/800x300/homeFacebook.jpg'
-import akhalTekeThumbnail from '../images/akhalTeke/400x300/homeThumbnail.jpg'
-import whiteShepherdThumbnail from '../images/whiteShepherd/400x300/homeThumbnail.jpg'
+import pomeranianThumbnail from 'images/pomeranian/400x300/homeThumbnail.jpg'
+import pomeranianFacebook from 'images/pomeranian/800x300/homeFacebook.jpg'
+import chinchillaPersianThumbnail from 'images/chinchillaPersian/400x300/homeThumbnail.jpg'
+import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
+import chinchillaPersianFacebook from 'images/chinchillaPersian/800x300/homeFacebook.jpg'
+import akhalTekeThumbnail from 'images/akhalTeke/400x300/homeThumbnail.jpg'
+import whiteShepherdThumbnail from 'images/whiteShepherd/400x300/homeThumbnail.jpg'
 
 function Home({ languageActions, history }) {
   const changeLanguage = async language => {

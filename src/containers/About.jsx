@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import i18n from 'utils/i18n'
 import { withRouter } from 'react-router-dom'
-import CardOverlay from '../components/CardOverlay'
-import CardDescription from '../components/CardDescription'
+import CardOverlay from 'components/CardOverlay'
+import CardDescription from 'components/CardDescription'
 import { ArrowLeft } from 'react-feather'
 
 // bootstrap
@@ -12,7 +12,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 // images
-import chinchillaPersianDiamond from '../images/chinchillaPersian/450x300/homeDiamond.jpg'
+import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
 
 function About({ history }) {
   return (
