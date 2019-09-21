@@ -25,7 +25,7 @@ const Overlay = styled(Card.ImgOverlay)`
   cursor: pointer;
   :hover {
     background: #fff;
-    color: #000;
+    color: #723155;
     opacity: 0.9;
     -webkit-transition: all 0.2s linear;
     -moz-transition: all 0.2s linear;
@@ -37,6 +37,7 @@ const Overlay = styled(Card.ImgOverlay)`
 
 const OverlayTitle = styled(Card.Title)`
   font-size: 24px;
+  font-weight: bold;
 `
 
 export default CardOverlay

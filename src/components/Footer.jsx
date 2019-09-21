@@ -4,29 +4,15 @@ import { Phone, Mail, MapPin, Facebook } from 'react-feather'
 import map from '../images/background/map.png'
 import styled from 'styled-components'
 
-import en from '../images/i18n/en.png'
-import ro from '../images/i18n/ro.png'
-
 // redux
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as languageActions from 'state/ducks/languageDuck'
 
 // bootstrap
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-function Footer(languageActions) {
-  const changeLanguage = async language => {
-    try {
-      i18n.locale = language
-      await languageActions.languageActions.setLanguage(i18n.locale)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
+function Footer() {
   return (
     <SFooter>
       <Container>
@@ -84,19 +70,6 @@ function Footer(languageActions) {
           </ContactWrapper>
         </Row>
         <Row style={{ paddingTop: '10px' }}>
-          <Col style={{ paddingLeft: '0px' }}>
-            <Language
-              onClick={() => changeLanguage('en')}
-              src={en}
-              alt="language"
-            />
-            <Language
-              onClick={() => changeLanguage('ro')}
-              style={{ marginLeft: '10px' }}
-              src={ro}
-              alt="language"
-            />
-          </Col>
           <Copyright className="d-flex justify-content-end align-items-end">
             © 2020 Copyright
             <span style={{ color: '#fff', marginLeft: '5px' }}>
@@ -144,13 +117,6 @@ const ContactWrapper = styled(Col)`
   padding-left: 50px;
 `
 
-const Language = styled.img`
-  height: 25px;
-  :hover {
-    cursor: pointer;
-  }
-`
-
 const Copyright = styled(Col)`
   font-size: 12px;
   color: #3c1a2d;
@@ -169,7 +135,5 @@ export default connect(
   state => ({
     language: state.internationalization.language
   }),
-  dispatch => ({
-    languageActions: bindActionCreators(languageActions, dispatch)
-  })
+  null
 )(Footer)

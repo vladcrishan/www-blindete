@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card'
 
 function CardDescription({ title, description }) {
   return (
-    <Card>
+    <Card className="rounded-0" style={{ color: '#723155' }}>
       <Card.Body>
         <OverlayTitle>{title}</OverlayTitle>
         <Card.Text>{description}</Card.Text>
