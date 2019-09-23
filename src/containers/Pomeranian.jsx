@@ -14,7 +14,12 @@ import Card from 'react-bootstrap/Card'
 // images
 import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
 
+
+import AliceCarousel from 'react-alice-carousel'
+import 'react-alice-carousel/lib/alice-carousel.css'
+
 function Pomeranian({ history }) {
+  const handleOnDragStart = e => e.preventDefault()
   return (
     <SPomeranian>
       <Header>
@@ -81,6 +86,34 @@ function Pomeranian({ history }) {
                 />
               </Card>
             </SCol>
+          </Row>
+          <Row>
+            <AliceCarousel
+              mouseDragEnabled
+              buttonsDisabled={true}
+              dotsDisabled={true}
+            >
+              <img
+                src={chinchillaPersianDiamond}
+                onDragStart={handleOnDragStart}
+              />
+              <img
+                src={chinchillaPersianDiamond}
+                onDragStart={handleOnDragStart}
+              />
+              <img
+                src={chinchillaPersianDiamond}
+                onDragStart={handleOnDragStart}
+              />
+              <img
+                src={chinchillaPersianDiamond}
+                onDragStart={handleOnDragStart}
+              />
+              <img
+                src={chinchillaPersianDiamond}
+                onDragStart={handleOnDragStart}
+              />
+            </AliceCarousel>
           </Row>
         </Container>
       </Content>
