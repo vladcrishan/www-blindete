@@ -4,7 +4,7 @@ import styled from 'styled-components'
 // Bootstrap
 import Card from 'react-bootstrap/Card'
 
-function CardOverlay({ imageSrc, text, onClick }) {
+export default ({ imageSrc, text, onClick }) => {
   return (
     <Card className="rounded-0">
       <Card.Img src={imageSrc} alt="CardOverlay" className="rounded-0" />
@@ -39,5 +39,3 @@ const OverlayTitle = styled(Card.Title)`
   font-size: 24px;
   font-weight: bold;
 `
-
-export default CardOverlay

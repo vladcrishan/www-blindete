@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
 // images
-import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
+import chinchillaPersianDiamond from 'images/chinchillaPersian/home/400x300/diamond.jpg'
 
 function About({ history }) {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import Routes from 'routes/Routes'
 import { BrowserRouter as Router } from 'react-router-dom'
-import background from 'images/background/symphony.png'
+import background from 'images/misc/symphony.png'
 import Footer from 'components/Footer'
 import styled from 'styled-components'
 

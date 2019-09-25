@@ -4,7 +4,7 @@ import styled from 'styled-components'
 // Bootstrap
 import Card from 'react-bootstrap/Card'
 
-function CardDescription({ title, description }) {
+export default ({ title, description }) => {
   return (
     <Card className="rounded-0" style={{ color: '#723155' }}>
       <Card.Body>
@@ -18,5 +18,3 @@ function CardDescription({ title, description }) {
 const OverlayTitle = styled(Card.Title)`
   font-size: 24px;
 `
-
-export default CardDescription

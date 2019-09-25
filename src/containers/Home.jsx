@@ -21,13 +21,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 // images
-import pomeranianThumbnail from 'images/pomeranian/400x300/homeThumbnail.jpg'
-import pomeranianFacebook from 'images/pomeranian/800x300/homeFacebook.jpg'
-import chinchillaPersianThumbnail from 'images/chinchillaPersian/400x300/homeThumbnail.jpg'
-import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
-import chinchillaPersianFacebook from 'images/chinchillaPersian/800x300/homeFacebook.jpg'
-import akhalTekeThumbnail from 'images/akhalTeke/400x300/homeThumbnail.jpg'
-import whiteShepherdThumbnail from 'images/whiteShepherd/400x300/homeThumbnail.jpg'
+import pomeranianThumbnail from 'images/pomeranian/home/400x300/thumbnail.jpg'
+import pomeranianFacebook from 'images/pomeranian/home/800x300/facebook.jpg'
+import chinchillaPersianThumbnail from 'images/chinchillaPersian/home/400x300/thumbnail.jpg'
+import chinchillaPersianDiamond from 'images/chinchillaPersian/home/400x300/diamond.jpg'
+import chinchillaPersianFacebook from 'images/chinchillaPersian/home/800x300/facebook.jpg'
+import akhalTekeThumbnail from 'images/akhalTeke/home/400x300/thumbnail.jpg'
+import whiteShepherdThumbnail from 'images/whiteShepherd/home/400x300/thumbnail.jpg'
 
 function Home({ languageActions, history }) {
   const changeLanguage = async language => {

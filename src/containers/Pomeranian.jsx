@@ -4,6 +4,9 @@ import i18n from 'utils/i18n'
 import { withRouter } from 'react-router-dom'
 import CardDescription from 'components/CardDescription'
 import { ArrowLeft } from 'react-feather'
+import CardLink from 'components/CardLink'
+import AliceCarousel from 'react-alice-carousel'
+import 'react-alice-carousel/lib/alice-carousel.css'
 
 // bootstrap
 import Container from 'react-bootstrap/Container'
@@ -12,11 +15,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
 // images
-import chinchillaPersianDiamond from 'images/chinchillaPersian/450x300/homeDiamond.jpg'
-
-
-import AliceCarousel from 'react-alice-carousel'
-import 'react-alice-carousel/lib/alice-carousel.css'
+import pomeranianThumbnail from 'images/pomeranian/home/400x300/thumbnail.jpg'
 
 function Pomeranian({ history }) {
   const handleOnDragStart = e => e.preventDefault()
@@ -45,7 +44,7 @@ function Pomeranian({ history }) {
             <SCol md={4}>
               <Card className="rounded-0">
                 <Card.Img
-                  src={chinchillaPersianDiamond}
+                  src={pomeranianThumbnail}
                   alt="CardOverlay"
                   className="rounded-0"
                 />
@@ -60,31 +59,16 @@ function Pomeranian({ history }) {
           </Row>
           <Row>
             <SCol md={4}>
-              <Card className="rounded-0">
-                <Card.Img
-                  src={chinchillaPersianDiamond}
-                  alt="CardOverlay"
-                  className="rounded-0"
-                />
-              </Card>
+              <CardLink imageSrc={pomeranianThumbnail} text={i18n.t('males')} />
             </SCol>
             <SCol md={4}>
-              <Card className="rounded-0">
-                <Card.Img
-                  src={chinchillaPersianDiamond}
-                  alt="CardOverlay"
-                  className="rounded-0"
-                />
-              </Card>
+              <CardLink
+                imageSrc={pomeranianThumbnail}
+                text={i18n.t('females')}
+              />
             </SCol>
             <SCol md={4}>
-              <Card className="rounded-0">
-                <Card.Img
-                  src={chinchillaPersianDiamond}
-                  alt="CardOverlay"
-                  className="rounded-0"
-                />
-              </Card>
+              <CardLink imageSrc={pomeranianThumbnail} text={i18n.t('pups')} />
             </SCol>
           </Row>
           <Row>
@@ -93,26 +77,11 @@ function Pomeranian({ history }) {
               buttonsDisabled={true}
               dotsDisabled={true}
             >
-              <img
-                src={chinchillaPersianDiamond}
-                onDragStart={handleOnDragStart}
-              />
-              <img
-                src={chinchillaPersianDiamond}
-                onDragStart={handleOnDragStart}
-              />
-              <img
-                src={chinchillaPersianDiamond}
-                onDragStart={handleOnDragStart}
-              />
-              <img
-                src={chinchillaPersianDiamond}
-                onDragStart={handleOnDragStart}
-              />
-              <img
-                src={chinchillaPersianDiamond}
-                onDragStart={handleOnDragStart}
-              />
+              <img src={pomeranianThumbnail} onDragStart={handleOnDragStart} />
+              <img src={pomeranianThumbnail} onDragStart={handleOnDragStart} />
+              <img src={pomeranianThumbnail} onDragStart={handleOnDragStart} />
+              <img src={pomeranianThumbnail} onDragStart={handleOnDragStart} />
+              <img src={pomeranianThumbnail} onDragStart={handleOnDragStart} />
             </AliceCarousel>
           </Row>
         </Container>

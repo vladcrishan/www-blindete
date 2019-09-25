@@ -1,7 +1,7 @@
 import React from 'react'
 import i18n from 'utils/i18n'
 import { Phone, Mail, MapPin, Facebook } from 'react-feather'
-import map from '../images/background/map.png'
+import map from '../images/misc/map.png'
 import styled from 'styled-components'
 
 // redux
