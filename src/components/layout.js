@@ -1,6 +1,8 @@
 import React from 'react'
+import styled, { createGlobalStyle } from 'styled-components'
+import Georgia from '../fonts/Georgia.ttf'
 import { useStaticQuery, graphql } from 'gatsby'
-import Header from './header'
+import Navbar from './Navbar'
 
 export default ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -13,23 +15,31 @@ export default ({ children }) => {
     }
   `)
 
+  console.log('data.site.metadata.title: ', data.site.siteMetadata.title)
+
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`
-        }}
-      >
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
-    </>
+    <Content>
+      <GlobalStyle />
+      <Navbar siteTitle={data.site.siteMetadata.title} />
+
+      <main>{children}</main>
+    </Content>
   )
 }
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: Georgia;
+    src: url(${Georgia});
+  }
+
+`
+
+const Content = styled.div`
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 0 1.0875rem 1.45rem;
+
+  font-size: 1.5rem;
+  font-family: Georgia;
+`

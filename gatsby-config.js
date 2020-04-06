@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: `blindete`,
+    description: `Bună, mă numesc Crișan Claudia Georgeta sunt o crescătoare de câini și pisici de rasă și din totdeauna am avut o pasiune pentru animale. Pe acest website veți putea găsi exemplare alese din câteva rase dragi mie.`,
     author: `@gatsbyjs`
   },
   plugins: [
@@ -22,10 +22,10 @@ module.exports = {
         name: `gatsby-starter-default`,
         short_name: `starter`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#ffffff`,
+        theme_color: `#C0B283`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png` // This path is relative to the root of the site.
+        icon: `src/images/gatsby-icon.png`
       }
     }
   ]
