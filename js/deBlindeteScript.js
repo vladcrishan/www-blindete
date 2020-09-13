@@ -50,26 +50,6 @@ $(document).ready(function () {
     )
   })
 
-  // Bobby
-  $('#bobby').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-bobby').on('click', IndividualGallery.setPreview)
-  $('#close-bobby-preview').on('click', function () {
-    $('#bobbyPreview').attr(
-      'src',
-      'images/kleinspitz-pomeranian/individual-gallery/bobby/big/1.jpg'
-    )
-  })
-
-  // Zorro
-  $('#zorro').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-zorro').on('click', IndividualGallery.setPreview)
-  $('#close-zorro-preview').on('click', function () {
-    $('#zorroPreview').attr(
-      'src',
-      'images/kleinspitz-pomeranian/individual-gallery/zorro/big/1.JPG'
-    )
-  })
-
   // Zefyr
   $('#zefyr').on('click', IndividualGallery.setCurrentPreview)
   $('.img-zefyr').on('click', IndividualGallery.setPreview)
@@ -90,43 +70,13 @@ $(document).ready(function () {
     )
   })
 
-  // Lili
-  $('#lili').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-lili').on('click', IndividualGallery.setPreview)
-  $('#close-lili-preview').on('click', function () {
-    $('#liliPreview').attr(
+  // Uelsi
+  $('#uelsi').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-uelsi').on('click', IndividualGallery.setPreview)
+  $('#close-uelsi-preview').on('click', function () {
+    $('#uelsiPreview').attr(
       'src',
-      'images/kleinspitz-pomeranian/individual-gallery/lili/big/1.jpg'
-    )
-  })
-
-  // Zita
-  $('#zita').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-zita').on('click', IndividualGallery.setPreview)
-  $('#close-zita-preview').on('click', function () {
-    $('#zitaPreview').attr(
-      'src',
-      'images/kleinspitz-pomeranian/individual-gallery/zita/big/1.jpg'
-    )
-  })
-
-  // Linda
-  $('#linda').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-linda').on('click', IndividualGallery.setPreview)
-  $('#close-linda-preview').on('click', function () {
-    $('#lindaPreview').attr(
-      'src',
-      'images/kleinspitz-pomeranian/individual-gallery/linda/big/1.jpg'
-    )
-  })
-
-  // Princess
-  $('#princess').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-princess').on('click', IndividualGallery.setPreview)
-  $('#close-princess-preview').on('click', function () {
-    $('#princessPreview').attr(
-      'src',
-      'images/kleinspitz-pomeranian/individual-gallery/princess/big/1.JPG'
+      'images/kleinspitz-pomeranian/individual-gallery/uelsi/big/1.jpg'
     )
   })
 
