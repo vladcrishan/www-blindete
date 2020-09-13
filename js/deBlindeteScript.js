@@ -80,6 +80,16 @@ $(document).ready(function () {
     )
   })
 
+  // Rubin
+  $('#rubin').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-rubin').on('click', IndividualGallery.setPreview)
+  $('#close-rubin-preview').on('click', function () {
+    $('#rubinPreview').attr(
+      'src',
+      'images/kleinspitz-pomeranian/individual-gallery/rubin/big/1.jpg'
+    )
+  })
+
   // Lili
   $('#lili').on('click', IndividualGallery.setCurrentPreview)
   $('.img-lili').on('click', IndividualGallery.setPreview)
