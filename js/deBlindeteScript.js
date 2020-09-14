@@ -149,6 +149,66 @@ $(document).ready(function () {
       'images/persana-chinchilla/individual-gallery/billiejean/big/1.jpg'
     )
   })
+
+  // White Chocolate
+  $('#whiteChocolate').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-whiteChocolate').on('click', IndividualGallery.setPreview)
+  $('#close-whiteChocolate-preview').on('click', function () {
+    $('#whiteChocolatePreview').attr(
+      'src',
+      'images/persana-chinchilla/individual-gallery/whiteChocolate/big/1.jpg'
+    )
+  })
+
+  // Vesna
+  $('#vesna').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-vesna').on('click', IndividualGallery.setPreview)
+  $('#close-vesna-preview').on('click', function () {
+    $('#vesnaPreview').attr(
+      'src',
+      'images/persana-chinchilla/individual-gallery/vesna/big/1.jpg'
+    )
+  })
+
+  // Honey
+  $('#honey').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-honey').on('click', IndividualGallery.setPreview)
+  $('#close-honey-preview').on('click', function () {
+    $('#honeyPreview').attr(
+      'src',
+      'images/persana-chinchilla/individual-gallery/honey/big/1.jpg'
+    )
+  })
+
+  // Borte
+  $('#borte').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-borte').on('click', IndividualGallery.setPreview)
+  $('#close-borte-preview').on('click', function () {
+    $('#bortePreview').attr(
+      'src',
+      'images/persana-chinchilla/individual-gallery/borte/big/1.jpg'
+    )
+  })
+
+  // Aira
+  $('#aira').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-aira').on('click', IndividualGallery.setPreview)
+  $('#close-aira-preview').on('click', function () {
+    $('#airaPreview').attr(
+      'src',
+      'images/persana-chinchilla/individual-gallery/aira/big/1.jpg'
+    )
+  })
+
+  // Evia
+  $('#evia').on('click', IndividualGallery.setCurrentPreview)
+  $('.img-evia').on('click', IndividualGallery.setPreview)
+  $('#close-evia-preview').on('click', function () {
+    $('#eviaPreview').attr(
+      'src',
+      'images/persana-chinchilla/individual-gallery/evia/big/1.jpg'
+    )
+  })
 })
 
 // navbar active class
