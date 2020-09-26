@@ -1,4 +1,4 @@
-import { Link } from 'gatsby'
+// import { Link } from 'gatsby'
 import styled from 'styled-components'
 import React from 'react'
 
@@ -20,6 +20,7 @@ const Container = styled.header`
 
 const Title = styled.div`
   font-size: 1.5rem;
+  font-weight: bold;
 `
 
 const Categories = styled.div`
