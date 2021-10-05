@@ -110,16 +110,6 @@ $(document).ready(function () {
     )
   })
 
-  // Greta
-  $('#greta').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-greta').on('click', IndividualGallery.setPreview)
-  $('#close-greta-preview').on('click', function () {
-    $('#gretaPreview').attr(
-      'src',
-      'images/persana-chinchilla/individual-gallery/greta/big/1.jpg'
-    )
-  })
-
   // Szofia
   $('#szofia').on('click', IndividualGallery.setCurrentPreview)
   $('.img-szofia').on('click', IndividualGallery.setPreview)
@@ -127,16 +117,6 @@ $(document).ready(function () {
     $('#szofiaPreview').attr(
       'src',
       'images/persana-chinchilla/individual-gallery/szofia/big/1.jpg'
-    )
-  })
-
-  // Dalia
-  $('#dalia').on('click', IndividualGallery.setCurrentPreview)
-  $('.img-dalia').on('click', IndividualGallery.setPreview)
-  $('#close-dalia-preview').on('click', function () {
-    $('#daliaPreview').attr(
-      'src',
-      'images/persana-chinchilla/individual-gallery/dalia/big/1.jpg'
     )
   })
 
