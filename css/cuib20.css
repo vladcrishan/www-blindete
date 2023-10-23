@@ -1,0 +1,172 @@
+body {
+  font-family: 'Georgia', serif;
+}
+
+.body-overlay {
+  background-color: #FCFCFA;
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  height: 100%;
+  width: 30rem;
+  z-index: -1;
+  border-radius: 10rem 0 0 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 2rem 3rem;
+}
+
+.top {
+  display: flex;
+  font-size: 1.5rem;
+  margin-bottom: 4rem;
+
+  opacity: 0;
+  animation: fade-in 2s ease-in-out forwards;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: 5rem;
+  margin-right: -5rem;
+  margin-top: 5rem;
+  z-index: 1;
+}
+
+.subtitle {
+  :first-child {
+    color: #C0B283
+  }
+
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+  margin-bottom: 10rem;
+}
+
+.hero-text {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  opacity: 0;
+  transform: translateX(100%);
+  animation: fade-in 1s ease-in-out forwards, slide-in 1s ease-in-out forwards;
+}
+
+.hero-img {
+  object-fit: cover;
+  max-width: 60%;
+  height: auto;
+
+  opacity: 0;
+  transform: translateX(100%);
+  animation: fade-in 1s ease-in-out forwards, slide-in 1s ease-in-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(10%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  padding: 0rem 5rem;
+  gap: 6rem;
+  margin-bottom: 10rem;
+}
+
+.section {
+  display: flex;
+  flex-flow: column;
+}
+
+.section-title {
+  font-size: 1rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+
+  opacity: 0;
+  animation: fade-in 2s ease-in-out forwards
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+
+  opacity: 0;
+  transform: translateX(100%);
+  animation: fade-in 1s ease-in-out forwards, slide-in 1s ease-in-out forwards;
+}
+
+.grid__item img {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.grid__item:hover img {
+  opacity: 0.5;
+}
+
+.img-wrap:hover {
+  background-color: black;
+}
+
+.img-wrap {
+  display: block;
+  background-color: black;
+}
+
+.sold {
+  font-weight: bold;
+  color: #b03830;
+  font-style: italic;
+}
+
+.img-wrap:focus,
+.img-wrap:hover {
+  outline: none;
+}
+
+.img-wrap img {
+  display: block;
+  width: 300px;
+}
+
+.email {
+  color: inherit;
+  text-decoration: none;
+  ;
+}
+
+.img-sold img {
+  opacity: 0.5;
+}
