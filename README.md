@@ -1,2 +1,2 @@
 # deBlindete
-Kennel and Cattery deBlindete.
+Kennel and Cattery Blindete.
