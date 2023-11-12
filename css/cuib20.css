@@ -1,20 +1,24 @@
-body {
+html, body {
   font-family: 'Georgia', serif;
+  height: 100%;
+  position: relative;
 }
 
 .body-overlay {
   background-color: #FCFCFA;
   position: absolute;
   top: 3rem;
+  bottom: 0;
   right: 0;
-  height: 100%;
   width: 30rem;
   z-index: -1;
   border-radius: 10rem 0 0 0;
+  align-self: stretch;
 }
 
 .container {
   display: flex;
+  height: 100%;
   flex-direction: column;
   margin: 0 auto;
   padding: 2rem 3rem;
@@ -29,6 +33,16 @@ body {
   animation: fade-in 2s ease-in-out forwards;
 }
 
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.social:hover {
+  transition: color 0.3s ease-in-out;
+  cursor: pointer;
+  color: #C0B283;
+}
+
 .title {
   display: flex;
   flex-direction: column;
@@ -38,11 +52,12 @@ body {
   z-index: 1;
 }
 
-.subtitle {
-  :first-child {
-    color: #C0B283
-  }
+.subtitle div:first-child {
+  color: #C0B283;
+  font-size: 1.5rem;
+}
 
+.subtitle {
   margin-left: 1rem;
   font-size: 1rem;
 }
@@ -161,10 +176,9 @@ body {
   width: 300px;
 }
 
-.email {
+.inv-a {
   color: inherit;
   text-decoration: none;
-  ;
 }
 
 .img-sold img {
