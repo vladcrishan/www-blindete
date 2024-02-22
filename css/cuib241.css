@@ -187,4 +187,5 @@ html, body {
 .footer {
   font-size: 1.3rem;
   padding: 0rem 5rem 2rem;
+  animation: fade-in 1s ease-in-out forwards, slide-in 1s ease-in-out forwards;
 }
