@@ -199,3 +199,27 @@ html, body {
 .footer .social:hover {
   color: #918662;
 }
+
+@media (max-device-width: 896px) {
+  .top {
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 6rem;
+  }
+  
+  .subtitle {
+    font-size: 2.2rem;
+    margin-top: 5rem
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .footer {
+    font-size: 2.2rem;
+    padding: 0rem 1rem 1rem;
+  }
+}
