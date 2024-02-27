@@ -53,6 +53,12 @@ html, body {
   z-index: 1;
 }
 
+.title H1 {
+  font-size: 80px;
+  font-weight: 100;
+  margin: 0;
+}
+
 .subtitle div:first-child {
   color: #C0B283;
   font-size: 1.5rem;
@@ -127,7 +133,8 @@ html, body {
   font-size: 1rem;
   padding-bottom: 0.5rem;
   font-size: 1.5rem;
-
+  font-weight: normal;
+  margin: 0;
   opacity: 0;
   animation: fade-in 2s ease-in-out forwards
 }
