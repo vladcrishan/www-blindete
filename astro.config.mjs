@@ -1,13 +1,25 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { loadEnv } from 'vite';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import tailwindcss from '@tailwindcss/vite';
 
-const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID;
-const SANITY_DATASET = process.env.SANITY_DATASET ?? 'production';
-const SANITY_API_VERSION = process.env.SANITY_API_VERSION ?? '2024-12-01';
+// Astro does NOT populate process.env with plain (non-PUBLIC_) .env vars at
+// config-evaluation time, so load them explicitly here. "" prefix = load all.
+const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
+
+const SANITY_PROJECT_ID = env.SANITY_PROJECT_ID ?? process.env.SANITY_PROJECT_ID;
+const SANITY_DATASET = env.SANITY_DATASET ?? process.env.SANITY_DATASET ?? 'production';
+const SANITY_API_VERSION =
+  env.SANITY_API_VERSION ?? process.env.SANITY_API_VERSION ?? '2024-12-01';
+
+if (!SANITY_PROJECT_ID) {
+  throw new Error(
+    '[astro.config] Missing SANITY_PROJECT_ID — copy .env.example to .env and fill it in.',
+  );
+}
 
 // https://astro.build/config
 export default defineConfig({
