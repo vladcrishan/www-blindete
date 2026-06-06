@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SanityImage from '../SanityImage.astro';
+import AnimalCard from '../AnimalCard.astro';
+import ContactButtons from '../ContactButtons.astro';
+import JsonLd from '../JsonLd.astro';
+import {
+  useTranslations,
+  localizedRoute,
+  localized,
+  routes,
+  type Lang,
+} from '../../i18n/ui';
+import {
+  getSiteSettings,
+  getFeaturedAnimals,
+  getAvailableCount,
+} from '../../sanity/lib/queries';
+import { petStoreSchema, ogImageUrl } from '../../sanity/lib/seo';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const [settings, featured, availableCount] = await Promise.all([
+  getSiteSettings(),
+  getFeaturedAnimals(),
+  getAvailableCount(),
+]);
+
+const heroTitle = localized(settings?.heroTitleRo, settings?.heroTitleEn, lang);
+const heroSubtitle = localized(settings?.heroSubtitleRo, settings?.heroSubtitleEn, lang);
+
+const catsTitle = lang === 'en' ? 'Persian Cats' : 'Pisici Persane';
+const dogsTitle = lang === 'en' ? 'Pomeranian Dogs' : 'Câini Pomeranian';
+const pureBreed = lang === 'en' ? 'Pure breed' : 'Rasă pură';
+const topQuality = lang === 'en' ? 'Top quality' : 'Calitate superioară';
+
+const seoTitle =
+  lang === 'en'
+    ? 'Blândețe — Persian Chinchilla Cats & Pomeranian Dogs in Arad'
+    : 'Blândețe — Pisici Persane Chinchilla și Câini Pomeranian în Arad';
+const seoDesc =
+  lang === 'en'
+    ? 'Ethical breeder of Persian Chinchilla kittens and Pomeranian / Kleinspitz puppies in Arad, Romania. See available animals and get in touch.'
+    : 'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad. Vezi animalele disponibile și contactează-ne.';
+
+const ogImg = settings?.heroImage ? ogImageUrl(settings.heroImage) : undefined;
+const homeUrl = new URL(routes.home[lang], Astro.site ?? 'https://blindete.ro').href;
+const schema = petStoreSchema(settings, { url: homeUrl, lang, image: ogImg });
+
+const availableLabel =
+  availableCount === 1 ? t('home.available.one') : t('home.available.many');
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={routes.home.ro}
+  enPath={routes.home.en}
+  ogImage={ogImg}
+  settings={settings}
+>
+  <JsonLd slot="head" schema={schema} />
+
+  <div class="mx-auto max-w-[1200px] px-6">
+    <!-- Optional editorial hero intro from settings -->
+    {(heroTitle || heroSubtitle) && (
+      <section class="grid items-center gap-8 py-12 md:grid-cols-2 md:py-20">
+        <div>
+          {heroTitle && <h1 class="text-5xl sm:text-6xl">{heroTitle}</h1>}
+          {heroSubtitle && (
+            <p class="mt-5 max-w-md leading-relaxed text-[var(--color-mut)]">{heroSubtitle}</p>
+          )}
+          {availableCount > 0 && (
+            <p class="mt-6 text-sm">
+              <span class="font-display text-2xl text-[var(--color-gold)]">{availableCount}</span>
+              <span class="ml-2 text-[var(--color-mut)]">{availableLabel}</span>
+            </p>
+          )}
+        </div>
+        {settings?.heroImage && (
+          <SanityImage
+            image={settings.heroImage}
+            alt={settings.heroImage.alt ?? heroTitle ?? 'Blândețe'}
+            width={900}
+            aspect="4/5"
+            priority
+            sizes="(max-width: 768px) 100vw, 560px"
+            class="w-full"
+          />
+        )}
+      </section>
+    )}
+
+    <!-- CATS editorial block -->
+    <section class="grid items-center gap-8 border-t border-[var(--color-line)] py-16 md:grid-cols-[1fr_1.1fr] md:py-24">
+      <div>
+        <h2 class="text-5xl sm:text-6xl">{catsTitle}</h2>
+        <p class="eyebrow mt-6">{topQuality} · {pureBreed}</p>
+        <p class="mt-4 max-w-sm leading-relaxed text-[var(--color-mut)]">
+          {lang === 'en'
+            ? 'Persian Chinchilla kittens, lovingly raised in Arad.'
+            : 'Pisici Persane Chinchilla, crescute cu drag în Arad.'}
+        </p>
+        <a
+          href={localizedRoute('cats', lang)}
+          class="mt-7 inline-block rounded-[var(--radius-card)] bg-[var(--color-gold)] px-6 py-3 text-sm font-medium tracking-wide text-white transition hover:bg-[var(--color-gold-dark)]"
+        >{t('home.viewAll')}</a>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        {featured.filter((a) => a.species === 'cat').slice(0, 2).map((a, i) => (
+          <a href={localizedRoute('cats', lang)} class="block overflow-hidden bg-[var(--color-cream-soft)]">
+            <SanityImage image={a.photos[0]} alt={a.photos[0]?.alt ?? a.name} width={600} aspect={i === 0 ? '3/4' : '4/5'} sizes="280px" class="w-full transition duration-500 hover:scale-105" />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- DOGS editorial block (mirrored) -->
+    <section class="grid items-center gap-8 border-t border-[var(--color-line)] py-16 md:grid-cols-[1.1fr_1fr] md:py-24">
+      <div class="grid grid-cols-2 gap-4 md:order-1">
+        {featured.filter((a) => a.species === 'dog').slice(0, 2).map((a, i) => (
+          <a href={localizedRoute('dogs', lang)} class="block overflow-hidden bg-[var(--color-cream-soft)]">
+            <SanityImage image={a.photos[0]} alt={a.photos[0]?.alt ?? a.name} width={600} aspect={i === 0 ? '4/5' : '3/4'} sizes="280px" class="w-full transition duration-500 hover:scale-105" />
+          </a>
+        ))}
+      </div>
+      <div class="md:order-2">
+        <h2 class="text-5xl sm:text-6xl">{dogsTitle}</h2>
+        <p class="eyebrow mt-6">{topQuality} · {pureBreed}</p>
+        <p class="mt-4 max-w-sm leading-relaxed text-[var(--color-mut)]">
+          {lang === 'en'
+            ? 'Pomeranian / Kleinspitz puppies, raised with care in Arad.'
+            : 'Câini Pomeranian / Kleinspitz, crescuți cu grijă în Arad.'}
+        </p>
+        <a
+          href={localizedRoute('dogs', lang)}
+          class="mt-7 inline-block rounded-[var(--radius-card)] bg-[var(--color-gold)] px-6 py-3 text-sm font-medium tracking-wide text-white transition hover:bg-[var(--color-gold-dark)]"
+        >{t('home.viewAll')}</a>
+      </div>
+    </section>
+
+    <!-- Featured strip (if more than the 4 shown above) -->
+    {featured.length > 0 && (
+      <section class="border-t border-[var(--color-line)] py-16">
+        <h2 class="text-3xl sm:text-4xl">{t('home.featured')}</h2>
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.slice(0, 6).map((animal) => <AnimalCard animal={animal} lang={lang} />)}
+        </div>
+      </section>
+    )}
+
+    <!-- Contact block (Figma: address + phone + gold button) -->
+    <section class="grid items-center gap-8 border-t border-[var(--color-line)] py-16 md:grid-cols-2 md:py-24">
+      <div class="aspect-[4/3] bg-[var(--color-cream)]">
+        {settings?.heroImage && (
+          <SanityImage image={settings.heroImage} alt="" width={700} aspect="4/3" sizes="(max-width:768px) 100vw, 500px" class="h-full w-full" />
+        )}
+      </div>
+      <div>
+        {settings?.city && (
+          <p class="text-2xl">
+            {lang === 'en' ? `${settings.city}, Romania` : `${settings.city}, România`}
+          </p>
+        )}
+        {settings?.phone && (
+          <p class="mt-2 text-3xl font-display">{settings.phone}</p>
+        )}
+        <div class="mt-7">
+          <ContactButtons settings={settings} lang={lang} />
+        </div>
+        {(settings?.facebook || settings?.instagram) && (
+          <p class="mt-6 text-sm text-[var(--color-mut)]">
+            <span>{t('home.followUs')}: </span>
+            {settings?.facebook && <a class="underline hover:text-[var(--color-gold)]" href={settings.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>}
+            {settings?.facebook && settings?.instagram && <span> · </span>}
+            {settings?.instagram && <a class="underline hover:text-[var(--color-gold)]" href={settings.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>}
+          </p>
+        )}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

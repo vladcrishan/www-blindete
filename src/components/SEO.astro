@@ -1,0 +1,70 @@
+---
+/**
+ * All <head> SEO tags: title, description, canonical, hreflang alternates,
+ * Open Graph + Twitter card. Romanian is the primary indexed language.
+ */
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  /** Absolute or root-relative canonical path of the RO version of this page. */
+  roPath: string;
+  /** Absolute or root-relative canonical path of the EN version of this page. */
+  enPath: string;
+  /** Absolute image URL for OG/Twitter (optional). */
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'product';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang,
+  roPath,
+  enPath,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://blindete.ro');
+const abs = (p: string) => new URL(p, site).href;
+
+const roUrl = abs(roPath);
+const enUrl = abs(enPath);
+const canonical = lang === 'en' ? enUrl : roUrl;
+const ogLocale = lang === 'en' ? 'en_US' : 'ro_RO';
+const ogImageAbs = ogImage ? (ogImage.startsWith('http') ? ogImage : abs(ogImage)) : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- hreflang alternates (ro is primary; x-default -> ro) -->
+<link rel="alternate" hreflang="ro" href={roUrl} />
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={roUrl} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content="Blândețe" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={lang === 'en' ? 'ro_RO' : 'en_US'} />
+{ogImageAbs && <meta property="og:image" content={ogImageAbs} />}
+{ogImageAbs && <meta property="og:image:width" content="1200" />}
+{ogImageAbs && <meta property="og:image:height" content="630" />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content={ogImageAbs ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImageAbs && <meta name="twitter:image" content={ogImageAbs} />}

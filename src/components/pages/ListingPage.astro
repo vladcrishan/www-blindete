@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SanityImage from '../SanityImage.astro';
+import { useTranslations, routes, animalPath, localized, type Lang } from '../../i18n/ui';
+import { getAnimalsBySpecies, getSiteSettings } from '../../sanity/lib/queries';
+import { ogImageUrl } from '../../sanity/lib/seo';
+import type { Species, AnimalStatus } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+}
+const { lang, species } = Astro.props;
+const t = useTranslations(lang);
+
+const [animals, settings] = await Promise.all([
+  getAnimalsBySpecies(species),
+  getSiteSettings(),
+]);
+
+const routeId = species === 'cat' ? 'cats' : 'dogs';
+const title = species === 'cat' ? t('list.cats.title') : t('list.dogs.title');
+
+const seoTitle = `${title} — Blândețe`;
+const seoDesc =
+  species === 'cat'
+    ? lang === 'en'
+      ? 'Persian Chinchilla kittens available, reserved and sold in Arad, Romania.'
+      : 'Pisici Persane Chinchilla disponibile, rezervate și vândute în Arad.'
+    : lang === 'en'
+      ? 'Pomeranian / Kleinspitz puppies available, reserved and sold in Arad, Romania.'
+      : 'Câini Pomeranian / Kleinspitz disponibili, rezervați și vânduți în Arad.';
+
+const firstPhoto = animals.find((a) => a.photos?.[0])?.photos[0];
+const ogImg = firstPhoto
+  ? ogImageUrl(firstPhoto)
+  : settings?.heroImage
+    ? ogImageUrl(settings.heroImage)
+    : undefined;
+
+const filters: { value: AnimalStatus | 'all'; label: string }[] = [
+  { value: 'all', label: t('list.filter.all') },
+  { value: 'available', label: t('status.available') },
+  { value: 'reserved', label: t('status.reserved') },
+  { value: 'upcoming', label: t('status.upcoming') },
+  { value: 'sold', label: t('status.sold') },
+];
+
+const statusColor: Record<AnimalStatus, string> = {
+  available: 'text-[var(--color-available)]',
+  reserved: 'text-[var(--color-gold)]',
+  sold: 'text-[var(--color-sold)]',
+  upcoming: 'text-[var(--color-upcoming)]',
+};
+
+const fmtDate = (d?: string) =>
+  d
+    ? new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'ro-RO', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }).format(new Date(d))
+    : '';
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={routes[routeId].ro}
+  enPath={routes[routeId].en}
+  ogImage={ogImg}
+  settings={settings}
+>
+  <div class="mx-auto max-w-[1200px] px-6 py-12 md:py-16">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <h1 class="text-5xl sm:text-6xl">{title}</h1>
+
+      {animals.length > 0 && (
+        <div class="flex flex-wrap gap-5 text-sm" data-filters>
+          {filters.map((f) => (
+            <button
+              type="button"
+              data-filter={f.value}
+              class:list={[
+                'tracking-wide transition hover:text-[var(--color-gold)]',
+                f.value === 'all' ? 'text-[var(--color-gold)]' : 'text-[var(--color-mut)]',
+              ]}
+            >{f.label}</button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {animals.length > 0 ? (
+      <div class="mt-12 divide-y divide-[var(--color-line)]" data-grid>
+        {animals.map((animal) => {
+          const desc = localized(animal.descriptionRo, animal.descriptionEn, lang);
+          const gender = animal.gender ? t(`animal.gender.${animal.gender}` as const) : '';
+          return (
+            <article data-status={animal.status} class="grid grid-cols-1 gap-6 py-10 md:grid-cols-[300px_1fr_auto] md:gap-10">
+              <a href={animalPath(animal.slug, lang)} class="block overflow-hidden bg-[var(--color-cream-soft)]">
+                {animal.photos?.[0] && (
+                  <SanityImage
+                    image={animal.photos[0]}
+                    alt={animal.photos[0].alt ?? animal.name}
+                    width={600}
+                    aspect="4/3"
+                    sizes="(max-width: 768px) 100vw, 300px"
+                    class="w-full transition duration-500 hover:scale-105"
+                  />
+                )}
+              </a>
+
+              <div>
+                <h2 class="text-2xl">
+                  <a href={animalPath(animal.slug, lang)} class="hover:text-[var(--color-gold)]">{animal.name}</a>
+                  <span class:list={['ml-3 text-base', statusColor[animal.status]]}>
+                    {t(`status.${animal.status}` as const)}
+                  </span>
+                </h2>
+                {animal.birthdate && (
+                  <p class="mt-1 text-sm text-[var(--color-mut)]">{fmtDate(animal.birthdate)}</p>
+                )}
+                {desc && (
+                  <p class="mt-3 max-w-xl leading-relaxed text-[var(--color-mut)] line-clamp-4">{desc}</p>
+                )}
+                <a href={animalPath(animal.slug, lang)} class="eyebrow mt-4 inline-block hover:text-[var(--color-gold-dark)]">
+                  {lang === 'en' ? 'View' : 'Vezi'} →
+                </a>
+              </div>
+
+              {gender && (
+                <div class="hidden items-start justify-end md:flex">
+                  <span class="vlabel">{gender}</span>
+                </div>
+              )}
+            </article>
+          );
+        })}
+        <p class="hidden py-10 text-[var(--color-mut)]" data-empty>{t('list.empty')}</p>
+      </div>
+    ) : (
+      <p class="mt-12 text-[var(--color-mut)]">{t('list.empty')}</p>
+    )}
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  const wrap = document.querySelector('[data-filters]');
+  if (wrap) {
+    const buttons = [...wrap.querySelectorAll('[data-filter]')];
+    const items = [...document.querySelectorAll('[data-grid] [data-status]')];
+    const empty = document.querySelector('[data-empty]');
+
+    wrap.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-filter]');
+      if (!btn) return;
+      const val = btn.getAttribute('data-filter');
+
+      buttons.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle('text-[var(--color-gold)]', on);
+        b.classList.toggle('text-[var(--color-mut)]', !on);
+      });
+
+      let visible = 0;
+      items.forEach((item) => {
+        const show = val === 'all' || item.getAttribute('data-status') === val;
+        item.hidden = !show;
+        if (show) visible++;
+      });
+      if (empty) empty.classList.toggle('hidden', visible !== 0);
+    });
+  }
+</script>

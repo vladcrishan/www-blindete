@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactButtons from '../ContactButtons.astro';
+import { useTranslations, routes, type Lang } from '../../i18n/ui';
+import { getSiteSettings } from '../../sanity/lib/queries';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const settings = await getSiteSettings();
+
+const success = Astro.url.searchParams.has('success');
+
+const seoTitle = `${t('contact.title')} — Blândețe`;
+const seoDesc =
+  lang === 'en'
+    ? 'Contact Blândețe in Arad for Persian Chinchilla kittens and Pomeranian puppies. Phone, WhatsApp, Messenger.'
+    : 'Contactează Blândețe în Arad pentru pisici Persane Chinchilla și câini Pomeranian. Telefon, WhatsApp, Messenger.';
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={routes.contact.ro}
+  enPath={routes.contact.en}
+  settings={settings}
+>
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-semibold sm:text-4xl">{t('contact.title')}</h1>
+    <p class="mt-2 text-[var(--color-mut)]">{t('contact.intro')}</p>
+
+    {success && (
+      <p class="mt-6 rounded-[var(--radius-card)] bg-[var(--color-available)]/10 px-4 py-3 text-[var(--color-available)]">
+        {t('contact.success')}
+      </p>
+    )}
+
+    <!-- Netlify Forms: data-netlify + hidden form-name + honeypot. -->
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action={`${routes.contact[lang]}?success=1`}
+      class="mt-8 space-y-4"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="hidden">
+        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+      </p>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium" for="name">{t('contact.name')}</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          class="w-full rounded-lg border border-[var(--color-line)] bg-white px-3 py-2 outline-none focus:border-[var(--color-brand)]"
+        />
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="mb-1 block text-sm font-medium" for="email">{t('contact.email')}</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            class="w-full rounded-lg border border-[var(--color-line)] bg-white px-3 py-2 outline-none focus:border-[var(--color-brand)]"
+          />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium" for="phone">{t('contact.phone')}</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            class="w-full rounded-lg border border-[var(--color-line)] bg-white px-3 py-2 outline-none focus:border-[var(--color-brand)]"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium" for="message">{t('contact.message')}</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          class="w-full rounded-lg border border-[var(--color-line)] bg-white px-3 py-2 outline-none focus:border-[var(--color-brand)]"
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="rounded-[var(--radius-pill)] bg-[var(--color-brand)] px-6 py-2.5 font-semibold text-white transition hover:bg-[var(--color-brand-dark)]"
+      >{t('contact.send')}</button>
+    </form>
+
+    <!-- Direct contact -->
+    <div class="mt-12 border-t border-[var(--color-line)] pt-8">
+      <p class="mb-4 text-sm font-medium text-[var(--color-mut)]">{t('contact.orReachUs')}</p>
+      <ContactButtons settings={settings} lang={lang} />
+      {settings?.city && (
+        <p class="mt-4 text-sm text-[var(--color-mut)]">📍 {t('contact.city')}: {settings.city}</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

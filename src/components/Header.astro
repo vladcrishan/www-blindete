@@ -1,0 +1,87 @@
+---
+import {
+  useTranslations,
+  localizedRoute,
+  switchLocalePath,
+  getLangFromUrl,
+  type Lang,
+} from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const otherLang: Lang = lang === 'en' ? 'ro' : 'en';
+const switchHref = switchLocalePath(Astro.url, otherLang);
+
+const nav = [
+  { id: 'cats', label: t('nav.cats') },
+  { id: 'dogs', label: t('nav.dogs') },
+  { id: 'contact', label: t('nav.contact') },
+] as const;
+
+const current = Astro.url.pathname;
+const isActive = (id: (typeof nav)[number]['id']) => {
+  const href = localizedRoute(id, lang);
+  return current === href || current.startsWith(href + '/');
+};
+---
+
+<header class="sticky top-0 z-40 bg-[var(--color-bg)]/95 backdrop-blur">
+  <div class="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-6 py-5">
+    <a href={localizedRoute('home', lang)} class="text-lg font-semibold tracking-tight">
+      blindete<span class="text-[var(--color-gold)]">.</span>
+    </a>
+
+    <nav class="hidden items-center gap-9 md:flex" aria-label="Principal">
+      {nav.map((item) => (
+        <a
+          href={localizedRoute(item.id, lang)}
+          class:list={[
+            'text-sm tracking-wide transition hover:text-[var(--color-gold)]',
+            isActive(item.id) ? 'text-[var(--color-gold)]' : 'text-[var(--color-ink)]',
+          ]}
+          aria-current={isActive(item.id) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={switchHref}
+        class="text-sm tracking-wide text-[var(--color-mut)] transition hover:text-[var(--color-gold)]"
+        hreflang={otherLang}
+      >
+        {otherLang.toUpperCase()}
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class="text-2xl leading-none md:hidden"
+      aria-label="Meniu"
+      data-menu-toggle
+    >☰</button>
+  </div>
+
+  <nav class="hidden border-t border-[var(--color-line)] px-6 pb-4 pt-2 md:hidden" data-mobile-menu aria-label="Mobil">
+    {nav.map((item) => (
+      <a
+        href={localizedRoute(item.id, lang)}
+        class:list={[
+          'block py-2 text-sm tracking-wide',
+          isActive(item.id) && 'text-[var(--color-gold)]',
+        ]}
+        aria-current={isActive(item.id) ? 'page' : undefined}
+      >
+        {item.label}
+      </a>
+    ))}
+    <a href={switchHref} class="block py-2 text-sm tracking-wide text-[var(--color-mut)]" hreflang={otherLang}>
+      {t('lang.switchTo')}
+    </a>
+  </nav>
+</header>
+
+<script is:inline>
+  document.querySelector('[data-menu-toggle]')?.addEventListener('click', () => {
+    document.querySelector('[data-mobile-menu]')?.classList.toggle('hidden');
+  });
+</script>

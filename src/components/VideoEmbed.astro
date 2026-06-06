@@ -1,0 +1,71 @@
+---
+/**
+ * Embeds a video from a YouTube / Facebook / Instagram URL.
+ * Falls back to a plain link for anything it can't embed.
+ */
+interface Props {
+  url: string;
+  title?: string;
+}
+
+const { url, title = 'Video' } = Astro.props;
+
+function youTubeId(u: string): string | null {
+  const m = u.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return m ? m[1] : null;
+}
+
+const ytId = youTubeId(url);
+const isFacebook = /facebook\.com|fb\.watch/.test(url);
+const isInstagram = /instagram\.com/.test(url);
+
+const fbSrc = isFacebook
+  ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false`
+  : null;
+const igSrc = isInstagram ? `${url.split('?')[0].replace(/\/$/, '')}/embed` : null;
+---
+
+{ytId ? (
+  <div class="aspect-video overflow-hidden rounded-[var(--radius-card)]">
+    <iframe
+      class="h-full w-full"
+      src={`https://www.youtube-nocookie.com/embed/${ytId}`}
+      title={title}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+) : fbSrc ? (
+  <div class="aspect-video overflow-hidden rounded-[var(--radius-card)]">
+    <iframe
+      class="h-full w-full"
+      src={fbSrc}
+      title={title}
+      loading="lazy"
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+) : igSrc ? (
+  <div class="mx-auto max-w-md overflow-hidden rounded-[var(--radius-card)]">
+    <iframe
+      class="aspect-square w-full"
+      src={igSrc}
+      title={title}
+      loading="lazy"
+      allowfullscreen
+    ></iframe>
+  </div>
+) : (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--color-brand)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[var(--color-brand-dark)]"
+  >
+    ▶ {title}
+  </a>
+)}

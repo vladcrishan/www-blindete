@@ -1,0 +1,67 @@
+---
+import { useTranslations, getLangFromUrl, localizedRoute, type Lang } from '../i18n/ui';
+import type { SiteSettings } from '../sanity/lib/types';
+
+interface Props {
+  settings: SiteSettings | null;
+}
+const { settings } = Astro.props;
+const lang: Lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+
+const socials = [
+  settings?.facebook && { href: settings.facebook, label: 'Facebook' },
+  settings?.instagram && { href: settings.instagram, label: 'Instagram' },
+  settings?.messenger && { href: settings.messenger, label: 'Messenger' },
+].filter(Boolean) as { href: string; label: string }[];
+---
+
+<footer class="mt-20 border-t border-[var(--color-line)] bg-[var(--color-sand)]">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-3">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl" aria-hidden="true">🐾</span>
+        <span class="text-xl font-semibold" style="font-family:var(--font-display)">Blândețe</span>
+      </div>
+      <p class="mt-3 max-w-xs text-sm text-[var(--color-mut)]">{t('footer.tagline')}</p>
+    </div>
+
+    <nav class="text-sm" aria-label="Footer">
+      <ul class="space-y-2">
+        <li><a class="hover:text-[var(--color-brand)]" href={localizedRoute('home', lang)}>{t('nav.home')}</a></li>
+        <li><a class="hover:text-[var(--color-brand)]" href={localizedRoute('cats', lang)}>{t('nav.cats')}</a></li>
+        <li><a class="hover:text-[var(--color-brand)]" href={localizedRoute('dogs', lang)}>{t('nav.dogs')}</a></li>
+        <li><a class="hover:text-[var(--color-brand)]" href={localizedRoute('contact', lang)}>{t('nav.contact')}</a></li>
+      </ul>
+    </nav>
+
+    <div class="text-sm">
+      {settings?.city && <p class="text-[var(--color-mut)]">📍 {settings.city}</p>}
+      {settings?.phone && (
+        <p class="mt-2"><a class="hover:text-[var(--color-brand)]" href={`tel:${settings.phone}`}>📞 {settings.phone}</a></p>
+      )}
+      {settings?.email && (
+        <p class="mt-2"><a class="hover:text-[var(--color-brand)]" href={`mailto:${settings.email}`}>✉ {settings.email}</a></p>
+      )}
+      {socials.length > 0 && (
+        <ul class="mt-4 flex gap-4">
+          {socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium hover:text-[var(--color-brand)]"
+              >{s.label}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+
+  <div class="border-t border-[var(--color-line)] px-4 py-4 text-center text-xs text-[var(--color-mut)]">
+    © {year} Blândețe. {t('footer.rights')}
+  </div>
+</footer>

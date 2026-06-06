@@ -1,0 +1,61 @@
+---
+/**
+ * Responsive Sanity image with width-based srcset, format auto (webp/avif),
+ * lazy loading by default. Set `priority` for the hero (eager + high fetch).
+ */
+import { urlFor } from '../sanity/lib/image';
+import type { SanityImageWithAlt } from '../sanity/lib/types';
+
+interface Props {
+  image: SanityImageWithAlt;
+  alt?: string;
+  /** Rendered display width in px (the largest size it'll show at). */
+  width?: number;
+  /** Aspect ratio "w/h" applied via CSS; image is cropped to fit. */
+  aspect?: string;
+  /** Eager-load + high priority (use for hero / LCP image only). */
+  priority?: boolean;
+  /** sizes attribute for responsive selection. */
+  sizes?: string;
+  class?: string;
+}
+
+const {
+  image,
+  alt,
+  width = 800,
+  aspect,
+  priority = false,
+  sizes = '(max-width: 768px) 100vw, 800px',
+  class: className,
+} = Astro.props;
+
+// Width steps for srcset (capped at 2x the display width).
+const widthSteps = [320, 480, 640, 768, 1024, 1280, 1600].filter(
+  (w) => w <= width * 2,
+);
+if (widthSteps.length === 0) widthSteps.push(width);
+
+const base = urlFor(image).auto('format').fit('max').quality(80);
+
+const srcset = widthSteps
+  .map((w) => `${base.width(w).url()} ${w}w`)
+  .join(', ');
+
+const src = base.width(width).url();
+const altText = alt ?? image.alt ?? '';
+const aspectStyle = aspect ? `aspect-ratio:${aspect};object-fit:cover;` : '';
+---
+
+<img
+  src={src}
+  srcset={srcset}
+  sizes={sizes}
+  alt={altText}
+  width={width}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'auto' : 'async'}
+  fetchpriority={priority ? 'high' : 'auto'}
+  class={className}
+  style={aspectStyle}
+/>

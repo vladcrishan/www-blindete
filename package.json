@@ -1,0 +1,39 @@
+{
+  "name": "www-blindete",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/playfair-display": "^5.2.8",
+    "@fontsource/poppins": "^5.2.7",
+    "@sanity/astro": "^3.4.0",
+    "@sanity/client": "^7.22.1",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^5.30.0",
+    "astro": "^6.4.4",
+    "groq": "^5.30.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sanity": "^5.30.0",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@tailwindcss/vite": "^4.3.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.7.0"
+  },
+  "overrides": {
+    "vite": "7.3.5"
+  }
+}

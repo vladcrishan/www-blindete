@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import AnimalDetailPage from '../../components/pages/AnimalDetailPage.astro';
+import { getAllAnimals } from '../../sanity/lib/queries';
+import type { Animal } from '../../sanity/lib/types';
+
+export const getStaticPaths = (async () => {
+  const animals = await getAllAnimals();
+  return animals.map((animal) => ({
+    params: { slug: animal.slug },
+    props: { animal },
+  }));
+}) satisfies GetStaticPaths;
+
+const { animal } = Astro.props as { animal: Animal };
+---
+<AnimalDetailPage lang="ro" animal={animal} />

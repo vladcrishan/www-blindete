@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+
+/* Self-hosted fonts (Figma: Playfair Display display + Poppins body) */
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/poppins/300.css';
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+
+/*
+ * ============================================================
+ * DESIGN TOKENS — sourced from the Figma file (Dev Mode).
+ * Palette read directly from the color frames:
+ *   Black #000000 · Gold #C0B283 · Cream #EAE6D6 · white bg.
+ * Fonts: Playfair Display (display) + Poppins (body).
+ * ============================================================
+ */
+@theme {
+  /* Brand palette (Figma) */
+  --color-bg: #ffffff;
+  --color-cream: #eae6d6;
+  --color-cream-soft: #f4f1e8;
+  --color-ink: #000000;
+  --color-mut: #6b6b66;
+  --color-gold: #c0b283;
+  --color-gold-dark: #a99a68;
+  --color-line: #e6e2d6;
+
+  /* Status colors (kept readable, gold = reserved to match accent) */
+  --color-available: #4a7a52;
+  --color-reserved: #c0b283;
+  --color-sold: #9a4b40;
+  --color-upcoming: #6b7f9e;
+
+  /* Fonts */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Poppins', system-ui, sans-serif;
+
+  /* Radii — Figma uses crisp, mostly square corners */
+  --radius-card: 0.25rem;
+  --radius-pill: 999px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Small uppercase eyebrow label used across the design (gold) */
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--color-gold);
+}
+
+/* Vertical rotated label (listing rows in Figma) */
+.vlabel {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  color: var(--color-mut);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}

@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+import { getLangFromUrl, type Lang } from '../i18n/ui';
+import { getSiteSettings } from '../sanity/lib/queries';
+import type { SiteSettings } from '../sanity/lib/types';
+
+interface Props {
+  title: string;
+  description: string;
+  roPath: string;
+  enPath: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'product';
+  noindex?: boolean;
+  /** Pass already-fetched settings to avoid a second query (optional). */
+  settings?: SiteSettings | null;
+}
+
+const {
+  title,
+  description,
+  roPath,
+  enPath,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+  settings: settingsProp,
+} = Astro.props;
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const settings = settingsProp ?? (await getSiteSettings());
+---
+
+<!doctype html>
+<html lang={lang} class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO
+      title={title}
+      description={description}
+      lang={lang}
+      roPath={roPath}
+      enPath={enPath}
+      ogImage={ogImage}
+      ogType={ogType}
+      noindex={noindex}
+    />
+
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-full flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer settings={settings} />
+  </body>
+</html>

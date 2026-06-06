@@ -1,0 +1,53 @@
+---
+import type { Animal } from '../sanity/lib/types';
+import { useTranslations, animalPath, localized, type Lang } from '../i18n/ui';
+import SanityImage from './SanityImage.astro';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  animal: Animal;
+  lang: Lang;
+}
+
+const { animal, lang } = Astro.props;
+const t = useTranslations(lang);
+const href = animalPath(animal.slug, lang);
+const cover = animal.photos?.[0];
+const description = localized(animal.descriptionRo, animal.descriptionEn, lang);
+const breedLabel = t(`breed.${animal.breed}` as const);
+const isSold = animal.status === 'sold';
+---
+
+<a
+  href={href}
+  class:list={[
+    'group block overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white shadow-sm transition hover:shadow-md',
+    isSold && 'opacity-90',
+  ]}
+>
+  <div class="relative overflow-hidden bg-[var(--color-sand)]">
+    {cover ? (
+      <SanityImage
+        image={cover}
+        alt={cover.alt ?? animal.name}
+        width={640}
+        aspect="4/3"
+        sizes="(max-width: 640px) 100vw, 360px"
+        class="h-full w-full transition duration-500 group-hover:scale-105"
+      />
+    ) : (
+      <div class="flex aspect-[4/3] items-center justify-center text-4xl">🐾</div>
+    )}
+    <div class="absolute left-3 top-3">
+      <StatusBadge status={animal.status} lang={lang} />
+    </div>
+  </div>
+
+  <div class="space-y-1 p-4">
+    <h3 class="text-lg leading-snug">{animal.name}</h3>
+    <p class="text-sm text-[var(--color-mut)]">{breedLabel}</p>
+    {description && (
+      <p class="line-clamp-2 pt-1 text-sm text-[var(--color-mut)]">{description}</p>
+    )}
+  </div>
+</a>

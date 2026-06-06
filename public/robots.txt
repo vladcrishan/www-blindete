@@ -1,0 +1,8 @@
+# Allow all crawlers — this is a public sales site and must be findable.
+User-agent: *
+Allow: /
+
+# Keep the CMS admin out of search results (it's behind login anyway).
+Disallow: /admin
+
+Sitemap: https://blindete.ro/sitemap-index.xml
