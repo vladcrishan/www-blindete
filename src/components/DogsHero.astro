@@ -1,0 +1,147 @@
+---
+/**
+ * Editorial "Pomeranian Dogs" hero — faithful to the Figma "Dogs" design.
+ * Mirror of CatsHero: title + copy on the LEFT, two overlapping photos on the
+ * RIGHT, and rotated trait labels (Cute / Energetic / Playful) running up the
+ * left edge of the lower photo. The "see more" CTA is a gold-filled button.
+ *
+ * Desktop (>=md): a relative box with a fixed aspect ratio (Figma frame
+ * proportions) anchors each element by percentage so the overlaps stay
+ * faithful at any width. Mobile stacks in reading order.
+ *
+ * Photos are fixed editorial assets (not Sanity-managed). Imported so Astro
+ * fingerprints them; served as-is (the project optimizes via Sanity's CDN).
+ */
+import dogHero1 from '../assets/dog-hero-1.png';
+import dogHero2 from '../assets/dog-hero-2.png';
+import { localizedRoute, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const en = lang === 'en';
+
+const title = en ? ['Pomeranian', 'Dogs'] : ['Câini', 'Pomeranian'];
+// Right-edge-up order in Figma: top→bottom reads Cute / Energetic / Playful.
+const traits = en
+  ? ['Cute', 'Energetic', 'Playful']
+  : ['Drăgălași', 'Energici', 'Jucăuși'];
+const eyebrow = en ? 'Top quality' : 'Calitate de top';
+const headline = en ? 'Pure breed' : 'Rasă pură';
+const body = en
+  ? 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+  : 'Câini Pomeranian / Kleinspitz crescuți cu grijă în Arad — jucăuși, sociabili și plini de energie.';
+const seeMore = en ? 'see more' : 'vezi mai mult';
+const href = localizedRoute('dogs', lang);
+
+const alt1 = en ? 'Pomeranian dog resting' : 'Câine Pomeranian odihnindu-se';
+const alt2 = en ? 'Pomeranian dog playing on grass' : 'Câine Pomeranian jucându-se pe iarbă';
+---
+
+<section class="mx-auto max-w-[1200px] px-6 py-16 md:py-24">
+  <!-- Desktop overlapping editorial layout (mirror of CatsHero). -->
+  <div class="relative hidden aspect-[1180/940] w-full md:block">
+    <!-- Large primary photo, top-right -->
+    <div class="absolute top-[8%] right-0 z-0 h-[64%] w-[50%] overflow-hidden">
+      <img
+        src={dogHero1.src}
+        width={dogHero1.width}
+        height={dogHero1.height}
+        alt={alt1}
+        loading="eager"
+        decoding="async"
+        class="h-full w-full object-cover"
+      />
+    </div>
+
+    <!-- Secondary photo, overlapping lower-left of the primary -->
+    <div class="absolute bottom-[2%] left-[37%] z-0 h-[60%] w-[34%] overflow-hidden">
+      <img
+        src={dogHero2.src}
+        width={dogHero2.width}
+        height={dogHero2.height}
+        alt={alt2}
+        loading="eager"
+        decoding="async"
+        class="h-full w-full object-cover"
+      />
+    </div>
+
+    <!-- Big display title, top-left. "Pomeranian" is long, so it runs a touch
+         smaller than the cats hero to sit clear of the primary photo. -->
+    <h1 class="font-display pointer-events-none absolute top-[8%] left-0 z-10 leading-[0.9] tracking-tight">
+      <span class="block text-[4.5rem] lg:text-[6rem] xl:text-[7rem]">{title[0]}</span>
+      <span class="block text-[4.5rem] lg:text-[6rem] xl:text-[7rem]">{title[1]}</span>
+    </h1>
+
+    <!-- Copy block + CTA, lower-left -->
+    <div class="absolute bottom-[10%] left-0 z-10 w-[26%]">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="font-display mt-1 text-2xl font-bold tracking-wide uppercase">{headline}</h2>
+      <p class="text-mut mt-4 text-sm leading-relaxed">{body}</p>
+      <a
+        href={href}
+        class="hover:text-gold mt-6 inline-flex items-center gap-4 text-sm tracking-wide"
+      >
+        {seeMore}
+        <span class="bg-ink inline-block h-px w-12"></span>
+      </a>
+    </div>
+
+    <!-- Rotated trait labels up the left edge of the secondary photo
+         (Figma reads Cute → Energetic → Playful, top to bottom) -->
+    <ul class="absolute bottom-[4%] left-[33%] z-10 flex flex-col gap-10">
+      {traits.map((label) => <li class="vlabel font-display text-ink! tracking-[0.25em]!">{label}</li>)}
+    </ul>
+  </div>
+
+  <!-- Mobile stacked layout -->
+  <div class="md:hidden">
+    <h1 class="font-display leading-[0.95] tracking-tight">
+      <span class="block text-6xl sm:text-7xl">{title[0]}</span>
+      <span class="block text-6xl sm:text-7xl">{title[1]}</span>
+    </h1>
+
+    <div class="mt-6 overflow-hidden">
+      <img
+        src={dogHero1.src}
+        width={dogHero1.width}
+        height={dogHero1.height}
+        alt={alt1}
+        loading="eager"
+        decoding="async"
+        class="aspect-[4/3] w-full object-cover"
+      />
+    </div>
+
+    <div class="mt-8">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="font-display mt-1 text-2xl font-bold tracking-wide uppercase">{headline}</h2>
+      <p class="text-mut mt-4 leading-relaxed">{body}</p>
+      <a
+        href={href}
+        class="hover:text-gold mt-6 inline-flex items-center gap-4 text-sm tracking-wide"
+      >
+        {seeMore}
+        <span class="bg-ink inline-block h-px w-12"></span>
+      </a>
+    </div>
+
+    <div class="mt-8 overflow-hidden">
+      <img
+        src={dogHero2.src}
+        width={dogHero2.width}
+        height={dogHero2.height}
+        alt={alt2}
+        loading="eager"
+        decoding="async"
+        class="aspect-[3/4] w-full object-cover"
+      />
+    </div>
+
+    <ul class="text-mut mt-8 flex gap-6 text-xs tracking-[0.25em] uppercase">
+      {traits.map((label) => <li class="font-display">{label}</li>)}
+    </ul>
+  </div>
+</section>

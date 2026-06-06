@@ -13,12 +13,13 @@ export const structure: StructureResolver = (S) =>
         .title('Setări site')
         .icon(() => '⚙️')
         .child(
-          S.document()
-            .schemaType('siteSettings')
-            .documentId('siteSettings')
-            .title('Setări site'),
+          S.document().schemaType('siteSettings').documentId('siteSettings').title('Setări site'),
         ),
       S.divider(),
-      S.documentTypeListItem('animal').title('Animale').icon(() => '🐾'),
-      S.documentTypeListItem('litter').title('Cuiburi (pui)').icon(() => '🐣'),
+      S.documentTypeListItem('animal')
+        .title('Animale')
+        .icon(() => '🐾'),
+      S.documentTypeListItem('litter')
+        .title('Cuiburi (pui)')
+        .icon(() => '🐣'),
     ]);

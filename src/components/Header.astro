@@ -25,28 +25,34 @@ const isActive = (id: (typeof nav)[number]['id']) => {
 };
 ---
 
-<header class="sticky top-0 z-40 bg-[var(--color-bg)]/95 backdrop-blur">
+<header class="bg-bg/95 sticky top-0 z-40 backdrop-blur">
   <div class="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-6 py-5">
-    <a href={localizedRoute('home', lang)} class="text-lg font-semibold tracking-tight">
-      blindete<span class="text-[var(--color-gold)]">.</span>
+    <a
+      href={localizedRoute('home', lang)}
+      class="text-xl font-bold tracking-tight"
+      style="font-family:var(--font-display)"
+    >
+      {t('brand.name')}<span class="text-ink">.</span>
     </a>
 
     <nav class="hidden items-center gap-9 md:flex" aria-label="Principal">
-      {nav.map((item) => (
-        <a
-          href={localizedRoute(item.id, lang)}
-          class:list={[
-            'text-sm tracking-wide transition hover:text-[var(--color-gold)]',
-            isActive(item.id) ? 'text-[var(--color-gold)]' : 'text-[var(--color-ink)]',
-          ]}
-          aria-current={isActive(item.id) ? 'page' : undefined}
-        >
-          {item.label}
-        </a>
-      ))}
+      {
+        nav.map((item) => (
+          <a
+            href={localizedRoute(item.id, lang)}
+            class:list={[
+              'hover:text-gold text-sm tracking-wide transition',
+              isActive(item.id) ? 'text-gold' : 'text-ink',
+            ]}
+            aria-current={isActive(item.id) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
       <a
         href={switchHref}
-        class="text-sm tracking-wide text-[var(--color-mut)] transition hover:text-[var(--color-gold)]"
+        class="text-mut hover:text-gold text-sm tracking-wide transition"
         hreflang={otherLang}
       >
         {otherLang.toUpperCase()}
@@ -57,24 +63,27 @@ const isActive = (id: (typeof nav)[number]['id']) => {
       type="button"
       class="text-2xl leading-none md:hidden"
       aria-label="Meniu"
-      data-menu-toggle
-    >☰</button>
+      data-menu-toggle>☰</button
+    >
   </div>
 
-  <nav class="hidden border-t border-[var(--color-line)] px-6 pb-4 pt-2 md:hidden" data-mobile-menu aria-label="Mobil">
-    {nav.map((item) => (
-      <a
-        href={localizedRoute(item.id, lang)}
-        class:list={[
-          'block py-2 text-sm tracking-wide',
-          isActive(item.id) && 'text-[var(--color-gold)]',
-        ]}
-        aria-current={isActive(item.id) ? 'page' : undefined}
-      >
-        {item.label}
-      </a>
-    ))}
-    <a href={switchHref} class="block py-2 text-sm tracking-wide text-[var(--color-mut)]" hreflang={otherLang}>
+  <nav
+    class="border-line hidden border-t px-6 pt-2 pb-4 md:hidden"
+    data-mobile-menu
+    aria-label="Mobil"
+  >
+    {
+      nav.map((item) => (
+        <a
+          href={localizedRoute(item.id, lang)}
+          class:list={['block py-2 text-sm tracking-wide', isActive(item.id) && 'text-gold']}
+          aria-current={isActive(item.id) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+    <a href={switchHref} class="text-mut block py-2 text-sm tracking-wide" hreflang={otherLang}>
       {t('lang.switchTo')}
     </a>
   </nav>

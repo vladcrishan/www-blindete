@@ -1,4 +1,4 @@
-# Blândețe — blindete.ro
+# Blîndețe — blindete.ro
 
 Public-facing website for a Persian Chinchilla cat & Pomeranian / Kleinspitz dog
 breeding business in Arad, Romania. Content is managed by a non-technical owner
@@ -10,16 +10,16 @@ through an embedded Sanity Studio. SEO is the top priority.
 
 ## Tech stack
 
-| Concern        | Choice                                             |
-| -------------- | -------------------------------------------------- |
-| Framework      | [Astro](https://astro.build) (static output)       |
-| Language       | TypeScript (strict)                                |
-| Styling        | Tailwind CSS v4 (`@tailwindcss/vite`)              |
-| i18n           | Astro native i18n (`ro` default, `en` under `/en/`) |
-| CMS / content  | [Sanity](https://www.sanity.io) (Studio embedded at `/admin`) |
-| Hosting        | [Netlify](https://www.netlify.com) (auto-deploy on push) |
-| Contact form   | Netlify Forms (no backend)                          |
-| Rebuild on edit| Sanity publish webhook → Netlify build hook         |
+| Concern         | Choice                                                        |
+| --------------- | ------------------------------------------------------------- |
+| Framework       | [Astro](https://astro.build) (static output)                  |
+| Language        | TypeScript (strict)                                           |
+| Styling         | Tailwind CSS v4 (`@tailwindcss/vite`)                         |
+| i18n            | Astro native i18n (`ro` default, `en` under `/en/`)           |
+| CMS / content   | [Sanity](https://www.sanity.io) (Studio embedded at `/admin`) |
+| Hosting         | [Netlify](https://www.netlify.com) (auto-deploy on push)      |
+| Contact form    | Netlify Forms (no backend)                                    |
+| Rebuild on edit | Sanity publish webhook → Netlify build hook                   |
 
 ---
 
@@ -47,7 +47,7 @@ cp .env.example .env   # then fill in the Sanity project values
 
 > **Harmless build warnings:** under pnpm's strict `node_modules`, the build
 > prints `[vite] Failed to resolve dependency: react-is / react-compiler-runtime
-> / lodash/startCase.js`. These are dev-server pre-bundling hints for the
+/ lodash/startCase.js`. These are dev-server pre-bundling hints for the
 > embedded Sanity Studio only; the production build bundles them correctly
 > (verified in `dist/_astro/`), so they do not affect the deployed site.
 

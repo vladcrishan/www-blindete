@@ -52,16 +52,12 @@ export async function getAnimalBySlug(slug: string): Promise<Animal | null> {
 
 /** All slugs (for getStaticPaths). */
 export async function getAnimalSlugs(): Promise<string[]> {
-  return sanityClient.fetch(
-    groq`*[_type == "animal" && defined(slug.current)].slug.current`,
-  );
+  return sanityClient.fetch(groq`*[_type == "animal" && defined(slug.current)].slug.current`);
 }
 
 /** Count of currently available animals. */
 export async function getAvailableCount(): Promise<number> {
-  return sanityClient.fetch(
-    groq`count(*[_type == "animal" && status == "available"])`,
-  );
+  return sanityClient.fetch(groq`count(*[_type == "animal" && status == "available"])`);
 }
 
 /** Site settings singleton. */

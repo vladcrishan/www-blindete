@@ -11,9 +11,7 @@ interface Props {
 const { url, title = 'Video' } = Astro.props;
 
 function youTubeId(u: string): string | null {
-  const m = u.match(
-    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/,
-  );
+  const m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
   return m ? m[1] : null;
 }
 
@@ -27,45 +25,47 @@ const fbSrc = isFacebook
 const igSrc = isInstagram ? `${url.split('?')[0].replace(/\/$/, '')}/embed` : null;
 ---
 
-{ytId ? (
-  <div class="aspect-video overflow-hidden rounded-[var(--radius-card)]">
-    <iframe
-      class="h-full w-full"
-      src={`https://www.youtube-nocookie.com/embed/${ytId}`}
-      title={title}
-      loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-    ></iframe>
-  </div>
-) : fbSrc ? (
-  <div class="aspect-video overflow-hidden rounded-[var(--radius-card)]">
-    <iframe
-      class="h-full w-full"
-      src={fbSrc}
-      title={title}
-      loading="lazy"
-      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-      allowfullscreen
-    ></iframe>
-  </div>
-) : igSrc ? (
-  <div class="mx-auto max-w-md overflow-hidden rounded-[var(--radius-card)]">
-    <iframe
-      class="aspect-square w-full"
-      src={igSrc}
-      title={title}
-      loading="lazy"
-      allowfullscreen
-    ></iframe>
-  </div>
-) : (
-  <a
-    href={url}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--color-brand)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[var(--color-brand-dark)]"
-  >
-    ▶ {title}
-  </a>
-)}
+{
+  ytId ? (
+    <div class="rounded-card aspect-video overflow-hidden">
+      <iframe
+        class="h-full w-full"
+        src={`https://www.youtube-nocookie.com/embed/${ytId}`}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      />
+    </div>
+  ) : fbSrc ? (
+    <div class="rounded-card aspect-video overflow-hidden">
+      <iframe
+        class="h-full w-full"
+        src={fbSrc}
+        title={title}
+        loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        allowfullscreen
+      />
+    </div>
+  ) : igSrc ? (
+    <div class="rounded-card mx-auto max-w-md overflow-hidden">
+      <iframe
+        class="aspect-square w-full"
+        src={igSrc}
+        title={title}
+        loading="lazy"
+        allowfullscreen
+      />
+    </div>
+  ) : (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="rounded-pill bg-brand hover:bg-brand-dark inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white"
+    >
+      ▶ {title}
+    </a>
+  )
+}

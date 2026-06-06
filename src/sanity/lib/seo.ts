@@ -1,6 +1,9 @@
 import { urlFor } from './image';
 import type { Animal, SiteSettings } from './types';
-import type { Lang } from '../../i18n/ui';
+import { ui, type Lang } from '../../i18n/ui';
+
+/** Localized brand name (blîndețe / blindete). */
+const brandName = (lang: Lang): string => ui[lang]['brand.name'];
 
 /** 1200x630 OG image from a Sanity image source. */
 export function ogImageUrl(image: Parameters<typeof urlFor>[0]): string {
@@ -17,7 +20,7 @@ const STATUS_TO_SCHEMA: Record<Animal['status'], string> = {
 /** schema.org Product JSON-LD for an animal detail page. */
 export function animalProductSchema(
   animal: Animal,
-  opts: { url: string; description: string; images: string[] },
+  opts: { url: string; description: string; images: string[]; lang: Lang },
 ): Record<string, unknown> {
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -27,7 +30,7 @@ export function animalProductSchema(
     image: opts.images,
     url: opts.url,
     category: animal.species === 'cat' ? 'Pet / Cat' : 'Pet / Dog',
-    brand: { '@type': 'Brand', name: 'Blândețe' },
+    brand: { '@type': 'Brand', name: brandName(opts.lang) },
   };
 
   const offer: Record<string, unknown> = {
@@ -53,7 +56,7 @@ export function petStoreSchema(
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': ['PetStore', 'LocalBusiness'],
-    name: 'Blândețe',
+    name: brandName(opts.lang),
     url: opts.url,
     description:
       opts.lang === 'en'

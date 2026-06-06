@@ -1,4 +1,4 @@
-# Ghid pentru administrarea site-ului Blândețe 🐾
+# Ghid pentru administrarea site-ului Blîndețe 🐾
 
 Acest ghid îți arată, pas cu pas, cum să adaugi și să modifici animale pe site.
 Nu ai nevoie de cunoștințe tehnice. Dacă te blochezi undeva, sună-l pe Vlad. 🙂
@@ -29,12 +29,11 @@ Nu ai nevoie de cunoștințe tehnice. Dacă te blochezi undeva, sună-l pe Vlad.
 1. În meniul din stânga, apasă pe **🐾 Animale**.
 2. Apasă butonul **„+"** (sau **Create new**) sus.
 3. Completează câmpurile:
-
-   - **Nume** — numele animalului (ex: „Luna"). *Obligatoriu.*
+   - **Nume** — numele animalului (ex: „Luna"). _Obligatoriu._
    - **Slug** — apasă butonul **„Generate"** și se completează singur din nume.
-     *Obligatoriu.* (Acesta devine adresa paginii animalului.)
-   - **Specie** — alege **Pisică** sau **Câine**. *Obligatoriu.*
-   - **Rasă** — alege rasa. *Obligatoriu.*
+     _Obligatoriu._ (Acesta devine adresa paginii animalului.)
+   - **Specie** — alege **Pisică** sau **Câine**. _Obligatoriu._
+   - **Rasă** — alege rasa. _Obligatoriu._
    - **Stare** — alege:
      - 🟢 **Disponibil** — de vânzare acum
      - 🟡 **Rezervat** — cineva l-a rezervat
@@ -43,7 +42,7 @@ Nu ai nevoie de cunoștințe tehnice. Dacă te blochezi undeva, sună-l pe Vlad.
    - **Sex** — Mascul sau Femelă (opțional).
    - **Data nașterii** — opțional.
    - **Preț (RON)** — opțional. **Lasă gol dacă nu vrei să afișezi prețul.**
-   - **Poze** — vezi capitolul 3 mai jos. *Trebuie cel puțin o poză.*
+   - **Poze** — vezi capitolul 3 mai jos. _Trebuie cel puțin o poză._
    - **Video (link)** — opțional. Lipește un link de YouTube / Facebook / Instagram.
    - **Descriere (Română)** — câteva cuvinte despre animal (opțional).
    - **Descriere (Engleză)** — opțional. Dacă o lași goală, se folosește
@@ -65,7 +64,7 @@ Nu ai nevoie de cunoștințe tehnice. Dacă te blochezi undeva, sună-l pe Vlad.
 2. Poți încărca mai multe poze deodată. Prima poză este cea principală (apare
    pe card).
 3. Pentru fiecare poză poți scrie un **„Text alternativ"** — o scurtă descriere
-   (ex: „pisică persană albă pe canapea"). E foarte bine pentru Google. *Opțional.*
+   (ex: „pisică persană albă pe canapea"). E foarte bine pentru Google. _Opțional._
 4. Poți schimba ordinea pozelor trăgându-le cu mouse-ul.
 
 > 💡 Sfat: pozele clare și luminoase vând cel mai bine. Nu te grăbi cu ele. 📷

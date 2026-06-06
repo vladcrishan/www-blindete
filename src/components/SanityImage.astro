@@ -31,16 +31,12 @@ const {
 } = Astro.props;
 
 // Width steps for srcset (capped at 2x the display width).
-const widthSteps = [320, 480, 640, 768, 1024, 1280, 1600].filter(
-  (w) => w <= width * 2,
-);
+const widthSteps = [320, 480, 640, 768, 1024, 1280, 1600].filter((w) => w <= width * 2);
 if (widthSteps.length === 0) widthSteps.push(width);
 
 const base = urlFor(image).auto('format').fit('max').quality(80);
 
-const srcset = widthSteps
-  .map((w) => `${base.width(w).url()} ${w}w`)
-  .join(', ');
+const srcset = widthSteps.map((w) => `${base.width(w).url()} ${w}w`).join(', ');
 
 const src = base.width(width).url();
 const altText = alt ?? image.alt ?? '';

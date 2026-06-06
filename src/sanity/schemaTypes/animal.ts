@@ -162,7 +162,7 @@ export const animal = defineType({
       };
       return {
         title,
-        subtitle: status ? labels[status] ?? status : '',
+        subtitle: status ? (labels[status] ?? status) : '',
         media,
       };
     },

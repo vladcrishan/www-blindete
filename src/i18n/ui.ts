@@ -14,6 +14,8 @@ export const defaultLang: Lang = 'ro';
 /** Static UI strings. RO is the source of truth; EN mirrors every key. */
 export const ui = {
   ro: {
+    'brand.name': 'blîndețe',
+
     'nav.home': 'Acasă',
     'nav.cats': 'Pisici',
     'nav.dogs': 'Câini',
@@ -68,11 +70,14 @@ export const ui = {
     'contact.orReachUs': 'Sau contactează-ne direct:',
 
     'footer.rights': 'Toate drepturile rezervate.',
-    'footer.tagline': 'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad.',
+    'footer.tagline':
+      'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad.',
 
     'lang.switchTo': 'English',
   },
   en: {
+    'brand.name': 'blindete',
+
     'nav.home': 'Home',
     'nav.cats': 'Cats',
     'nav.dogs': 'Dogs',
@@ -127,7 +132,8 @@ export const ui = {
     'contact.orReachUs': 'Or reach us directly:',
 
     'footer.rights': 'All rights reserved.',
-    'footer.tagline': 'Breeder of Persian Chinchilla cats and Pomeranian / Kleinspitz dogs in Arad.',
+    'footer.tagline':
+      'Breeder of Persian Chinchilla cats and Pomeranian / Kleinspitz dogs in Arad.',
 
     'lang.switchTo': 'Română',
   },
@@ -212,6 +218,6 @@ export function localized<T>(
   en: T | undefined | null,
   lang: Lang,
 ): T | undefined {
-  if (lang === 'en') return (en ?? ro) ?? undefined;
+  if (lang === 'en') return en ?? ro ?? undefined;
   return ro ?? undefined;
 }

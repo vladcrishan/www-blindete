@@ -23,26 +23,38 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
 ---
 
 <div class="flex flex-wrap gap-3">
-  {settings?.phone && (
-    <a
-      href={`tel:${settings.phone}`}
-      class="inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--color-brand)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--color-brand-dark)]"
-    >📞 {t('cta.call')}</a>
-  )}
-  {waHref && (
-    <a
-      href={waHref}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
-    >💬 {t('cta.whatsapp')}</a>
-  )}
-  {settings?.messenger && (
-    <a
-      href={settings.messenger}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[#0084FF] px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
-    >✉ {t('cta.messenger')}</a>
-  )}
+  {
+    settings?.phone && (
+      <a
+        href={`tel:${settings.phone}`}
+        class="rounded-pill bg-brand hover:bg-brand-dark inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white transition"
+      >
+        📞 {t('cta.call')}
+      </a>
+    )
+  }
+  {
+    waHref && (
+      <a
+        href={waHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-pill inline-flex items-center gap-2 bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+      >
+        💬 {t('cta.whatsapp')}
+      </a>
+    )
+  }
+  {
+    settings?.messenger && (
+      <a
+        href={settings.messenger}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-pill inline-flex items-center gap-2 bg-[#0084FF] px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+      >
+        ✉ {t('cta.messenger')}
+      </a>
+    )
+  }
 </div>

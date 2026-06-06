@@ -5,13 +5,7 @@ import VideoEmbed from '../VideoEmbed.astro';
 import StatusBadge from '../StatusBadge.astro';
 import ContactButtons from '../ContactButtons.astro';
 import JsonLd from '../JsonLd.astro';
-import {
-  useTranslations,
-  localized,
-  animalBase,
-  localizedRoute,
-  type Lang,
-} from '../../i18n/ui';
+import { useTranslations, localized, animalBase, localizedRoute, type Lang } from '../../i18n/ui';
 import { getSiteSettings } from '../../sanity/lib/queries';
 import { animalProductSchema, ogImageUrl } from '../../sanity/lib/seo';
 import { urlFor } from '../../sanity/lib/image';
@@ -26,12 +20,9 @@ const t = useTranslations(lang);
 
 const settings = await getSiteSettings();
 
-const description =
-  localized(animal.descriptionRo, animal.descriptionEn, lang) ?? '';
+const description = localized(animal.descriptionRo, animal.descriptionEn, lang) ?? '';
 const breedLabel = t(`breed.${animal.breed}` as const);
-const genderLabel = animal.gender
-  ? t(`animal.gender.${animal.gender}` as const)
-  : undefined;
+const genderLabel = animal.gender ? t(`animal.gender.${animal.gender}` as const) : undefined;
 
 const roPath = `${animalBase.ro}/${animal.slug}`;
 const enPath = `${animalBase.en}/${animal.slug}`;
@@ -53,6 +44,7 @@ const schema = animalProductSchema(animal, {
   url: pageUrl,
   description: seoDesc,
   images: schemaImages,
+  lang,
 });
 
 const birthdate = animal.birthdate
@@ -72,7 +64,7 @@ const backHref = localizedRoute(animal.species === 'cat' ? 'cats' : 'dogs', lang
 ---
 
 <BaseLayout
-  title={`${animal.name} — ${breedLabel} | Blândețe`}
+  title={`${animal.name} — ${breedLabel} | ${t('brand.name')}`}
   description={seoDesc}
   roPath={roPath}
   enPath={enPath}
@@ -83,7 +75,7 @@ const backHref = localizedRoute(animal.species === 'cat' ? 'cats' : 'dogs', lang
   <JsonLd slot="head" schema={schema} />
 
   <article class="mx-auto max-w-5xl px-4 py-8">
-    <a href={backHref} class="text-sm text-[var(--color-mut)] hover:text-[var(--color-brand)]">
+    <a href={backHref} class="text-mut hover:text-brand text-sm">
       ← {t('animal.backToList')}
     </a>
 
@@ -91,45 +83,49 @@ const backHref = localizedRoute(animal.species === 'cat' ? 'cats' : 'dogs', lang
       <h1 class="text-3xl font-semibold sm:text-4xl">{animal.name}</h1>
       <StatusBadge status={animal.status} lang={lang} />
     </div>
-    <p class="mt-1 text-[var(--color-mut)]">{breedLabel}</p>
+    <p class="text-mut mt-1">{breedLabel}</p>
 
     <div class="mt-6 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
       <div class="space-y-6">
         {animal.photos?.length > 0 && <Gallery images={animal.photos} name={animal.name} />}
-        {animal.video && (
-          <div>
-            <h2 class="mb-3 text-xl font-semibold">{t('animal.video')}</h2>
-            <VideoEmbed url={animal.video} title={animal.name} />
-          </div>
-        )}
+        {
+          animal.video && (
+            <div>
+              <h2 class="mb-3 text-xl font-semibold">{t('animal.video')}</h2>
+              <VideoEmbed url={animal.video} title={animal.name} />
+            </div>
+          )
+        }
       </div>
 
       <aside class="space-y-8">
-        {description && (
-          <p class="whitespace-pre-line leading-relaxed text-[var(--color-mut)]">{description}</p>
-        )}
+        {description && <p class="text-mut leading-relaxed whitespace-pre-line">{description}</p>}
 
         <!-- Gold editorial stat blocks (Figma) -->
         <dl class="space-y-5">
-          {genderLabel && (
-            <div>
-              <dd class="font-display text-2xl text-[var(--color-gold)]">{genderLabel}</dd>
-              <dt class="eyebrow mt-1">{t('animal.gender')}</dt>
-            </div>
-          )}
-          {birthdate && (
-            <div>
-              <dd class="font-display text-2xl text-[var(--color-gold)]">{birthdate}</dd>
-              <dt class="eyebrow mt-1">{t('animal.birthdate')}</dt>
-            </div>
-          )}
+          {
+            genderLabel && (
+              <div>
+                <dd class="font-display text-gold text-2xl">{genderLabel}</dd>
+                <dt class="eyebrow mt-1">{t('animal.gender')}</dt>
+              </div>
+            )
+          }
+          {
+            birthdate && (
+              <div>
+                <dd class="font-display text-gold text-2xl">{birthdate}</dd>
+                <dt class="eyebrow mt-1">{t('animal.birthdate')}</dt>
+              </div>
+            )
+          }
           <div>
-            <dd class="font-display text-2xl text-[var(--color-gold)]">{priceLabel}</dd>
+            <dd class="font-display text-gold text-2xl">{priceLabel}</dd>
             <dt class="eyebrow mt-1">{t('animal.price')}</dt>
           </div>
         </dl>
 
-        <div class="border-t border-[var(--color-line)] pt-6">
+        <div class="border-line border-t pt-6">
           <ContactButtons settings={settings} lang={lang} context={animal.name} />
         </div>
       </aside>

@@ -12,8 +12,7 @@ const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
 
 const SANITY_PROJECT_ID = env.SANITY_PROJECT_ID ?? process.env.SANITY_PROJECT_ID;
 const SANITY_DATASET = env.SANITY_DATASET ?? process.env.SANITY_DATASET ?? 'production';
-const SANITY_API_VERSION =
-  env.SANITY_API_VERSION ?? process.env.SANITY_API_VERSION ?? '2024-12-01';
+const SANITY_API_VERSION = env.SANITY_API_VERSION ?? process.env.SANITY_API_VERSION ?? '2024-12-01';
 
 if (!SANITY_PROJECT_ID) {
   throw new Error(
