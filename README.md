@@ -38,7 +38,7 @@ through an embedded Sanity Studio. SEO is the top priority.
 git clone git@github.com:vladcrishan/www-blindete.git
 cd www-blindete
 pnpm install
-cp .env.example .env   # values are already filled for this project
+cp .env.example .env   # then fill in the Sanity project values
 ```
 
 > First `pnpm install` approves native build scripts for `sharp` (image
@@ -54,11 +54,11 @@ cp .env.example .env   # values are already filled for this project
 `.env` (gitignored) holds:
 
 ```
-SANITY_PROJECT_ID=ydsq3umi
-SANITY_DATASET=production
-SANITY_API_VERSION=2024-12-01
-SANITY_STUDIO_PROJECT_ID=ydsq3umi
-SANITY_STUDIO_DATASET=production
+SANITY_PROJECT_ID=
+SANITY_DATASET=
+SANITY_API_VERSION=
+SANITY_STUDIO_PROJECT_ID=
+SANITY_STUDIO_DATASET=
 ```
 
 ## 3. Run in development
