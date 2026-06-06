@@ -29,7 +29,7 @@ through an embedded Sanity Studio. SEO is the top priority.
 - **pnpm** (this repo uses pnpm — the version is pinned in `package.json` via
   `packageManager`). Install with `npm i -g pnpm` or `corepack enable`.
 - A Sanity project. This repo is wired to:
-  - **Project ID:** `ydsq3umi`
+  - **Project ID:** see `SANITY_PROJECT_ID` in `.env`
   - **Dataset:** `production`
 
 ## 2. Setup
@@ -122,10 +122,10 @@ The site auto-deploys on every push to `master`.
    - Node version: `22`
 3. **Environment variables** (Site settings → Environment variables) — add the
    same values as `.env`:
-   - `SANITY_PROJECT_ID = ydsq3umi`
+   - `SANITY_PROJECT_ID` — value from `.env`
    - `SANITY_DATASET = production`
    - `SANITY_API_VERSION = 2024-12-01`
-   - `SANITY_STUDIO_PROJECT_ID = ydsq3umi`
+   - `SANITY_STUDIO_PROJECT_ID` — value from `.env`
    - `SANITY_STUDIO_DATASET = production`
 4. Add the Netlify domain(s) to Sanity CORS (see step 3 above).
 5. Point DNS for `blindete.ro` at Netlify and set it as the primary custom domain.
@@ -154,7 +154,7 @@ rebuild. Wire it up once:
    Name it `sanity-publish`. Copy the generated URL, e.g.
    `https://api.netlify.com/build_hooks/XXXXXXXX`.
 
-2. **Sanity → <https://www.sanity.io/manage> → project `ydsq3umi` → API → Webhooks → Create webhook:**
+2. **Sanity → <https://www.sanity.io/manage> → your project → API → Webhooks → Create webhook:**
    - **Name:** `Netlify rebuild`
    - **URL:** the Netlify build hook URL from step 1
    - **Dataset:** `production`

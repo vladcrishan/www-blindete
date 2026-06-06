@@ -7,8 +7,7 @@ import { structure } from './src/sanity/structure';
 
 const projectId =
   import.meta.env.SANITY_STUDIO_PROJECT_ID ??
-  import.meta.env.SANITY_PROJECT_ID ??
-  'ydsq3umi';
+  import.meta.env.SANITY_PROJECT_ID;
 const dataset =
   import.meta.env.SANITY_STUDIO_DATASET ??
   import.meta.env.SANITY_DATASET ??

@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import tailwindcss from '@tailwindcss/vite';
 
-const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID ?? 'ydsq3umi';
+const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID;
 const SANITY_DATASET = process.env.SANITY_DATASET ?? 'production';
 const SANITY_API_VERSION = process.env.SANITY_API_VERSION ?? '2024-12-01';
 

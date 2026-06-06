@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client';
 
-export const projectId = import.meta.env.SANITY_PROJECT_ID ?? 'ydsq3umi';
+export const projectId = import.meta.env.SANITY_PROJECT_ID;
 export const dataset = import.meta.env.SANITY_DATASET ?? 'production';
 export const apiVersion = import.meta.env.SANITY_API_VERSION ?? '2024-12-01';
 
