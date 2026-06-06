@@ -1,9 +1,12 @@
 [build]
-  command = "npm run build"
+  command = "pnpm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22"
+  # Use pnpm. Netlify reads the `packageManager` field in package.json and the
+  # pnpm-lock.yaml, then enables the matching pnpm via corepack automatically.
+  PNPM_VERSION = "10.18.0"
   # SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_VERSION and the
   # SANITY_STUDIO_* equivalents are set in the Netlify UI
   # (Site settings -> Environment variables), NOT committed here.

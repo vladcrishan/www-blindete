@@ -3,6 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@10.18.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -33,7 +34,13 @@
     "tailwindcss": "^4.3.0",
     "typescript": "^5.7.0"
   },
-  "overrides": {
-    "vite": "7.3.5"
+  "pnpm": {
+    "overrides": {
+      "vite": "7.3.5"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }

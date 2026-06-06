@@ -26,6 +26,8 @@ through an embedded Sanity Studio. SEO is the top priority.
 ## 1. Prerequisites
 
 - **Node.js 22+** (Netlify is pinned to Node 22 in `netlify.toml`)
+- **pnpm** (this repo uses pnpm — the version is pinned in `package.json` via
+  `packageManager`). Install with `npm i -g pnpm` or `corepack enable`.
 - A Sanity project. This repo is wired to:
   - **Project ID:** `ydsq3umi`
   - **Dataset:** `production`
@@ -35,9 +37,19 @@ through an embedded Sanity Studio. SEO is the top priority.
 ```bash
 git clone git@github.com:vladcrishan/www-blindete.git
 cd www-blindete
-npm install
+pnpm install
 cp .env.example .env   # values are already filled for this project
 ```
+
+> First `pnpm install` approves native build scripts for `sharp` (image
+> optimization) and `esbuild`, declared under `pnpm.onlyBuiltDependencies` in
+> `package.json` — no manual `pnpm approve-builds` step needed.
+
+> **Harmless build warnings:** under pnpm's strict `node_modules`, the build
+> prints `[vite] Failed to resolve dependency: react-is / react-compiler-runtime
+> / lodash/startCase.js`. These are dev-server pre-bundling hints for the
+> embedded Sanity Studio only; the production build bundles them correctly
+> (verified in `dist/_astro/`), so they do not affect the deployed site.
 
 `.env` (gitignored) holds:
 
@@ -52,7 +64,7 @@ SANITY_STUDIO_DATASET=production
 ## 3. Run in development
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 This single command runs **both** the website and the embedded Sanity Studio:
@@ -71,18 +83,18 @@ The Studio talks to Sanity's API from the browser, so the dev and production
 origins must be allowed:
 
 ```bash
-npx sanity login          # log in with the account that owns the project
-npx sanity cors add http://localhost:4321 --credentials
-npx sanity cors add https://blindete.ro --credentials
+pnpm dlx sanity login          # log in with the account that owns the project
+pnpm dlx sanity cors add http://localhost:4321 --credentials
+pnpm dlx sanity cors add https://blindete.ro --credentials
 # add the Netlify preview/site URL too, e.g.:
-npx sanity cors add https://blindete.netlify.app --credentials
+pnpm dlx sanity cors add https://blindete.netlify.app --credentials
 ```
 
 Invite the owner (mom) as an editor so she can log in at `/admin`:
 
 ```bash
 # or do this in the Sanity dashboard: https://www.sanity.io/manage
-npx sanity invite
+pnpm dlx sanity invite
 ```
 
 Login methods enabled: **Google** and **email/password**.
@@ -90,9 +102,9 @@ Login methods enabled: **Google** and **email/password**.
 ## 4. Other scripts
 
 ```bash
-npm run build      # production build into dist/ (also generates sitemap)
-npm run preview    # preview the production build locally
-npm run typecheck  # astro check (strict TypeScript)
+pnpm build      # production build into dist/ (also generates sitemap)
+pnpm preview    # preview the production build locally
+pnpm typecheck  # astro check (strict TypeScript)
 ```
 
 ---
@@ -105,7 +117,7 @@ The site auto-deploys on every push to `master`.
 
 1. **Create the site** from this Git repo in Netlify (New site → Import from Git).
 2. Netlify reads `netlify.toml` automatically:
-   - Build command: `npm run build`
+   - Build command: `pnpm run build`
    - Publish directory: `dist`
    - Node version: `22`
 3. **Environment variables** (Site settings → Environment variables) — add the
