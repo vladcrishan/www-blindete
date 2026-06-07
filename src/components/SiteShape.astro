@@ -1,0 +1,19 @@
+---
+/**
+ * Soft cream backdrop shape — the large quarter-circle that bleeds off the
+ * top-left of the sub-site pages (Figma "Kittens" frame). Purely decorative:
+ * absolutely positioned behind content, ignored by assistive tech.
+ *
+ * Place inside a `relative` container; content should sit in a higher stacking
+ * context (it renders at z-0 with negative-ish offsets so it tucks behind the
+ * page padding without introducing horizontal scroll).
+ */
+---
+
+<div
+  aria-hidden="true"
+  class="pointer-events-none absolute top-0 left-0 -z-0 overflow-hidden"
+  style="width:min(58vw,640px);height:min(58vw,640px);max-height:560px;"
+>
+  <div class="bg-cream-soft h-[140%] w-[140%] -translate-x-1/3 -translate-y-1/3 rounded-full"></div>
+</div>

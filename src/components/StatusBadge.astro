@@ -1,0 +1,40 @@
+---
+import type { AnimalStatus } from '../sanity/lib/types';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  status: AnimalStatus;
+  lang: Lang;
+  class?: string;
+}
+
+const { status, lang, class: className } = Astro.props;
+const t = useTranslations(lang);
+
+const styles: Record<AnimalStatus, string> = {
+  available: 'bg-available',
+  reserved: 'bg-reserved',
+  sold: 'bg-sold',
+  upcoming: 'bg-upcoming',
+};
+
+const dot: Record<AnimalStatus, string> = {
+  available: '🟢',
+  reserved: '🟡',
+  sold: '🔴',
+  upcoming: '🐣',
+};
+
+const label = t(`status.${status}` as const);
+---
+
+<span
+  class:list={[
+    'rounded-pill inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold tracking-wide text-white uppercase',
+    styles[status],
+    className,
+  ]}
+>
+  <span aria-hidden="true">{dot[status]}</span>
+  {label}
+</span>

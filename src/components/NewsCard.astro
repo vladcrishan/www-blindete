@@ -1,0 +1,88 @@
+---
+/**
+ * A single news entry, styled after the Figma "News" feed: title + date,
+ * excerpt, and an optional media slot on the right (cover image, or a "video"
+ * card when the post has a YouTube link). Detail pages are not built yet, so
+ * there is no "read more" link — the excerpt stands on its own.
+ */
+import { localized, useTranslations, type Lang } from '../i18n/ui';
+import type { Post } from '../sanity/lib/types';
+import SanityImage from './SanityImage.astro';
+
+interface Props {
+  post: Post;
+  lang: Lang;
+}
+const { post, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const title = localized(post.titleRo, post.titleEn, lang) ?? post.titleRo;
+const excerpt = localized(post.excerptRo, post.excerptEn, lang);
+
+const date = post.publishedAt
+  ? new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'ro-RO', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }).format(new Date(post.publishedAt))
+  : '';
+
+const hasMedia = Boolean(post.coverImage || post.youtubeUrl);
+---
+
+<article
+  class:list={[
+    'grid grid-cols-1 gap-6',
+    hasMedia && 'md:grid-cols-[1fr_280px] md:items-start md:gap-10',
+  ]}
+>
+  <div>
+    <h3 class="text-2xl sm:text-3xl">{title}</h3>
+    {date && <p class="text-mut mt-1 text-sm">{date}</p>}
+    {excerpt && <p class="text-mut mt-4 max-w-prose leading-relaxed">{excerpt}</p>}
+  </div>
+
+  {
+    hasMedia && (
+      <div class="bg-cream-soft overflow-hidden">
+        {post.youtubeUrl ? (
+          <a
+            href={post.youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative block aspect-[4/3] w-full"
+          >
+            {post.coverImage ? (
+              <SanityImage
+                image={post.coverImage}
+                alt={post.coverImage.alt ?? title}
+                width={560}
+                aspect="4/3"
+                sizes="(max-width: 768px) 100vw, 280px"
+                class="h-full w-full object-cover"
+              />
+            ) : (
+              <span class="bg-ink/40 absolute inset-0" />
+            )}
+            <span class="absolute inset-0 grid place-items-center">
+              <span class="rounded-pill bg-black/55 px-4 py-2 text-xs tracking-[0.25em] text-white uppercase backdrop-blur-sm transition group-hover:bg-black/70">
+                {t('news.video')}
+              </span>
+            </span>
+          </a>
+        ) : (
+          post.coverImage && (
+            <SanityImage
+              image={post.coverImage}
+              alt={post.coverImage.alt ?? title}
+              width={560}
+              aspect="4/3"
+              sizes="(max-width: 768px) 100vw, 280px"
+              class="w-full"
+            />
+          )
+        )}
+      </div>
+    )
+  }
+</article>

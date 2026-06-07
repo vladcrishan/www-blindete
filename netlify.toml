@@ -1,0 +1,27 @@
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Use pnpm. Netlify reads the `packageManager` field in package.json and the
+  # pnpm-lock.yaml, then enables the matching pnpm via corepack automatically.
+  PNPM_VERSION = "10.18.0"
+  # SANITY_PROJECT_ID, SANITY_DATASET, SANITY_API_VERSION and the
+  # SANITY_STUDIO_* equivalents are set in the Netlify UI
+  # (Site settings -> Environment variables), NOT committed here.
+
+# Netlify Forms: detection runs automatically on the static HTML output
+# (the contact form uses data-netlify="true" + a hidden form-name field).
+
+# Long-cache hashed build assets.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The embedded Sanity Studio is a client-side (hash-routed) SPA at /admin.
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200

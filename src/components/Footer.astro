@@ -1,0 +1,102 @@
+---
+import { useTranslations, getLangFromUrl, localizedRoute, type Lang } from '../i18n/ui';
+import type { SiteSettings } from '../sanity/lib/types';
+import Icon from './Icon.astro';
+
+interface Props {
+  settings: SiteSettings | null;
+  /**
+   * Breed-specific social links for the "enriched" footer (breed pages only).
+   * When omitted/empty, the footer renders the general variant with no socials.
+   */
+  socials?: { facebook?: string; instagram?: string };
+}
+const { settings, socials: socialsProp } = Astro.props;
+const lang: Lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+
+const socials = [
+  socialsProp?.facebook && { href: socialsProp.facebook, label: 'Facebook' },
+  socialsProp?.instagram && { href: socialsProp.instagram, label: 'Instagram' },
+].filter(Boolean) as { href: string; label: string }[];
+---
+
+<footer class="border-line bg-sand mt-20 border-t">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-3">
+    <div>
+      <div class="flex items-center gap-1">
+        <Icon name="paw" size={26} class="text-brand" />
+        <span class="text-brand text-xl font-semibold" style="font-family:var(--font-display)"
+          >{t('brand.name')}.</span
+        >
+      </div>
+      <p class="text-mut mt-3 max-w-xs text-sm">{t('footer.tagline')}</p>
+    </div>
+
+    <nav class="text-sm" aria-label="Footer">
+      <ul class="space-y-2">
+        <li><a class="hover:text-brand" href={localizedRoute('home', lang)}>{t('nav.home')}</a></li>
+        <li><a class="hover:text-brand" href={localizedRoute('cats', lang)}>{t('nav.cats')}</a></li>
+        <li><a class="hover:text-brand" href={localizedRoute('dogs', lang)}>{t('nav.dogs')}</a></li>
+        <li>
+          <a class="hover:text-brand" href={localizedRoute('contact', lang)}>{t('nav.contact')}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="text-sm">
+      {
+        settings?.city && (
+          <p class="text-mut flex items-center gap-2">
+            <Icon name="pin" class="text-brand shrink-0" />
+            {settings.city}
+          </p>
+        )
+      }
+      {
+        settings?.phone && (
+          <p class="mt-2">
+            <a class="hover:text-brand flex items-center gap-2" href={`tel:${settings.phone}`}>
+              <Icon name="phone" class="text-brand shrink-0" />
+              {settings.phone}
+            </a>
+          </p>
+        )
+      }
+      {
+        settings?.email && (
+          <p class="mt-2">
+            <a class="hover:text-brand flex items-center gap-2" href={`mailto:${settings.email}`}>
+              <Icon name="mail" class="text-brand shrink-0" />
+              {settings.email}
+            </a>
+          </p>
+        )
+      }
+      {
+        socials.length > 0 && (
+          <ul class="mt-4 flex gap-4">
+            {socials.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-brand font-medium"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+
+  <div class="border-line text-mut border-t px-4 py-4 text-center text-xs">
+    © {year}
+    {t('brand.name')}. {t('footer.rights')}
+  </div>
+</footer>
