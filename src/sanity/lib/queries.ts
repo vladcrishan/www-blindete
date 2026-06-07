@@ -1,6 +1,6 @@
 import groq from 'groq';
 import { sanityClient } from './client';
-import type { Animal, SiteSettings, Litter, Species, AnimalStatus } from './types';
+import type { Animal, AnimalStatus, Litter, Post, SiteSettings, Species } from './types';
 
 const ANIMAL_PROJECTION = groq`{
   _id,
@@ -64,9 +64,33 @@ export async function getAvailableCount(): Promise<number> {
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   return sanityClient.fetch(
     groq`*[_type == "siteSettings"][0]{
-      phone, whatsapp, email, city, facebook, instagram, messenger,
+      phone, whatsapp, email, city,
+      facebook, instagram, facebookDog, instagramDog, messenger,
       heroTitleRo, heroTitleEn, heroSubtitleRo, heroSubtitleEn, heroImage
     }`,
+  );
+}
+
+const POST_PROJECTION = groq`{
+  _id,
+  _createdAt,
+  titleRo,
+  titleEn,
+  "slug": slug.current,
+  species,
+  publishedAt,
+  excerptRo,
+  excerptEn,
+  coverImage,
+  youtubeUrl
+}`;
+
+/** News posts for one sub-site (cat/dog), newest first. Optional limit. */
+export async function getPostsBySpecies(species: Species, limit?: number): Promise<Post[]> {
+  const slice = typeof limit === 'number' ? groq`[0...$limit]` : groq``;
+  return sanityClient.fetch(
+    groq`*[_type == "post" && species == $species] | order(publishedAt desc) ${POST_PROJECTION} ${slice}`,
+    { species, limit },
   );
 }
 
@@ -80,4 +104,4 @@ export async function getPublicLitters(): Promise<Litter[]> {
   );
 }
 
-export type { Animal, SiteSettings, Litter, AnimalStatus, Species };
+export type { Animal, AnimalStatus, Litter, Post, SiteSettings, Species };

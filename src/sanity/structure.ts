@@ -22,4 +22,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('litter')
         .title('Cuiburi (pui)')
         .icon(() => '🐣'),
+      S.documentTypeListItem('post')
+        .title('Știri')
+        .icon(() => '📰'),
     ]);

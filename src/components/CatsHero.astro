@@ -25,7 +25,7 @@ interface Props {
 const { lang } = Astro.props;
 const en = lang === 'en';
 
-const title = en ? ['Persian', 'Cats'] : ['Pisici', 'persane'];
+const title = en ? ['Persian', 'Cats'] : ['Pisici', 'Persane'];
 const breeds = ['Chinchilla', 'Golden', 'Silver'];
 const forLine = en
   ? ['For', 'breeders', 'and', 'pets']
@@ -34,7 +34,7 @@ const eyebrow = en ? 'Top quality' : 'Calitate de top';
 const headline = en ? 'Pure breed' : 'Rasă pură';
 const body = en
   ? 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
-  : 'Pisici Persane Chinchilla crescute cu drag în Arad — sănătoase, blânde și pregătite pentru o nouă familie.';
+  : 'Pisici Persane Chinchilla crescute cu drag în Arad, sănătoase, blânde și pregătite pentru o nouă familie.';
 const seeMore = en ? 'see more' : 'vezi mai mult';
 const href = localizedRoute('cats', lang);
 
@@ -50,7 +50,7 @@ const alt2 = en ? 'Persian Chinchilla cat sleeping' : 'Pisică Persană Chinchil
   -->
   <div class="relative hidden aspect-[1180/940] w-full md:block">
     <!-- Left tall photo -->
-    <div class="absolute top-[6%] left-0 z-0 h-[80%] w-[37%] overflow-hidden">
+    <div class="photo-grade absolute top-[6%] left-0 z-0 h-[80%] w-[37%] overflow-hidden">
       <img
         src={catHero1.src}
         width={catHero1.width}
@@ -58,12 +58,12 @@ const alt2 = en ? 'Persian Chinchilla cat sleeping' : 'Pisică Persană Chinchil
         alt={alt1}
         loading="eager"
         decoding="async"
-        class="h-full w-full object-cover"
+        class="absolute inset-0 h-full w-full object-cover object-top"
       />
     </div>
 
     <!-- Secondary photo bottom-right -->
-    <div class="absolute right-0 bottom-0 z-0 h-[55%] w-[32%] overflow-hidden">
+    <div class="photo-grade absolute right-0 bottom-0 z-0 h-[55%] w-[32%] overflow-hidden">
       <img
         src={catHero2.src}
         width={catHero2.width}
@@ -83,8 +83,9 @@ const alt2 = en ? 'Persian Chinchilla cat sleeping' : 'Pisică Persană Chinchil
       <span class="block text-[6.5rem] lg:text-[8rem] xl:text-[9rem]">{title[1]}</span>
     </h1>
 
-    <!-- "For breeders and pets" eyebrow, mid-right -->
-    <p class="font-display absolute top-[38%] right-[12%] z-10 text-sm leading-tight uppercase">
+    <!-- "For breeders and pets" eyebrow — upper-right, at the SILVER label
+         level, in the clear gap below the title and above the photo. -->
+    <p class="font-display absolute top-[37%] right-[12%] z-10 text-sm leading-tight uppercase">
       <span class="text-gold">{forLine[0]}</span><br />
       <span class="text-gold">{forLine[1]}</span><br />
       <span class="text-ink">{forLine[2]}</span><br />
@@ -96,18 +97,15 @@ const alt2 = en ? 'Persian Chinchilla cat sleeping' : 'Pisică Persană Chinchil
       <p class="eyebrow">{eyebrow}</p>
       <h2 class="font-display mt-1 text-2xl font-bold tracking-wide uppercase">{headline}</h2>
       <p class="text-mut mt-4 text-sm leading-relaxed">{body}</p>
-      <a
-        href={href}
-        class="hover:text-gold mt-6 inline-flex items-center gap-4 text-sm tracking-wide"
-      >
-        {seeMore}
-        <span class="bg-ink inline-block h-px w-12"></span>
+      <a href={href} class="see-more mt-6 tracking-wide">
+        <span class="see-more__label">{seeMore}</span>
+        <span class="see-more__line"></span>
       </a>
     </div>
 
-    <!-- Rotated breed labels on the far right edge -->
+    <!-- Rotated breed labels on the far right edge (read bottom-to-top) -->
     <ul class="absolute top-[8%] right-0 z-10 flex flex-col items-center gap-12">
-      {breeds.map((b) => <li class="vlabel font-display text-ink! tracking-[0.25em]!">{b}</li>)}
+      {breeds.map((b) => <li class="vlabel-up font-display text-ink! tracking-[0.25em]!">{b}</li>)}
     </ul>
   </div>
 
@@ -119,10 +117,12 @@ const alt2 = en ? 'Persian Chinchilla cat sleeping' : 'Pisică Persană Chinchil
     </h1>
 
     <p class="font-display mt-4 text-xs leading-tight uppercase">
-      <span class="text-gold">{forLine[0]} {forLine[1]}</span> {forLine[2]} {forLine[3]}
+      <span class="text-gold">{forLine[0]} {forLine[1]}</span>
+      {forLine[2]}
+      {forLine[3]}
     </p>
 
-    <div class="mt-6 overflow-hidden">
+    <div class="photo-grade relative mt-6 overflow-hidden">
       <img
         src={catHero1.src}
         width={catHero1.width}
@@ -138,16 +138,13 @@ const alt2 = en ? 'Persian Chinchilla cat sleeping' : 'Pisică Persană Chinchil
       <p class="eyebrow">{eyebrow}</p>
       <h2 class="font-display mt-1 text-2xl font-bold tracking-wide uppercase">{headline}</h2>
       <p class="text-mut mt-4 leading-relaxed">{body}</p>
-      <a
-        href={href}
-        class="hover:text-gold mt-6 inline-flex items-center gap-4 text-sm tracking-wide"
-      >
-        {seeMore}
-        <span class="bg-ink inline-block h-px w-12"></span>
+      <a href={href} class="see-more mt-6 tracking-wide">
+        <span class="see-more__label">{seeMore}</span>
+        <span class="see-more__line"></span>
       </a>
     </div>
 
-    <div class="mt-8 overflow-hidden">
+    <div class="photo-grade relative mt-8 overflow-hidden">
       <img
         src={catHero2.src}
         width={catHero2.width}

@@ -1,0 +1,34 @@
+---
+/**
+ * The sub-site "News" section: a heading and a divided list of NewsCards, or
+ * a quiet empty state. Anchored at #news so the header nav can deep-link here.
+ */
+import { useTranslations, type Lang } from '../i18n/ui';
+import type { Post } from '../sanity/lib/types';
+import NewsCard from './NewsCard.astro';
+
+interface Props {
+  posts: Post[];
+  lang: Lang;
+}
+const { posts, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="news" class="scroll-mt-24">
+  <h2 class="text-4xl sm:text-5xl">{t('news.title')}</h2>
+
+  {
+    posts.length > 0 ? (
+      <div class="divide-line mt-10 divide-y">
+        {posts.map((post) => (
+          <div class="py-10 first:pt-0">
+            <NewsCard post={post} lang={lang} />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="text-mut mt-8">{t('news.empty')}</p>
+    )
+  }
+</section>

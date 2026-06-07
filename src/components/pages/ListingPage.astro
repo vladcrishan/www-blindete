@@ -15,18 +15,24 @@ const t = useTranslations(lang);
 
 const [animals, settings] = await Promise.all([getAnimalsBySpecies(species), getSiteSettings()]);
 
-const routeId = species === 'cat' ? 'cats' : 'dogs';
+const routeId = species === 'cat' ? 'catsListing' : 'dogsListing';
 const title = species === 'cat' ? t('list.cats.title') : t('list.dogs.title');
 
-const seoTitle = `${title} — ${t('brand.name')}`;
+const seoTitle = `${title} · ${t('brand.name')}`;
 const seoDesc =
   species === 'cat'
     ? lang === 'en'
       ? 'Persian Chinchilla kittens available, reserved and sold in Arad, Romania.'
-      : 'Pisici Persane Chinchilla disponibile, rezervate și vândute în Arad.'
+      : 'Pisici Persane Chinchilla disponibile, rezervate și vândute în Arad, România.'
     : lang === 'en'
       ? 'Pomeranian / Kleinspitz puppies available, reserved and sold in Arad, Romania.'
-      : 'Câini Pomeranian / Kleinspitz disponibili, rezervați și vânduți în Arad.';
+      : 'Câini Pomeranian / Kleinspitz disponibili, rezervați și vânduți în Arad, România.';
+
+// Enriched footer: this breed's own Facebook / Instagram.
+const footerSocials =
+  species === 'cat'
+    ? { facebook: settings?.facebook, instagram: settings?.instagram }
+    : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
 
 const firstPhoto = animals.find((a) => a.photos?.[0])?.photos[0];
 const ogImg = firstPhoto
@@ -67,6 +73,8 @@ const fmtDate = (d?: string) =>
   enPath={routes[routeId].en}
   ogImage={ogImg}
   settings={settings}
+  footerSocials={footerSocials}
+  subsite={species}
 >
   <div class="mx-auto max-w-[1200px] px-6 py-12 md:py-16">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">

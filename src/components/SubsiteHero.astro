@@ -1,0 +1,95 @@
+---
+/**
+ * Sub-site landing hero (cats or dogs). Distinct from the root-page
+ * CatsHero/DogsHero editorial front-door heroes: this is the masthead for the
+ * dedicated sub-site a visitor lands on from that species' social accounts.
+ *
+ * Title + intro copy + an available-count line + a CTA into the listing.
+ * Copy comes from siteSettings hero fields when present, else per-species
+ * defaults. A large lead photo sits to the right (the first available animal's
+ * photo, passed in by the page).
+ */
+import { localizedRoute, useTranslations, type Lang } from '../i18n/ui';
+import type { SanityImageWithAlt, Species } from '../sanity/lib/types';
+import SanityImage from './SanityImage.astro';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+  /** Optional intro overrides (already localized by the page). */
+  title?: string;
+  subtitle?: string;
+  availableCount?: number;
+  /** Lead photo for the hero (e.g. the first available animal). */
+  image?: SanityImageWithAlt;
+}
+const { lang, species, title, subtitle, availableCount = 0, image } = Astro.props;
+const t = useTranslations(lang);
+const en = lang === 'en';
+
+const defaultTitle =
+  species === 'cat'
+    ? en
+      ? 'Persian Chinchilla'
+      : 'Persană Chinchilla'
+    : en
+      ? 'Pomeranian / Kleinspitz'
+      : 'Pomeranian / Kleinspitz';
+
+const defaultSubtitle =
+  species === 'cat'
+    ? en
+      ? 'Healthy, gentle Persian Chinchilla kittens raised with love in Arad, ready for a new family.'
+      : 'Pisici Persane Chinchilla sănătoase și blânde, crescute cu drag în Arad, gata pentru o nouă familie.'
+    : en
+      ? 'Playful, sociable Pomeranian / Kleinspitz puppies raised with care in Arad, full of energy.'
+      : 'Câini Pomeranian / Kleinspitz jucăuși și sociabili, crescuți cu grijă în Arad, plini de energie.';
+
+const heroTitle = title || defaultTitle;
+const heroSubtitle = subtitle || defaultSubtitle;
+
+const listingHref = localizedRoute(species === 'cat' ? 'catsListing' : 'dogsListing', lang);
+const ctaLabel =
+  species === 'cat' ? (en ? 'See kittens' : 'Vezi pisicile') : en ? 'See puppies' : 'Vezi câinii';
+
+const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.available.many');
+const altText = image?.alt ?? heroTitle;
+---
+
+<section class="grid items-center gap-10 py-10 md:grid-cols-2 md:py-16">
+  <div>
+    <p class="eyebrow">{species === 'cat' ? t('nav.cats') : t('nav.dogs')}</p>
+    <h1 class="mt-3 text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">{heroTitle}</h1>
+    <p class="text-mut mt-6 max-w-md leading-relaxed">{heroSubtitle}</p>
+
+    {
+      availableCount > 0 && (
+        <p class="mt-6 text-sm">
+          <span class="font-display text-gold text-2xl">{availableCount}</span>
+          <span class="text-mut ml-2">{availableLabel}</span>
+        </p>
+      )
+    }
+
+    <a href={listingHref} class="see-more mt-8 tracking-wide">
+      <span class="see-more__label">{ctaLabel}</span>
+      <span class="see-more__line"></span>
+    </a>
+  </div>
+
+  {
+    image && (
+      <div class="overflow-hidden">
+        <SanityImage
+          image={image}
+          alt={altText}
+          width={900}
+          aspect="4/5"
+          priority
+          sizes="(max-width: 768px) 100vw, 560px"
+          class="w-full"
+        />
+      </div>
+    )
+  }
+</section>

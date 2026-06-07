@@ -36,14 +36,32 @@ export interface SiteSettings {
   whatsapp?: string;
   email?: string;
   city?: string;
+  /** Cat socials (Persană Chinchilla). */
   facebook?: string;
   instagram?: string;
+  /** Dog socials (Pomeranian / Kleinspitz). */
+  facebookDog?: string;
+  instagramDog?: string;
   messenger?: string;
   heroTitleRo?: string;
   heroTitleEn?: string;
   heroSubtitleRo?: string;
   heroSubtitleEn?: string;
   heroImage?: SanityImageWithAlt;
+}
+
+export interface Post {
+  _id: string;
+  _createdAt: string;
+  titleRo: string;
+  titleEn?: string;
+  slug: string;
+  species: Species;
+  publishedAt: string;
+  excerptRo?: string;
+  excerptEn?: string;
+  coverImage?: SanityImageWithAlt;
+  youtubeUrl?: string;
 }
 
 export interface Litter {

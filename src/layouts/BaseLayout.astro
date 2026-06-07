@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import SEO from '../components/SEO.astro';
 import { getLangFromUrl, type Lang } from '../i18n/ui';
 import { getSiteSettings } from '../sanity/lib/queries';
-import type { SiteSettings } from '../sanity/lib/types';
+import type { SiteSettings, Species } from '../sanity/lib/types';
 
 interface Props {
   title: string;
@@ -17,6 +17,13 @@ interface Props {
   noindex?: boolean;
   /** Pass already-fetched settings to avoid a second query (optional). */
   settings?: SiteSettings | null;
+  /**
+   * Breed-specific social links for the enriched footer (breed pages only).
+   * Omit on general pages to render the footer without social links.
+   */
+  footerSocials?: { facebook?: string; instagram?: string };
+  /** When set, the header renders the species-scoped sub-site nav. */
+  subsite?: Species;
 }
 
 const {
@@ -28,6 +35,8 @@ const {
   ogType = 'website',
   noindex = false,
   settings: settingsProp,
+  footerSocials,
+  subsite,
 } = Astro.props;
 
 const lang: Lang = getLangFromUrl(Astro.url);
@@ -56,10 +65,10 @@ const settings = settingsProp ?? (await getSiteSettings());
     <slot name="head" />
   </head>
   <body class="flex min-h-full flex-col">
-    <Header />
+    <Header subsite={subsite} />
     <main class="flex-1">
       <slot />
     </main>
-    <Footer settings={settings} />
+    <Footer settings={settings} socials={footerSocials} />
   </body>
 </html>

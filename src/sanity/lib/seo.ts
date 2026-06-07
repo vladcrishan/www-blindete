@@ -71,7 +71,12 @@ export function petStoreSchema(
   if (opts.image) schema.image = opts.image;
   if (settings?.phone) schema.telephone = settings.phone;
   if (settings?.email) schema.email = settings.email;
-  const sameAs = [settings?.facebook, settings?.instagram].filter(Boolean);
+  const sameAs = [
+    settings?.facebook,
+    settings?.instagram,
+    settings?.facebookDog,
+    settings?.instagramDog,
+  ].filter(Boolean);
   if (sameAs.length) schema.sameAs = sameAs;
   return schema;
 }

@@ -1,28 +1,35 @@
 ---
 import { useTranslations, getLangFromUrl, localizedRoute, type Lang } from '../i18n/ui';
 import type { SiteSettings } from '../sanity/lib/types';
+import Icon from './Icon.astro';
 
 interface Props {
   settings: SiteSettings | null;
+  /**
+   * Breed-specific social links for the "enriched" footer (breed pages only).
+   * When omitted/empty, the footer renders the general variant with no socials.
+   */
+  socials?: { facebook?: string; instagram?: string };
 }
-const { settings } = Astro.props;
+const { settings, socials: socialsProp } = Astro.props;
 const lang: Lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
 
 const socials = [
-  settings?.facebook && { href: settings.facebook, label: 'Facebook' },
-  settings?.instagram && { href: settings.instagram, label: 'Instagram' },
-  settings?.messenger && { href: settings.messenger, label: 'Messenger' },
+  socialsProp?.facebook && { href: socialsProp.facebook, label: 'Facebook' },
+  socialsProp?.instagram && { href: socialsProp.instagram, label: 'Instagram' },
 ].filter(Boolean) as { href: string; label: string }[];
 ---
 
 <footer class="border-line bg-sand mt-20 border-t">
   <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-3">
     <div>
-      <div class="flex items-center gap-2">
-        <span class="text-2xl" aria-hidden="true">🐾</span>
-        <span class="text-xl" style="font-family:var(--font-display)">{t('brand.name')}</span>
+      <div class="flex items-center gap-1">
+        <Icon name="paw" size={26} class="text-brand" />
+        <span class="text-brand text-xl font-semibold" style="font-family:var(--font-display)"
+          >{t('brand.name')}.</span
+        >
       </div>
       <p class="text-mut mt-3 max-w-xs text-sm">{t('footer.tagline')}</p>
     </div>
@@ -39,12 +46,20 @@ const socials = [
     </nav>
 
     <div class="text-sm">
-      {settings?.city && <p class="text-mut">📍 {settings.city}</p>}
+      {
+        settings?.city && (
+          <p class="text-mut flex items-center gap-2">
+            <Icon name="pin" class="text-brand shrink-0" />
+            {settings.city}
+          </p>
+        )
+      }
       {
         settings?.phone && (
           <p class="mt-2">
-            <a class="hover:text-brand" href={`tel:${settings.phone}`}>
-              📞 {settings.phone}
+            <a class="hover:text-brand flex items-center gap-2" href={`tel:${settings.phone}`}>
+              <Icon name="phone" class="text-brand shrink-0" />
+              {settings.phone}
             </a>
           </p>
         )
@@ -52,8 +67,9 @@ const socials = [
       {
         settings?.email && (
           <p class="mt-2">
-            <a class="hover:text-brand" href={`mailto:${settings.email}`}>
-              ✉ {settings.email}
+            <a class="hover:text-brand flex items-center gap-2" href={`mailto:${settings.email}`}>
+              <Icon name="mail" class="text-brand shrink-0" />
+              {settings.email}
             </a>
           </p>
         )

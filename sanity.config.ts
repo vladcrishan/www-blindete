@@ -5,9 +5,11 @@ import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './src/sanity/schemaTypes';
 import { structure } from './src/sanity/structure';
 
-const projectId = import.meta.env.SANITY_STUDIO_PROJECT_ID ?? import.meta.env.SANITY_PROJECT_ID;
-const dataset =
-  import.meta.env.SANITY_STUDIO_DATASET ?? import.meta.env.SANITY_DATASET ?? 'production';
+// The Studio runs in the BROWSER, where Astro only exposes PUBLIC_-prefixed env
+// vars on import.meta.env. projectId/dataset are public values (already shipped
+// in the client), so we read the PUBLIC_ copies here. See .env / .env.example.
+const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
+const dataset = import.meta.env.PUBLIC_SANITY_DATASET ?? 'production';
 
 // Document types that should behave as singletons (one instance, no create/delete).
 const SINGLETONS = new Set(['siteSettings']);

@@ -37,8 +37,8 @@ const schemaImages = (animal.photos ?? [])
 const seoDesc =
   description ||
   (lang === 'en'
-    ? `${animal.name} — ${breedLabel}. ${t(`status.${animal.status}`)}.`
-    : `${animal.name} — ${breedLabel}. ${t(`status.${animal.status}`)}.`);
+    ? `${animal.name}, ${breedLabel}. ${t(`status.${animal.status}`)}.`
+    : `${animal.name}, ${breedLabel}. ${t(`status.${animal.status}`)}.`);
 
 const schema = animalProductSchema(animal, {
   url: pageUrl,
@@ -60,17 +60,25 @@ const priceLabel =
     ? new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'ro-RO').format(animal.price) + ' RON'
     : t('animal.priceOnRequest');
 
-const backHref = localizedRoute(animal.species === 'cat' ? 'cats' : 'dogs', lang);
+const backHref = localizedRoute(animal.species === 'cat' ? 'catsListing' : 'dogsListing', lang);
+
+// Enriched footer: socials for this animal's breed.
+const footerSocials =
+  animal.species === 'cat'
+    ? { facebook: settings?.facebook, instagram: settings?.instagram }
+    : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
 ---
 
 <BaseLayout
-  title={`${animal.name} — ${breedLabel} | ${t('brand.name')}`}
+  title={`${animal.name} · ${breedLabel} | ${t('brand.name')}`}
   description={seoDesc}
   roPath={roPath}
   enPath={enPath}
   ogImage={ogImg}
   ogType="product"
   settings={settings}
+  footerSocials={footerSocials}
+  subsite={animal.species}
 >
   <JsonLd slot="head" schema={schema} />
 

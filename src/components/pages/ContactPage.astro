@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactButtons from '../ContactButtons.astro';
+import Icon from '../Icon.astro';
 import { useTranslations, routes, type Lang } from '../../i18n/ui';
 import { getSiteSettings } from '../../sanity/lib/queries';
 
@@ -13,7 +14,7 @@ const settings = await getSiteSettings();
 
 const success = Astro.url.searchParams.has('success');
 
-const seoTitle = `${t('contact.title')} — ${t('brand.name')}`;
+const seoTitle = `${t('contact.title')} · ${t('brand.name')}`;
 const seoDesc =
   lang === 'en'
     ? 'Contact blindete in Arad for Persian Chinchilla kittens and Pomeranian puppies. Phone, WhatsApp, Messenger.'
@@ -110,8 +111,9 @@ const seoDesc =
       <ContactButtons settings={settings} lang={lang} />
       {
         settings?.city && (
-          <p class="text-mut mt-4 text-sm">
-            📍 {t('contact.city')}: {settings.city}
+          <p class="text-mut mt-4 flex items-center gap-2 text-sm">
+            <Icon name="pin" class="text-brand shrink-0" size={16} />
+            {t('contact.city')}: {settings.city}
           </p>
         )
       }

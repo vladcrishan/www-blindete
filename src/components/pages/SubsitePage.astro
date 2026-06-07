@@ -1,0 +1,124 @@
+---
+/**
+ * Sub-site landing page (cats or dogs). This is the entry point a visitor
+ * reaches from that species' Facebook / Instagram. It carries the species-
+ * scoped header nav, the soft cream backdrop shape, a dedicated hero, the
+ * News feed for that sub-site, and a contact block.
+ *
+ * The root-page editorial heroes (CatsHero / DogsHero) are unchanged — those
+ * remain the front door at "/". This page is the sub-site's own home.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteShape from '../SiteShape.astro';
+import SubsiteHero from '../SubsiteHero.astro';
+import NewsList from '../NewsList.astro';
+import ContactButtons from '../ContactButtons.astro';
+import StaticMap from '../StaticMap.astro';
+import { useTranslations, localized, routes, type Lang } from '../../i18n/ui';
+import { getAnimalsBySpecies, getPostsBySpecies, getSiteSettings } from '../../sanity/lib/queries';
+import { ogImageUrl } from '../../sanity/lib/seo';
+import type { Species } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+}
+const { lang, species } = Astro.props;
+const t = useTranslations(lang);
+const en = lang === 'en';
+
+const [animals, posts, settings] = await Promise.all([
+  getAnimalsBySpecies(species),
+  getPostsBySpecies(species, 6),
+  getSiteSettings(),
+]);
+
+const availableCount = animals.filter((a) => a.status === 'available').length;
+const leadAnimal = animals.find((a) => a.status === 'available' && a.photos?.[0]) ?? animals[0];
+const leadImage = leadAnimal?.photos?.[0] ?? settings?.heroImage;
+
+const routeId = species === 'cat' ? 'cats' : 'dogs';
+const heroTitle = localized(settings?.heroTitleRo, settings?.heroTitleEn, lang);
+const heroSubtitle = localized(settings?.heroSubtitleRo, settings?.heroSubtitleEn, lang);
+
+// Per-species socials for the enriched footer.
+const footerSocials =
+  species === 'cat'
+    ? { facebook: settings?.facebook, instagram: settings?.instagram }
+    : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
+
+const seoTitle =
+  species === 'cat'
+    ? en
+      ? 'Persian Chinchilla Cats in Arad · blindete'
+      : 'Pisici Persane Chinchilla în Arad · blîndețe'
+    : en
+      ? 'Pomeranian / Kleinspitz Dogs in Arad · blindete'
+      : 'Câini Pomeranian / Kleinspitz în Arad · blîndețe';
+const seoDesc =
+  species === 'cat'
+    ? en
+      ? 'Persian Chinchilla kittens, news and availability from our cattery in Arad, Romania.'
+      : 'Pisici Persane Chinchilla, noutăți și disponibilitate din crescătoria noastră din Arad, România.'
+    : en
+      ? 'Pomeranian / Kleinspitz puppies, news and availability from our kennel in Arad, Romania.'
+      : 'Câini Pomeranian / Kleinspitz, noutăți și disponibilitate din crescătoria noastră din Arad, România.';
+
+const ogImg = leadImage ? ogImageUrl(leadImage) : undefined;
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={routes[routeId].ro}
+  enPath={routes[routeId].en}
+  ogImage={ogImg}
+  settings={settings}
+  footerSocials={footerSocials}
+  subsite={species}
+>
+  <div class="relative">
+    <SiteShape />
+
+    <div class="relative z-10 mx-auto max-w-[1200px] px-6">
+      <SubsiteHero
+        lang={lang}
+        species={species}
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        availableCount={availableCount}
+        image={leadImage}
+      />
+
+      <div class="border-line border-t py-16 md:py-20">
+        <NewsList posts={posts} lang={lang} />
+      </div>
+
+      <!-- Contact block (mirrors the home page) -->
+      <section class="border-line grid items-center gap-8 border-t py-16 md:grid-cols-2 md:py-24">
+        <StaticMap
+          place={settings?.city ?? 'Arad, România'}
+          label={`${settings?.city ?? 'Arad'} · ${t('cta.viewMap')}`}
+        />
+        <div>
+          {
+            settings?.city && (
+              <p class="text-2xl">
+                {en ? `${settings.city}, Romania` : `${settings.city}, România`}
+              </p>
+            )
+          }
+          {settings?.phone && <p class="font-display mt-2 text-3xl">{settings.phone}</p>}
+          <div class="mt-7">
+            <ContactButtons
+              settings={settings}
+              lang={lang}
+              buttons={['call', 'message']}
+              messageHref={routes.contact[lang]}
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

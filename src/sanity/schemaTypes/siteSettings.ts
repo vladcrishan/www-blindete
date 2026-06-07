@@ -10,7 +10,8 @@ export const siteSettings = defineType({
   type: 'document',
   groups: [
     { name: 'contact', title: 'Contact', default: true },
-    { name: 'social', title: 'Rețele sociale' },
+    { name: 'socialCat', title: 'Rețele sociale · Pisici' },
+    { name: 'socialDog', title: 'Rețele sociale · Câini' },
     { name: 'hero', title: 'Prima pagină (Hero)' },
   ],
   fields: [
@@ -40,24 +41,39 @@ export const siteSettings = defineType({
       initialValue: 'Arad',
       group: 'contact',
     }),
+    // Cat socials (Persană Chinchilla) — shown only on the cat breed pages.
     defineField({
       name: 'facebook',
-      title: 'Facebook (link)',
+      title: 'Facebook · Pisici (link)',
       type: 'url',
-      group: 'social',
+      group: 'socialCat',
     }),
     defineField({
       name: 'instagram',
-      title: 'Instagram (link)',
+      title: 'Instagram · Pisici (link)',
       type: 'url',
-      group: 'social',
+      group: 'socialCat',
     }),
+    // Dog socials (Pomeranian / Kleinspitz) — shown only on the dog breed pages.
+    defineField({
+      name: 'facebookDog',
+      title: 'Facebook · Câini (link)',
+      type: 'url',
+      group: 'socialDog',
+    }),
+    defineField({
+      name: 'instagramDog',
+      title: 'Instagram · Câini (link)',
+      type: 'url',
+      group: 'socialDog',
+    }),
+    // Messenger is a general contact channel (used by the contact buttons).
     defineField({
       name: 'messenger',
       title: 'Messenger (link m.me/...)',
       type: 'url',
       description: 'Ex: https://m.me/numele.paginii',
-      group: 'social',
+      group: 'contact',
     }),
     defineField({
       name: 'heroTitleRo',

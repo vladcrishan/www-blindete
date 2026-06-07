@@ -24,14 +24,12 @@ const en = lang === 'en';
 
 const title = en ? ['Pomeranian', 'Dogs'] : ['Câini', 'Pomeranian'];
 // Right-edge-up order in Figma: top→bottom reads Cute / Energetic / Playful.
-const traits = en
-  ? ['Cute', 'Energetic', 'Playful']
-  : ['Drăgălași', 'Energici', 'Jucăuși'];
+const traits = en ? ['Cute', 'Energetic', 'Playful'] : ['Drăgălași', 'Energici', 'Jucăuși'];
 const eyebrow = en ? 'Top quality' : 'Calitate de top';
 const headline = en ? 'Pure breed' : 'Rasă pură';
 const body = en
   ? 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
-  : 'Câini Pomeranian / Kleinspitz crescuți cu grijă în Arad — jucăuși, sociabili și plini de energie.';
+  : 'Câini Pomeranian / Kleinspitz crescuți cu grijă în Arad, jucăuși, sociabili și plini de energie.';
 const seeMore = en ? 'see more' : 'vezi mai mult';
 const href = localizedRoute('dogs', lang);
 
@@ -42,21 +40,10 @@ const alt2 = en ? 'Pomeranian dog playing on grass' : 'Câine Pomeranian jucând
 <section class="mx-auto max-w-[1200px] px-6 py-16 md:py-24">
   <!-- Desktop overlapping editorial layout (mirror of CatsHero). -->
   <div class="relative hidden aspect-[1180/940] w-full md:block">
-    <!-- Large primary photo, top-right -->
-    <div class="absolute top-[8%] right-0 z-0 h-[64%] w-[50%] overflow-hidden">
-      <img
-        src={dogHero1.src}
-        width={dogHero1.width}
-        height={dogHero1.height}
-        alt={alt1}
-        loading="eager"
-        decoding="async"
-        class="h-full w-full object-cover"
-      />
-    </div>
-
-    <!-- Secondary photo, overlapping lower-left of the primary -->
-    <div class="absolute bottom-[2%] left-[37%] z-0 h-[60%] w-[34%] overflow-hidden">
+    <!-- Large background photo, top-right (mirrors the Figma "Dogs" layout:
+         big photo anchored to the top-right, the secondary photo overlapping
+         its lower-left corner in front). -->
+    <div class="photo-grade photo-grade--dog absolute top-[6%] right-0 z-0 h-[64%] w-[38%] overflow-hidden">
       <img
         src={dogHero2.src}
         width={dogHero2.width}
@@ -64,13 +51,29 @@ const alt2 = en ? 'Pomeranian dog playing on grass' : 'Câine Pomeranian jucând
         alt={alt2}
         loading="eager"
         decoding="async"
-        class="h-full w-full object-cover"
+        class="absolute inset-0 h-full w-full object-cover object-top"
+      />
+    </div>
+
+    <!-- Secondary photo — the dominant front image, overlapping the lower-left
+         corner of the large one. Bottom-anchored so the rose stays in view. -->
+    <div class="photo-grade photo-grade--dog absolute bottom-[2%] left-[37%] z-10 h-[68%] w-[36%] overflow-hidden">
+      <img
+        src={dogHero1.src}
+        width={dogHero1.width}
+        height={dogHero1.height}
+        alt={alt1}
+        loading="eager"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover object-bottom"
       />
     </div>
 
     <!-- Big display title, top-left. "Pomeranian" is long, so it runs a touch
          smaller than the cats hero to sit clear of the primary photo. -->
-    <h1 class="font-display pointer-events-none absolute top-[8%] left-0 z-10 leading-[0.9] tracking-tight">
+    <h1
+      class="font-display pointer-events-none absolute top-[8%] left-0 z-10 leading-[0.9] tracking-tight"
+    >
       <span class="block text-[4.5rem] lg:text-[6rem] xl:text-[7rem]">{title[0]}</span>
       <span class="block text-[4.5rem] lg:text-[6rem] xl:text-[7rem]">{title[1]}</span>
     </h1>
@@ -80,19 +83,20 @@ const alt2 = en ? 'Pomeranian dog playing on grass' : 'Câine Pomeranian jucând
       <p class="eyebrow">{eyebrow}</p>
       <h2 class="font-display mt-1 text-2xl font-bold tracking-wide uppercase">{headline}</h2>
       <p class="text-mut mt-4 text-sm leading-relaxed">{body}</p>
-      <a
-        href={href}
-        class="hover:text-gold mt-6 inline-flex items-center gap-4 text-sm tracking-wide"
-      >
-        {seeMore}
-        <span class="bg-ink inline-block h-px w-12"></span>
+      <a href={href} class="see-more mt-6 tracking-wide">
+        <span class="see-more__label">{seeMore}</span>
+        <span class="see-more__line"></span>
       </a>
     </div>
 
     <!-- Rotated trait labels up the left edge of the secondary photo
          (Figma reads Cute → Energetic → Playful, top to bottom) -->
     <ul class="absolute bottom-[4%] left-[33%] z-10 flex flex-col gap-10">
-      {traits.map((label) => <li class="vlabel font-display text-ink! tracking-[0.25em]!">{label}</li>)}
+      {
+        traits.map((label) => (
+          <li class="vlabel-up font-display text-ink! tracking-[0.25em]!">{label}</li>
+        ))
+      }
     </ul>
   </div>
 
@@ -103,7 +107,7 @@ const alt2 = en ? 'Pomeranian dog playing on grass' : 'Câine Pomeranian jucând
       <span class="block text-6xl sm:text-7xl">{title[1]}</span>
     </h1>
 
-    <div class="mt-6 overflow-hidden">
+    <div class="photo-grade photo-grade--dog relative mt-6 overflow-hidden">
       <img
         src={dogHero1.src}
         width={dogHero1.width}
@@ -119,16 +123,13 @@ const alt2 = en ? 'Pomeranian dog playing on grass' : 'Câine Pomeranian jucând
       <p class="eyebrow">{eyebrow}</p>
       <h2 class="font-display mt-1 text-2xl font-bold tracking-wide uppercase">{headline}</h2>
       <p class="text-mut mt-4 leading-relaxed">{body}</p>
-      <a
-        href={href}
-        class="hover:text-gold mt-6 inline-flex items-center gap-4 text-sm tracking-wide"
-      >
-        {seeMore}
-        <span class="bg-ink inline-block h-px w-12"></span>
+      <a href={href} class="see-more mt-6 tracking-wide">
+        <span class="see-more__label">{seeMore}</span>
+        <span class="see-more__line"></span>
       </a>
     </div>
 
-    <div class="mt-8 overflow-hidden">
+    <div class="photo-grade photo-grade--dog relative mt-8 overflow-hidden">
       <img
         src={dogHero2.src}
         width={dogHero2.width}

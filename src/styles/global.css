@@ -68,9 +68,15 @@ a {
   color: inherit;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+/* Base image reset. Kept in the `base` layer so Tailwind's sizing utilities
+   (`h-full`, `object-cover`, etc.) win — an unlayered `img { height: auto }`
+   would override them, since unlayered rules beat layered utilities and would
+   stop `object-cover` images from filling their box. */
+@layer base {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* Small uppercase eyebrow label used across the design (gold) */
@@ -83,7 +89,7 @@ img {
   color: var(--color-gold);
 }
 
-/* Vertical rotated label (listing rows in Figma) */
+/* Vertical rotated label (listing rows in Figma) — reads top-to-bottom */
 .vlabel {
   writing-mode: vertical-rl;
   text-orientation: mixed;
@@ -91,6 +97,152 @@ img {
   text-transform: uppercase;
   font-size: 0.65rem;
   color: var(--color-mut);
+}
+
+/* Same, rotated 180° to read bottom-to-top (hero breed/trait labels in Figma) */
+.vlabel-up {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  color: var(--color-mut);
+}
+
+/*
+ * Header nav link — smooth gold color fade on hover; the active page stays
+ * gold. No underline; just an ease in-out color transition.
+ */
+.nav-link {
+  color: var(--color-ink);
+  transition: color 0.35s ease-in-out;
+}
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--color-gold);
+}
+
+/*
+ * Editorial "see more" CTA — text + a drawn line.
+ * On hover: the label slides toward gold, the trailing line grows and
+ * grows an arrowhead, so the whole thing reads as "follow this →".
+ */
+.see-more {
+  --line-w: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+  transition: color 0.35s ease;
+}
+.see-more__label {
+  display: inline-block;
+  transition: transform 0.35s ease;
+}
+/* The line is drawn so its width can animate (transition on width is cheap
+ * here since it's a tiny fixed element, and the head is built from borders). */
+.see-more__line {
+  position: relative;
+  display: inline-block;
+  height: 1px;
+  width: var(--line-w);
+  background-color: currentColor;
+  transition:
+    width 0.35s ease,
+    background-color 0.35s ease;
+}
+/* Arrowhead — collapsed (no size) until hover, then expands into a chevron. */
+.see-more__line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 0 solid transparent;
+  border-bottom: 0 solid transparent;
+  border-left: 0 solid currentColor;
+  transform: translateY(-50%);
+  transition: all 0.35s ease;
+}
+.see-more:hover {
+  color: var(--color-gold);
+}
+.see-more:hover .see-more__label {
+  transform: translateX(2px);
+}
+.see-more:hover .see-more__line {
+  width: calc(var(--line-w) + 1.25rem);
+  background-color: var(--color-gold);
+}
+.see-more:hover .see-more__line::after {
+  border-top-width: 4px;
+  border-bottom-width: 4px;
+  border-left-width: 6px;
+  border-left-color: var(--color-gold);
+}
+
+/*
+ * Color-grade a photo toward the site's warm cream/gold palette and lay a
+ * subtle film grain over it. Used to blend darker/browner source photos with
+ * the airy editorial look of the primary hero images.
+ *
+ * Apply `.photo-grade` to a positioned, overflow-hidden wrapper around the
+ * <img>. The image itself is brightened, eased in contrast, desaturated and
+ * pushed warm; a cream wash + SVG noise overlay sit on top via pseudo-
+ * elements (pointer-events disabled so links/hover still work).
+ */
+/* NOTE: no `position` here on purpose. Setting it (e.g. `relative`) would
+   override Tailwind's positioning utilities — unlayered rules beat layered
+   utilities in the cascade — and break `.photo-grade.absolute` wrappers.
+   Callers must supply a positioning utility (`relative`/`absolute`) so the
+   pseudo-element overlays below have a containing block. */
+.photo-grade > img {
+  filter: brightness(1.12) contrast(0.82) saturate(0.5) sepia(0.42)
+    hue-rotate(-10deg);
+}
+/* Warm cream wash to unify the tone with the palette. */
+.photo-grade::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Cream → gold gradient wash; two brand tones layered for a richer,
+     heavier tint than a flat fill. */
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-cream) 70%, transparent),
+    color-mix(in srgb, var(--color-gold) 45%, transparent)
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+}
+/* Film grain — fractal noise rendered as an SVG, tiled and blended in. */
+.photo-grade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+  opacity: 0.12;
+}
+
+/* Dog variant — same warm temperature as the cats grade, but more vivid:
+   keep most of the colour, lean on a gentle warm sepia + lighter cream wash
+   so the photos read as part of the same palette without washing out. */
+.photo-grade--dog > img {
+  filter: brightness(1.05) contrast(0.95) saturate(0.92) sepia(0.22)
+    hue-rotate(-8deg);
+}
+.photo-grade--dog::before {
+  opacity: 0.32;
 }
 
 @media (prefers-reduced-motion: reduce) {

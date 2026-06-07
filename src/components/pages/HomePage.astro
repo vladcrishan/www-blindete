@@ -5,6 +5,7 @@ import AnimalCard from '../AnimalCard.astro';
 import ContactButtons from '../ContactButtons.astro';
 import CatsHero from '../CatsHero.astro';
 import DogsHero from '../DogsHero.astro';
+import StaticMap from '../StaticMap.astro';
 import JsonLd from '../JsonLd.astro';
 import { useTranslations, localized, routes, type Lang } from '../../i18n/ui';
 import { getSiteSettings, getFeaturedAnimals, getAvailableCount } from '../../sanity/lib/queries';
@@ -27,12 +28,12 @@ const heroSubtitle = localized(settings?.heroSubtitleRo, settings?.heroSubtitleE
 
 const seoTitle =
   lang === 'en'
-    ? 'blindete — Persian Chinchilla Cats & Pomeranian Dogs in Arad'
-    : 'blîndețe — Pisici Persane Chinchilla și Câini Pomeranian în Arad';
+    ? 'blindete · Persian Chinchilla Cats & Pomeranian Dogs in Arad'
+    : 'blîndețe · Pisici Persane Chinchilla și Câini Pomeranian în Arad';
 const seoDesc =
   lang === 'en'
     ? 'Ethical breeder of Persian Chinchilla kittens and Pomeranian / Kleinspitz puppies in Arad, Romania. See available animals and get in touch.'
-    : 'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad. Vezi animalele disponibile și contactează-ne.';
+    : 'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad, România. Vezi animalele disponibile și contactează-ne.';
 
 const ogImg = settings?.heroImage ? ogImageUrl(settings.heroImage) : undefined;
 const homeUrl = new URL(routes.home[lang], Astro.site ?? 'https://blindete.ro').href;
@@ -103,20 +104,11 @@ const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.
 
     <!-- Contact block (Figma: address + phone + gold button) -->
     <section class="border-line grid items-center gap-8 border-t py-16 md:grid-cols-2 md:py-24">
-      <div class="bg-cream aspect-[4/3]">
-        {
-          settings?.heroImage && (
-            <SanityImage
-              image={settings.heroImage}
-              alt=""
-              width={700}
-              aspect="4/3"
-              sizes="(max-width:768px) 100vw, 500px"
-              class="h-full w-full"
-            />
-          )
-        }
-      </div>
+      <StaticMap
+        place={settings?.city ?? 'Arad'}
+        query="Strada Bagdazar, Arad, România"
+        label={`${settings?.city ?? 'Arad'} · ${t('cta.viewMap')}`}
+      />
       <div>
         {
           settings?.city && (
@@ -127,36 +119,13 @@ const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.
         }
         {settings?.phone && <p class="font-display mt-2 text-3xl">{settings.phone}</p>}
         <div class="mt-7">
-          <ContactButtons settings={settings} lang={lang} />
+          <ContactButtons
+            settings={settings}
+            lang={lang}
+            buttons={['call', 'message']}
+            messageHref={routes.contact[lang]}
+          />
         </div>
-        {
-          (settings?.facebook || settings?.instagram) && (
-            <p class="text-mut mt-6 text-sm">
-              <span>{t('home.followUs')}: </span>
-              {settings?.facebook && (
-                <a
-                  class="hover:text-gold underline"
-                  href={settings.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Facebook
-                </a>
-              )}
-              {settings?.facebook && settings?.instagram && <span> · </span>}
-              {settings?.instagram && (
-                <a
-                  class="hover:text-gold underline"
-                  href={settings.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Instagram
-                </a>
-              )}
-            </p>
-          )
-        }
       </div>
     </section>
   </div>

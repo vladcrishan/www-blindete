@@ -1,0 +1,71 @@
+---
+/**
+ * Contact-section map of Arad (Aradu Nou / Str. Bagdazar area).
+ *
+ * A real OpenStreetMap rendering, baked at build time into
+ * /public/map-arad.png as a sepia-ink-on-cream engraving with an irregular,
+ * soft alpha edge baked directly into the PNG — so it dissolves into the page
+ * with no rectangle to clip and no hard border. A small gold pin marks the
+ * area (neighbourhood level — no exact address). Clicking opens the location
+ * on Google Maps in a new tab.
+ */
+interface Props {
+  /** Short place label (used for the link + accessibility, e.g. "Arad"). */
+  place: string;
+  label?: string;
+  /** Precise query used for the Google Maps link (e.g. street address). */
+  query?: string;
+  /** Map image in /public. */
+  src?: string;
+  class?: string;
+}
+const { place, label, query, src = '/map-arad.png', class: className } = Astro.props;
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query ?? place)}`;
+---
+
+<a
+  href={mapsHref}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={label ?? place}
+  class:list={['map group relative block aspect-[4/3]', className]}
+>
+  <!-- the PNG already carries the soft, irregular, transparent edge -->
+  <img src={src} alt={place} loading="lazy" decoding="async" class="map-img" />
+
+  <!-- centre marker, in SVG so it stays crisp at any size -->
+  <svg
+    class="pointer-events-none absolute inset-0 h-full w-full"
+    viewBox="0 0 400 300"
+    aria-hidden="true"
+  >
+    <g transform="translate(200 150)" class="map-pin">
+      <ellipse cx="0" cy="9.5" rx="5" ry="1.8" fill="#000" opacity="0.18"></ellipse>
+      <path
+        d="M0 9.5 C 0 9.5 7.5 0.5 7.5 -4.5 A 7.5 7.5 0 1 0 -7.5 -4.5 C -7.5 0.5 0 9.5 0 9.5 Z"
+        fill="var(--color-gold)"
+        stroke="#fff"
+        stroke-width="1.6"
+        paint-order="stroke"></path>
+      <circle cx="0" cy="-4.5" r="2.6" fill="#fff"></circle>
+    </g>
+  </svg>
+</a>
+
+<style>
+  .map-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* PNG is pre-baked sepia-on-cream; just a gentle lift so it sits back. */
+    filter: brightness(1.03) contrast(0.96);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .map-pin {
+      transition: opacity 0.3s ease;
+    }
+    .group:hover .map-pin {
+      opacity: 0.92;
+    }
+  }
+</style>

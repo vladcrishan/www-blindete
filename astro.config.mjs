@@ -36,6 +36,14 @@ export default defineConfig({
     },
   },
 
+  // Old listing URLs -> new breed URLs (301). Keeps existing links/SEO valid.
+  redirects: {
+    '/pisici': '/persana-chinchilla',
+    '/caini': '/pomeranian-kleinspitz',
+    '/en/cats': '/en/persian-chinchilla',
+    '/en/dogs': '/en/pomeranian-kleinspitz',
+  },
+
   integrations: [
     sanity({
       projectId: SANITY_PROJECT_ID,
@@ -49,19 +57,19 @@ export default defineConfig({
     sitemap({
       // Keep the Studio out of the public sitemap.
       filter: (page) => !page.includes('/admin'),
-      // Inject correct hreflang alternates. The localized slugs differ
-      // (pisici<->cats, caini<->dogs) so we map them explicitly rather than
-      // relying on automatic same-path pairing.
+      // Inject correct hreflang alternates. The localized slugs differ per
+      // locale (persana-chinchilla<->persian-chinchilla, etc.) so we map them
+      // explicitly rather than relying on automatic same-path pairing.
       serialize(item) {
         const base = 'https://blindete.ro';
         // path -> [ro path, en path]
         const pairs = [
           ['/', '/', '/en/'],
           ['/en/', '/', '/en/'],
-          ['/pisici/', '/pisici/', '/en/cats/'],
-          ['/en/cats/', '/pisici/', '/en/cats/'],
-          ['/caini/', '/caini/', '/en/dogs/'],
-          ['/en/dogs/', '/caini/', '/en/dogs/'],
+          ['/persana-chinchilla/', '/persana-chinchilla/', '/en/persian-chinchilla/'],
+          ['/en/persian-chinchilla/', '/persana-chinchilla/', '/en/persian-chinchilla/'],
+          ['/pomeranian-kleinspitz/', '/pomeranian-kleinspitz/', '/en/pomeranian-kleinspitz/'],
+          ['/en/pomeranian-kleinspitz/', '/pomeranian-kleinspitz/', '/en/pomeranian-kleinspitz/'],
           ['/contact/', '/contact/', '/en/contact/'],
           ['/en/contact/', '/contact/', '/en/contact/'],
         ];
@@ -88,5 +96,24 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    // The embedded Sanity Studio (/admin) pulls in a huge dependency tree that
+    // Vite would otherwise discover lazily on first load, re-running its dep
+    // optimizer mid-render and invalidating already-served chunks — which shows
+    // up as "504 (Outdated Optimize Dep)" + "Failed to fetch dynamically
+    // imported module" and a blank Studio. Pre-bundle the heavy Studio deps up
+    // front so the optimizer settles in one pass.
+    optimizeDeps: {
+      include: [
+        'sanity',
+        'sanity/structure',
+        'sanity/router',
+        '@sanity/vision',
+        'react',
+        'react/jsx-runtime',
+        'react-dom',
+        'react-dom/client',
+        'styled-components',
+      ],
+    },
   },
 });

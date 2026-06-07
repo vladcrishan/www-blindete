@@ -21,6 +21,10 @@ export const ui = {
     'nav.dogs': 'Câini',
     'nav.contact': 'Contact',
     'nav.admin': 'Administrare',
+    'nav.news': 'Noutăți',
+    'nav.kittens': 'Pisici',
+    'nav.puppies': 'Câini',
+    'nav.gallery': 'Galerie',
 
     'home.availableNow': 'Disponibili acum',
     'home.available.one': 'animal disponibil',
@@ -30,8 +34,13 @@ export const ui = {
     'home.contactCta': 'Contactează-ne',
     'home.followUs': 'Urmărește-ne',
 
-    'list.cats.title': 'Pisici — Persană Chinchilla',
-    'list.dogs.title': 'Câini — Pomeranian / Kleinspitz',
+    'news.title': 'Noutăți',
+    'news.readMore': 'Citește mai mult',
+    'news.empty': 'Nu sunt noutăți momentan.',
+    'news.video': 'Video YouTube',
+
+    'list.cats.title': 'Pisici · Persană Chinchilla',
+    'list.dogs.title': 'Câini · Pomeranian / Kleinspitz',
     'list.empty': 'Momentan nu sunt animale de afișat aici.',
     'list.filter.all': 'Toate',
 
@@ -57,6 +66,8 @@ export const ui = {
     'cta.whatsapp': 'WhatsApp',
     'cta.messenger': 'Messenger',
     'cta.email': 'Email',
+    'cta.message': 'Mesaj',
+    'cta.viewMap': 'Vezi pe hartă',
 
     'contact.title': 'Contact',
     'contact.intro': 'Scrie-ne și îți răspundem cât mai repede.',
@@ -71,7 +82,7 @@ export const ui = {
 
     'footer.rights': 'Toate drepturile rezervate.',
     'footer.tagline':
-      'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad.',
+      'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad, România.',
 
     'lang.switchTo': 'English',
   },
@@ -83,6 +94,10 @@ export const ui = {
     'nav.dogs': 'Dogs',
     'nav.contact': 'Contact',
     'nav.admin': 'Admin',
+    'nav.news': 'News',
+    'nav.kittens': 'Kittens',
+    'nav.puppies': 'Puppies',
+    'nav.gallery': 'Gallery',
 
     'home.availableNow': 'Available now',
     'home.available.one': 'animal available',
@@ -92,8 +107,13 @@ export const ui = {
     'home.contactCta': 'Contact us',
     'home.followUs': 'Follow us',
 
-    'list.cats.title': 'Cats — Persian Chinchilla',
-    'list.dogs.title': 'Dogs — Pomeranian / Kleinspitz',
+    'news.title': 'News',
+    'news.readMore': 'Read more',
+    'news.empty': 'No news right now.',
+    'news.video': 'YouTube video',
+
+    'list.cats.title': 'Cats · Persian Chinchilla',
+    'list.dogs.title': 'Dogs · Pomeranian / Kleinspitz',
     'list.empty': 'No animals to show here right now.',
     'list.filter.all': 'All',
 
@@ -119,6 +139,8 @@ export const ui = {
     'cta.whatsapp': 'WhatsApp',
     'cta.messenger': 'Messenger',
     'cta.email': 'Email',
+    'cta.message': 'Message',
+    'cta.viewMap': 'View on map',
 
     'contact.title': 'Contact',
     'contact.intro': "Write to us and we'll get back to you as soon as possible.",
@@ -133,7 +155,7 @@ export const ui = {
 
     'footer.rights': 'All rights reserved.',
     'footer.tagline':
-      'Breeder of Persian Chinchilla cats and Pomeranian / Kleinspitz dogs in Arad.',
+      'Breeder of Persian Chinchilla cats and Pomeranian / Kleinspitz dogs in Arad, Romania.',
 
     'lang.switchTo': 'Română',
   },
@@ -147,8 +169,12 @@ export type UIKey = keyof (typeof ui)['ro'];
  */
 export const routes = {
   home: { ro: '/', en: '/en/' },
-  cats: { ro: '/pisici', en: '/en/cats' },
-  dogs: { ro: '/caini', en: '/en/dogs' },
+  // Sub-site landings (hero + news). The two species FB/IG accounts link here.
+  cats: { ro: '/persana-chinchilla', en: '/en/persian-chinchilla' },
+  dogs: { ro: '/pomeranian-kleinspitz', en: '/en/pomeranian-kleinspitz' },
+  // Animal listings, nested under each sub-site landing.
+  catsListing: { ro: '/persana-chinchilla/pisici', en: '/en/persian-chinchilla/kittens' },
+  dogsListing: { ro: '/pomeranian-kleinspitz/caini', en: '/en/pomeranian-kleinspitz/puppies' },
   contact: { ro: '/contact', en: '/en/contact' },
 } as const;
 
