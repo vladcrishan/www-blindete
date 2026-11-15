@@ -1,0 +1,311 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AnimalCard from '../AnimalCard.astro';
+import ProtectedImage from '../ProtectedImage.astro';
+import {
+  useTranslations,
+  routes,
+  litterPath,
+  animalPath,
+  localized,
+  formatPrice,
+  type Lang,
+} from '../../i18n/ui';
+import { getSiteSettings } from '../../sanity/lib/queries';
+import { ogImageUrl } from '../../sanity/lib/seo';
+import type { Litter, Species, AnimalRef } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+  litter: Litter;
+}
+const { lang, species, litter } = Astro.props;
+const t = useTranslations(lang);
+const isCat = species === 'cat';
+const settings = await getSiteSettings();
+
+const copy = {
+  ro: {
+    back: isCat ? 'Toți pisoii' : 'Toți cățeii',
+    parents: 'Părinți',
+    sire: 'Tată',
+    dam: 'Mamă',
+    facts: 'Detalii cuib',
+    born: 'Născuți',
+    count: isCat ? 'Pisoi' : 'Căței',
+    colours: 'Culori',
+    ready: 'Gata de plecare',
+    price: 'Preț',
+    avail: 'Disponibilitate',
+    from: 'de la',
+    onRequest: 'Preț la cerere',
+    young: isCat ? 'Pisoii' : 'Cățeii',
+    reserve: isCat ? 'Rezervă un pisoi' : 'Rezervă un cățel',
+    noYoung: isCat
+      ? 'Pisoii acestui cuib vor fi afișați în curând. Contactează-ne pentru lista de așteptare.'
+      : 'Cățeii acestui cuib vor fi afișați în curând. Contactează-ne pentru lista de așteptare.',
+    yrs: 'ani',
+    girls: 'femele',
+    boys: 'masculi',
+    availableN: 'disponibil(i)',
+    reservedN: 'rezervat(i)',
+    soldN: 'vândut(i)',
+    of: 'din',
+    notes: 'Despre cuib',
+    photos: 'Fotografii',
+    weeks: isCat ? 'de la 13 săptămâni' : 'de la 12 săptămâni',
+  },
+  en: {
+    back: isCat ? 'All kittens' : 'All puppies',
+    parents: 'Parents',
+    sire: 'Sire',
+    dam: 'Dam',
+    facts: 'Litter facts',
+    born: 'Born',
+    count: isCat ? 'Kittens' : 'Puppies',
+    colours: 'Colours',
+    ready: 'Ready to go',
+    price: 'Price',
+    avail: 'Availability',
+    from: 'from',
+    onRequest: 'Price on request',
+    young: isCat ? 'The kittens' : 'The puppies',
+    reserve: isCat ? 'Reserve a kitten' : 'Reserve a puppy',
+    noYoung: isCat
+      ? 'This litter’s kittens will be listed soon. Contact us to join the waiting list.'
+      : 'This litter’s puppies will be listed soon. Contact us to join the waiting list.',
+    yrs: 'yrs',
+    girls: 'girls',
+    boys: 'boys',
+    availableN: 'available',
+    reservedN: 'reserved',
+    soldN: 'sold',
+    of: 'of',
+    notes: 'About this litter',
+    photos: 'Photos',
+    weeks: isCat ? 'from 13 weeks' : 'from 12 weeks',
+  },
+}[lang];
+
+const listingRoute = routes[isCat ? 'catsListing' : 'dogsListing'];
+const listingHref = listingRoute[lang];
+const young = litter.young ?? [];
+const locale = lang === 'en' ? 'en-GB' : 'ro-RO';
+const fmtDate = (d?: string, withYear = true) =>
+  d
+    ? new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'long',
+        ...(withYear ? { year: 'numeric' as const } : {}),
+      }).format(new Date(d))
+    : '';
+const fmtPrice = (n: number) => formatPrice(n, lang);
+
+const ageOf = (d?: string) => {
+  if (!d) return '';
+  const years = Math.floor((Date.now() - new Date(d).getTime()) / (365.25 * 24 * 3600 * 1000));
+  return years >= 1 ? `${years} ${copy.yrs}` : '';
+};
+const parentLine = (p: AnimalRef) =>
+  [p.color, ageOf(p.birthdate), p.titles].filter(Boolean).join(' · ');
+
+const legacyParents = litter.parents;
+const parentsList: { role: string; p: AnimalRef }[] = [
+  litter.sire ? { role: copy.sire, p: litter.sire } : null,
+  litter.dam ? { role: copy.dam, p: litter.dam } : null,
+].filter((x): x is { role: string; p: AnimalRef } => !!x);
+
+const n = (s: string) => young.filter((y) => y.status === s).length;
+const girls = young.filter((y) => y.gender === 'female').length;
+const boys = young.filter((y) => y.gender === 'male').length;
+const countText = young.length
+  ? [
+      String(young.length),
+      girls + boys > 0
+        ? [girls ? `${girls} ${copy.girls}` : '', boys ? `${boys} ${copy.boys}` : '']
+            .filter(Boolean)
+            .join(', ')
+        : '',
+    ]
+      .filter(Boolean)
+      .join(' — ')
+  : '';
+const availText = young.length
+  ? [
+      n('available') ? `${n('available')} ${copy.availableN}` : '',
+      n('reserved') ? `${n('reserved')} ${copy.reservedN}` : '',
+      n('sold') ? `${n('sold')} ${copy.soldN}` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ') || `0 ${copy.of} ${young.length} ${copy.availableN}`
+  : '';
+
+const facts: [string, string][] = (
+  [
+    [copy.born, fmtDate(litter.birthdate, false)],
+    [copy.count, countText],
+    [copy.colours, litter.colors ?? ''],
+    [
+      copy.ready,
+      litter.expectedAvailableDate
+        ? `${fmtDate(litter.expectedAvailableDate, false)}, ${copy.weeks}`
+        : '',
+    ],
+    [copy.price, litter.priceFrom ? `${copy.from} ${fmtPrice(litter.priceFrom)}` : copy.onRequest],
+    [copy.avail, availText],
+  ] as [string, string][]
+).filter(([, v]) => v);
+
+const notes = localized(litter.notes, litter.notesEn, lang);
+const photos = (litter.photos ?? []).filter((p) => p?.asset);
+const cover = photos[0] ?? young.find((y) => y.photos?.[0])?.photos[0];
+
+const title = litter.title;
+const seoTitle = `${title} · ${t(isCat ? 'nav.kittens' : 'nav.puppies')} · ${t('brand.name')}`;
+const seoDesc =
+  notes?.slice(0, 160) ||
+  (lang === 'en'
+    ? `${title}: ${isCat ? 'Persian Chinchilla kittens' : 'Pomeranian / Kleinspitz puppies'} with pedigree from blîndețe, Arad.`
+    : `${title}: ${isCat ? 'pisoi Persani Chinchilla' : 'căței Pomeranian / Kleinspitz'} cu pedigree de la blîndețe, Arad.`);
+
+const footerSocials = isCat
+  ? { facebook: settings?.facebook, instagram: settings?.instagram }
+  : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={litterPath(species, litter.slug, 'ro')}
+  enPath={litterPath(species, litter.slug, 'en')}
+  ogImage={cover ? ogImageUrl(cover) : settings?.heroImage ? ogImageUrl(settings.heroImage) : undefined}
+  settings={settings}
+  footerSocials={footerSocials}
+  subsite={species}
+>
+  <div class="mx-auto max-w-[1200px] px-6 pt-10 pb-16 md:pt-14 md:pb-24">
+    <a href={listingHref} class="see-more text-mute text-sm">
+      <span aria-hidden="true">←</span>
+      <span class="see-more__label">{copy.back}</span>
+    </a>
+
+    <h1 class="mt-6 font-sans text-5xl leading-none font-normal tracking-tight sm:text-7xl md:text-8xl">
+      {title}
+    </h1>
+
+    <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-20">
+      <section>
+        <h2 class="border-ink text-mute border-t pt-4 text-[0.7rem] tracking-[0.2em] uppercase">
+          {copy.parents}
+        </h2>
+        {
+          parentsList.length > 0 ? (
+            <ul class="mt-6 space-y-5">
+              {parentsList.map(({ role, p }) => {
+                const href = p.slug ? animalPath(p.slug, lang) : undefined;
+                const line = parentLine(p);
+                return (
+                  <li class="flex gap-5">
+                    <div class="bg-cream-soft h-[100px] w-[100px] shrink-0">
+                      {p.photo && (
+                        <ProtectedImage
+                          image={p.photo}
+                          alt={p.photo.alt ?? p.name}
+                          width={300}
+                          aspect="1/1"
+                          mark="none"
+                          class="h-full w-full object-cover"
+                          wrapperClass="h-full w-full"
+                        />
+                      )}
+                    </div>
+                    <div class="self-center">
+                      <p class="eyebrow">{role}</p>
+                      <p class="mt-1 font-sans text-2xl">
+                        {href ? (
+                          <a href={href} class="hover:text-sand-dark transition">
+                            {p.name}
+                          </a>
+                        ) : (
+                          p.name
+                        )}
+                      </p>
+                      {line && <p class="text-mute mt-1 text-sm">{line}</p>}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            legacyParents && <p class="mt-6 font-sans text-2xl">{legacyParents}</p>
+          )
+        }
+      </section>
+
+      <section>
+        <h2 class="border-ink text-mute border-t pt-4 text-[0.7rem] tracking-[0.2em] uppercase">
+          {copy.facts}
+        </h2>
+        <dl class="mt-2">
+          {
+            facts.map(([k, v]) => (
+              <div class="border-line grid grid-cols-[8rem_1fr] gap-4 border-b py-3.5 text-[0.95rem]">
+                <dt class="text-mute text-sm">{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+    </div>
+
+    {
+      notes && (
+        <section class="mt-12 max-w-2xl">
+          <h2 class="text-mute text-[0.7rem] tracking-[0.2em] uppercase">{copy.notes}</h2>
+          <p class="mt-4 leading-relaxed whitespace-pre-line">{notes}</p>
+        </section>
+      )
+    }
+
+    <section class="mt-16 md:mt-20">
+      <div class="flex items-center justify-between gap-4">
+        <h2 class="font-sans text-3xl">{copy.young}</h2>
+        <a href={routes.contact[lang]} class="btn-sand">{copy.reserve}</a>
+      </div>
+      {
+        young.length > 0 ? (
+          <div class="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {young.map((a) => (
+              <AnimalCard animal={a} lang={lang} />
+            ))}
+          </div>
+        ) : (
+          <p class="text-mute bg-cream-soft mt-8 px-6 py-12 text-center">{copy.noYoung}</p>
+        )
+      }
+    </section>
+
+    {
+      photos.length > 0 && (
+        <section class="mt-16 md:mt-20">
+          <h2 class="font-sans text-3xl">{copy.photos}</h2>
+          <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {photos.map((p) => (
+              <ProtectedImage
+                image={p}
+                alt={p.alt ?? title}
+                width={800}
+                aspect="4/3"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                class="h-full w-full object-cover"
+                wrapperClass="bg-cream-soft"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>

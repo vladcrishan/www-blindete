@@ -1,0 +1,286 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProtectedImage from '../ProtectedImage.astro';
+import GalleryLightbox from '../GalleryLightbox.astro';
+import { routes, type Lang } from '../../i18n/ui';
+import { getGallery, getSiteSettings } from '../../sanity/lib/queries';
+import { urlFor } from '../../sanity/lib/image';
+import type { GalleryCategory } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const settings = await getSiteSettings();
+const images = (await getGallery()).filter((i) => i?.asset?._ref);
+
+const copy = {
+  ro: {
+    eyebrow: 'Momente la blîndețe',
+    title: 'Galerie',
+    all: 'Toate',
+    cats: { dogs: 'Câini', cats: 'Pisici', puppies: 'Căței', kittens: 'Pisoi', shows: 'Expoziții' },
+    filters: 'Filtrează pozele',
+    empty: 'Galeria se completează în curând',
+    emptyText: 'Revenim în scurt timp cu poze din viața pisicilor și câinilor noștri.',
+    close: 'Închide',
+    prev: 'Poza anterioară',
+    next: 'Poza următoare',
+    hint: '← → pentru a naviga',
+    enquire: 'Contactează-ne',
+    open: 'Deschide poza',
+    seoTitle: 'Galerie · blîndețe',
+    seoDesc: 'Galerie foto blîndețe: pisici Persane Chinchilla, câini Pomeranian și Kleinspitz, pui și expoziții din Arad.',
+    rights: 'Pozele sunt protejate de drepturi de autor.',
+  },
+  en: {
+    eyebrow: 'Moments at blîndețe',
+    title: 'Gallery',
+    all: 'All',
+    cats: { dogs: 'Dogs', cats: 'Cats', puppies: 'Puppies', kittens: 'Kittens', shows: 'Shows' },
+    filters: 'Filter photos',
+    empty: 'The gallery is coming soon',
+    emptyText: 'We will be back shortly with photos from the life of our cats and dogs.',
+    close: 'Close',
+    prev: 'Previous photo',
+    next: 'Next photo',
+    hint: '← → to browse',
+    enquire: 'Get in touch',
+    open: 'Open photo',
+    seoTitle: 'Gallery · blîndețe',
+    seoDesc: 'blîndețe photo gallery: Persian Chinchilla cats, Pomeranian and Kleinspitz dogs, puppies, kittens and shows in Arad.',
+    rights: 'Photos are protected by copyright.',
+  },
+}[lang];
+
+const order: GalleryCategory[] = ['dogs', 'cats', 'puppies', 'kittens', 'shows'];
+const present = order.filter((c) => images.some((i) => i.category === c));
+
+const items = images.map((img) => {
+  const m = /-(\d+)x(\d+)-/.exec(img.asset!._ref);
+  const aspect = m ? `${m[1]}/${m[2]}` : undefined;
+  const base = urlFor(img).auto('format').fit('max');
+  return {
+    img,
+    aspect,
+    cat: img.category ?? '',
+    caption: (lang === 'en' ? img.captionEn || img.captionRo : img.captionRo || img.captionEn) ?? '',
+    alt: img.alt || (lang === 'en' ? img.captionEn || img.captionRo : img.captionRo || img.captionEn) || '',
+    full: base.width(1600).quality(82).url(),
+    thumb: base.width(240).quality(70).url(),
+  };
+});
+
+const tabs = [{ key: 'all', label: copy.all }, ...present.map((c) => ({ key: c, label: copy.cats[c] }))];
+---
+
+<BaseLayout
+  title={copy.seoTitle}
+  description={copy.seoDesc}
+  roPath={routes.gallery.ro}
+  enPath={routes.gallery.en}
+  settings={settings}
+>
+  <section class="mx-auto max-w-[1200px] px-6 py-10 lg:py-16" id="gallery-root"
+    data-labels={JSON.stringify({ all: copy.all, cats: copy.cats })}>
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1 class="mt-2 font-serif text-6xl leading-none sm:text-7xl lg:text-[104px]">{copy.title}</h1>
+      </div>
+      {
+        items.length > 0 && (
+          <nav aria-label={copy.filters} class="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
+            <ul class="flex gap-6 whitespace-nowrap sm:gap-8 lg:pb-3">
+              {tabs.map((tab, i) => (
+                <li>
+                  <button
+                    type="button"
+                    data-filter={tab.key}
+                    aria-pressed={i === 0 ? 'true' : 'false'}
+                    class="text-mute aria-pressed:border-ink aria-pressed:text-ink hover:text-ink border-b border-transparent pb-1.5 text-xs uppercase tracking-[0.14em] transition-colors"
+                  >
+                    {tab.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+    </div>
+
+    {
+      items.length === 0 ? (
+        <div class="border-line mt-12 grid place-items-center border px-6 py-24 text-center">
+          <div>
+            <p class="eyebrow">blîndețe</p>
+            <h2 class="mt-3 font-serif text-3xl sm:text-4xl">{copy.empty}</h2>
+            <p class="text-mute mx-auto mt-3 max-w-md">{copy.emptyText}</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          <ul id="gallery-grid" class="mt-10 columns-1 gap-4 sm:columns-2 lg:mt-14 lg:columns-3">
+            {items.map((it, i) => (
+              <li
+                class="mb-4 break-inside-avoid"
+                data-item
+                data-cat={it.cat}
+                data-index={i}
+              >
+                <button
+                  type="button"
+                  class="group block w-full text-left"
+                  aria-label={`${copy.open}${it.caption ? `: ${it.caption}` : ''}`}
+                  data-full={it.full}
+                  data-thumb={it.thumb}
+                  data-caption={it.caption}
+                  data-alt={it.alt}
+                  data-cat={it.cat}
+                >
+                  <ProtectedImage
+                    image={it.img}
+                    alt={it.alt}
+                    width={640}
+                    aspect={it.aspect}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    class="h-auto w-full transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                  {it.caption && <span class="text-mute mt-2 block text-xs">{it.caption}</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <p class="text-mute mt-6 text-xs">{copy.rights}</p>
+          <GalleryLightbox
+            labels={{
+              close: copy.close,
+              prev: copy.prev,
+              next: copy.next,
+              hint: copy.hint,
+              enquire: copy.enquire,
+              contactHref: routes.contact[lang],
+            }}
+          />
+        </>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.getElementById('gallery-root');
+  if (root && root.querySelector('#gallery-grid')) {
+    const labels = JSON.parse(root.dataset.labels || '{}') as { all: string; cats: Record<string, string> };
+    const filters = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const cells = Array.from(root.querySelectorAll<HTMLLIElement>('[data-item]'));
+    const keys = filters.map((f) => f.dataset.filter!);
+
+    let current = 'all';
+    const applyFilter = (key: string, updateHash = true) => {
+      current = keys.includes(key) ? key : 'all';
+      filters.forEach((f) => f.setAttribute('aria-pressed', String(f.dataset.filter === current)));
+      cells.forEach((c) => {
+        c.hidden = !(current === 'all' || c.dataset.cat === current);
+      });
+      if (updateHash) {
+        const url = current === 'all' ? location.pathname + location.search : `#${current}`;
+        history.replaceState(null, '', url);
+      }
+    };
+    filters.forEach((f) => f.addEventListener('click', () => applyFilter(f.dataset.filter!)));
+    window.addEventListener('hashchange', () => applyFilter(location.hash.slice(1), false));
+    applyFilter(location.hash.slice(1), false);
+
+    // ---- Lightbox ----
+    const dlg = document.getElementById('gallery-lightbox') as HTMLDialogElement;
+    const q = <T extends HTMLElement>(n: string) => dlg.querySelector<T>(`[data-lb="${n}"]`)!;
+    const imgEl = q<HTMLImageElement>('img');
+    const thumbs = q<HTMLDivElement>('thumbs');
+    const catLabel = (c?: string) => (c && labels.cats[c]) || '';
+    type Entry = { btn: HTMLButtonElement; full: string; thumb: string; caption: string; alt: string; cat: string };
+    let list: Entry[] = [];
+    let idx = 0;
+    let opener: HTMLElement | null = null;
+
+    const visible = (): Entry[] =>
+      cells
+        .filter((c) => !c.hidden)
+        .map((c) => c.querySelector<HTMLButtonElement>('button')!)
+        .map((btn) => ({
+          btn,
+          full: btn.dataset.full!,
+          thumb: btn.dataset.thumb!,
+          caption: btn.dataset.caption || '',
+          alt: btn.dataset.alt || '',
+          cat: btn.dataset.cat || '',
+        }));
+
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const show = (i: number) => {
+      idx = (i + list.length) % list.length;
+      const e = list[idx];
+      imgEl.src = e.full;
+      imgEl.alt = e.alt;
+      q('eyebrow').textContent = root.querySelector('.eyebrow')?.textContent || '';
+      q('counter').textContent = `${pad(idx + 1)} / ${pad(list.length)}`;
+      q('cat').textContent = catLabel(e.cat);
+      q('caption').textContent = e.caption;
+      q('caption').hidden = !e.caption;
+      thumbs.querySelectorAll<HTMLButtonElement>('button').forEach((b, n) => {
+        b.setAttribute('aria-current', String(n === idx));
+        b.classList.toggle('opacity-50', n !== idx);
+        b.classList.toggle('outline', n === idx);
+        if (n === idx) b.scrollIntoView({ block: 'nearest', inline: 'center' });
+      });
+      const solo = list.length < 2;
+      q('prev').hidden = solo;
+      q('next').hidden = solo;
+    };
+
+    const open = (btn: HTMLButtonElement) => {
+      list = visible();
+      const i = list.findIndex((e) => e.btn === btn);
+      thumbs.replaceChildren(
+        ...list.map((e, n) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'h-[72px] w-24 shrink-0 outline-2 -outline-offset-2 outline-sand sm:h-[90px] sm:w-[120px]';
+          b.setAttribute('role', 'listitem');
+          b.setAttribute('aria-label', e.caption || `${n + 1}`);
+          const im = document.createElement('img');
+          im.src = e.thumb;
+          im.alt = '';
+          im.loading = 'lazy';
+          im.draggable = false;
+          im.className = 'h-full w-full object-cover';
+          b.append(im);
+          b.addEventListener('click', () => show(n));
+          return b;
+        }),
+      );
+      opener = btn;
+      document.documentElement.style.overflow = 'hidden';
+      dlg.showModal();
+      show(Math.max(i, 0));
+      q<HTMLButtonElement>('close').focus();
+    };
+
+    const close = () => dlg.close();
+    dlg.addEventListener('close', () => {
+      document.documentElement.style.overflow = '';
+      imgEl.removeAttribute('src');
+      opener?.focus();
+    });
+    q('close').addEventListener('click', close);
+    q('prev').addEventListener('click', () => show(idx - 1));
+    q('next').addEventListener('click', () => show(idx + 1));
+    dlg.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowLeft') show(idx - 1);
+      else if (ev.key === 'ArrowRight') show(idx + 1);
+    });
+    dlg.addEventListener('contextmenu', (ev) => ev.preventDefault());
+    cells.forEach((c) => c.querySelector('button')!.addEventListener('click', (ev) => open(ev.currentTarget as HTMLButtonElement)));
+  }
+</script>

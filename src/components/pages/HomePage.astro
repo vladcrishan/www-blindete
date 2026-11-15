@@ -8,7 +8,12 @@ import DogsHero from '../DogsHero.astro';
 import StaticMap from '../StaticMap.astro';
 import JsonLd from '../JsonLd.astro';
 import { useTranslations, localized, routes, type Lang } from '../../i18n/ui';
-import { getSiteSettings, getFeaturedAnimals, getAvailableCount } from '../../sanity/lib/queries';
+import {
+  getSiteSettings,
+  getFeaturedAnimals,
+  getAvailableCount,
+  getLanding,
+} from '../../sanity/lib/queries';
 import { petStoreSchema, ogImageUrl } from '../../sanity/lib/seo';
 
 interface Props {
@@ -17,10 +22,12 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const [settings, featured, availableCount] = await Promise.all([
+const [settings, featured, availableCount, catLanding, dogLanding] = await Promise.all([
   getSiteSettings(),
   getFeaturedAnimals(),
   getAvailableCount(),
+  getLanding('cat'),
+  getLanding('dog'),
 ]);
 
 const heroTitle = localized(settings?.heroTitleRo, settings?.heroTitleEn, lang);
@@ -53,10 +60,10 @@ const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.
   <JsonLd slot="head" schema={schema} />
 
   <!-- Editorial "Persian Cats" hero (Figma) -->
-  <CatsHero lang={lang} />
+  <CatsHero lang={lang} content={catLanding} />
 
   <!-- Editorial "Pomeranian Dogs" hero (Figma, mirrored) -->
-  <DogsHero lang={lang} />
+  <DogsHero lang={lang} content={dogLanding} />
 
   <div class="mx-auto max-w-[1200px] px-6">
     <!-- Optional editorial hero intro from settings -->
@@ -65,11 +72,11 @@ const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.
         <section class="grid items-center gap-8 py-12 md:grid-cols-2 md:py-20">
           <div>
             {heroTitle && <h1 class="text-5xl sm:text-6xl">{heroTitle}</h1>}
-            {heroSubtitle && <p class="text-mut mt-5 max-w-md leading-relaxed">{heroSubtitle}</p>}
+            {heroSubtitle && <p class="text-mute mt-5 max-w-md leading-relaxed">{heroSubtitle}</p>}
             {availableCount > 0 && (
               <p class="mt-6 text-sm">
-                <span class="font-display text-gold text-2xl">{availableCount}</span>
-                <span class="text-mut ml-2">{availableLabel}</span>
+                <span class="font-display text-sand text-2xl">{availableCount}</span>
+                <span class="text-mute ml-2">{availableLabel}</span>
               </p>
             )}
           </div>
@@ -102,7 +109,7 @@ const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.
       )
     }
 
-    <!-- Contact block (Figma: address + phone + gold button) -->
+    <!-- Contact block (address + phone + sand button) -->
     <section class="border-line grid items-center gap-8 border-t py-16 md:grid-cols-2 md:py-24">
       <StaticMap
         place={settings?.city ?? 'Arad'}

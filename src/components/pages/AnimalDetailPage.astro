@@ -1,15 +1,27 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Gallery from '../Gallery.astro';
+import ImagePreview from '../ImagePreview.astro';
+import PedigreeTree from '../PedigreeTree.astro';
+import ProtectedImage from '../ProtectedImage.astro';
 import VideoEmbed from '../VideoEmbed.astro';
 import StatusBadge from '../StatusBadge.astro';
 import ContactButtons from '../ContactButtons.astro';
 import JsonLd from '../JsonLd.astro';
-import { useTranslations, localized, animalBase, localizedRoute, type Lang } from '../../i18n/ui';
-import { getSiteSettings } from '../../sanity/lib/queries';
+import {
+  useTranslations,
+  localized,
+  animalBase,
+  animalPath,
+  litterPath,
+  routes,
+  formatPrice,
+  type Lang,
+} from '../../i18n/ui';
+import { getSiteSettings, getOffspringOf } from '../../sanity/lib/queries';
 import { animalProductSchema, ogImageUrl } from '../../sanity/lib/seo';
 import { urlFor } from '../../sanity/lib/image';
-import type { Animal } from '../../sanity/lib/types';
+import type { Animal, AnimalRef } from '../../sanity/lib/types';
 
 interface Props {
   lang: Lang;
@@ -17,10 +29,61 @@ interface Props {
 }
 const { lang, animal } = Astro.props;
 const t = useTranslations(lang);
+const isBreeding = animal.role === 'breeding';
+const isCat = animal.species === 'cat';
 
-const settings = await getSiteSettings();
+const [settings, offspring] = await Promise.all([
+  getSiteSettings(),
+  isBreeding ? getOffspringOf(animal._id) : Promise.resolve([] as Animal[]),
+]);
+
+const copy = {
+  ro: {
+    sire: 'Tată',
+    dam: 'Mamă',
+    titles: 'Titluri',
+    weight: 'Greutate',
+    coat: 'Blană',
+    health: 'Teste de sănătate',
+    pedigree: 'Pedigree',
+    sex: 'Sex',
+    born: 'Născut',
+    price: 'Preț',
+    litter: 'Cuib',
+    enquire: 'Întreabă despre un cuib',
+    viewPedigree: 'Vezi pedigree-ul',
+    pedigreeDoc: 'Certificat de pedigree',
+    back: isCat ? 'Pisicile noastre' : 'Câinii noștri',
+    offspring: 'Pui',
+    offspringTitle: 'Descendenți',
+    bornPrefix: 'Născută',
+    video: 'Video',
+  },
+  en: {
+    sire: 'Sire',
+    dam: 'Dam',
+    titles: 'Titles',
+    weight: 'Weight',
+    coat: 'Coat',
+    health: 'Health tests',
+    pedigree: 'Pedigree',
+    sex: 'Sex',
+    born: 'Born',
+    price: 'Price',
+    litter: 'Litter',
+    enquire: 'Enquire about a litter',
+    viewPedigree: 'View pedigree',
+    pedigreeDoc: 'Pedigree certificate',
+    back: isCat ? 'Our cats' : 'Our dogs',
+    offspring: 'Offspring',
+    offspringTitle: 'Offspring',
+    bornPrefix: 'Born',
+    video: 'Video',
+  },
+}[lang];
 
 const description = localized(animal.descriptionRo, animal.descriptionEn, lang) ?? '';
+const headline = localized(animal.headlineRo, animal.headlineEn, lang);
 const breedLabel = t(`breed.${animal.breed}` as const);
 const genderLabel = animal.gender ? t(`animal.gender.${animal.gender}` as const) : undefined;
 
@@ -28,16 +91,15 @@ const roPath = `${animalBase.ro}/${animal.slug}`;
 const enPath = `${animalBase.en}/${animal.slug}`;
 const pageUrl = new URL(lang === 'en' ? enPath : roPath, Astro.site ?? 'https://blindete.ro').href;
 
-const cover = animal.photos?.[0];
+const photos = (animal.photos ?? []).filter((p) => p?.asset);
+const cover = photos[0];
 const ogImg = cover ? ogImageUrl(cover) : undefined;
-const schemaImages = (animal.photos ?? [])
-  .slice(0, 5)
-  .map((p) => urlFor(p).width(1200).auto('format').url());
+const schemaImages = photos.slice(0, 5).map((p) => urlFor(p).width(1200).auto('format').url());
 
 const seoDesc =
   description ||
-  (lang === 'en'
-    ? `${animal.name}, ${breedLabel}. ${t(`status.${animal.status}`)}.`
+  (isBreeding
+    ? `${animal.name}, ${breedLabel}${animal.pedigreeRegistry ? ` · ${animal.pedigreeRegistry}` : ''}.`
     : `${animal.name}, ${breedLabel}. ${t(`status.${animal.status}`)}.`);
 
 const schema = animalProductSchema(animal, {
@@ -46,27 +108,85 @@ const schema = animalProductSchema(animal, {
   images: schemaImages,
   lang,
 });
+// Breeding animals are not for sale: no Offer.
+if (isBreeding) delete schema.offers;
 
-const birthdate = animal.birthdate
-  ? new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'ro-RO', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }).format(new Date(animal.birthdate))
-  : undefined;
+const fmtDate = (d?: string) =>
+  d
+    ? new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'ro-RO', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }).format(new Date(d))
+    : undefined;
+const birthdate = fmtDate(animal.birthdate);
 
 const priceLabel =
   typeof animal.price === 'number'
-    ? new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'ro-RO').format(animal.price) + ' RON'
+    ? formatPrice(animal.price, lang)
     : t('animal.priceOnRequest');
 
-const backHref = localizedRoute(animal.species === 'cat' ? 'catsListing' : 'dogsListing', lang);
+const backHref = isBreeding
+  ? routes[isCat ? 'catsOurs' : 'dogsOurs'][lang]
+  : routes[isCat ? 'catsListing' : 'dogsListing'][lang];
+const backLabel = isBreeding ? copy.back : t('animal.backToList');
+
+const metaLine = (
+  isBreeding
+    ? [
+        breedLabel,
+        genderLabel,
+        birthdate ? `${lang === 'en' ? 'Born' : 'Născut'} ${birthdate}` : undefined,
+        animal.color,
+      ]
+    : [breedLabel, animal.color]
+)
+  .filter(Boolean)
+  .join(' · ');
+
+type Row = { label: string; value?: string; href?: string };
+const parentRow = (label: string, p?: AnimalRef | null): Row => ({
+  label,
+  value: p?.name,
+  href: p?.name && p.slug ? animalPath(p.slug, lang) : undefined,
+});
+const pedigreeValue = [animal.pedigreeRegistry, animal.pedigreeNumber].filter(Boolean).join(' · ');
+
+const rows: Row[] = (
+  isBreeding
+    ? [
+        parentRow(copy.sire, animal.sire),
+        parentRow(copy.dam, animal.dam),
+        { label: copy.titles, value: animal.titles },
+        { label: copy.weight, value: animal.weight },
+        { label: copy.coat, value: animal.coat },
+        { label: copy.health, value: animal.healthTests },
+        { label: copy.pedigree, value: pedigreeValue },
+      ]
+    : [
+        { label: copy.sex, value: genderLabel },
+        { label: copy.born, value: birthdate },
+        { label: copy.price, value: priceLabel },
+        parentRow(copy.sire, animal.sire),
+        parentRow(copy.dam, animal.dam),
+        {
+          label: copy.litter,
+          value: animal.litter?.title,
+          href: animal.litter?.slug
+            ? litterPath(animal.species, animal.litter.slug, lang)
+            : undefined,
+        },
+        { label: copy.pedigree, value: pedigreeValue },
+      ]
+).filter((r) => r.value);
+
+const hasTree = isBreeding;
+const hasPedigreeDoc = !!animal.pedigreeDocument?.asset;
 
 // Enriched footer: socials for this animal's breed.
-const footerSocials =
-  animal.species === 'cat'
-    ? { facebook: settings?.facebook, instagram: settings?.instagram }
-    : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
+const footerSocials = isCat
+  ? { facebook: settings?.facebook, instagram: settings?.instagram }
+  : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
 ---
 
 <BaseLayout
@@ -82,61 +202,172 @@ const footerSocials =
 >
   <JsonLd slot="head" schema={schema} />
 
-  <article class="mx-auto max-w-5xl px-4 py-8">
-    <a href={backHref} class="text-mut hover:text-brand text-sm">
-      ← {t('animal.backToList')}
+  <article class="mx-auto max-w-[1200px] px-6 pt-8 pb-20 md:pt-12">
+    <a
+      href={backHref}
+      class="text-mute hover:text-sand-dark text-sm tracking-wide transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sand"
+    >
+      ← {backLabel}
     </a>
 
-    <div class="mt-4 flex flex-wrap items-center gap-3">
-      <h1 class="text-3xl font-semibold sm:text-4xl">{animal.name}</h1>
-      <StatusBadge status={animal.status} lang={lang} />
-    </div>
-    <p class="text-mut mt-1">{breedLabel}</p>
+    <div class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,520px)_1fr] lg:gap-[72px]">
+      <div>
+        {
+          photos.length > 0 ? (
+            <Gallery images={photos} name={animal.name} lang={lang} sub={headline} />
+          ) : (
+            <div class="bg-cream aspect-[26/36]" aria-hidden="true" />
+          )
+        }
+      </div>
 
-    <div class="mt-6 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-      <div class="space-y-6">
-        {animal.photos?.length > 0 && <Gallery images={animal.photos} name={animal.name} />}
+      <div class="min-w-0">
+        {
+          isBreeding && headline ? (
+            <p class="eyebrow">{headline}</p>
+          ) : (
+            !isBreeding && <p class="eyebrow">{breedLabel}</p>
+          )
+        }
+        <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <h1 class="text-5xl leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            {animal.name}
+          </h1>
+          {!isBreeding && <StatusBadge status={animal.status} lang={lang} />}
+        </div>
+        {metaLine && <p class="text-mute mt-5 text-sm">{metaLine}</p>}
+
+        {
+          description && (
+            <p class="mt-8 max-w-xl text-[0.95rem] leading-8 whitespace-pre-line">{description}</p>
+          )
+        }
+
+        {
+          rows.length > 0 && (
+            <dl class="mt-10 border-t border-ink">
+              {rows.map((r) => (
+                <div class="grid grid-cols-[7.5rem_1fr] items-baseline gap-4 border-b border-ink py-4 sm:grid-cols-[10rem_1fr]">
+                  <dt class="eyebrow">{r.label}</dt>
+                  <dd class="text-sm">
+                    {r.href ? (
+                      <a
+                        href={r.href}
+                        class="underline decoration-sand underline-offset-4 hover:text-sand-dark"
+                      >
+                        {r.value}
+                      </a>
+                    ) : (
+                      r.value
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+
+        <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-5">
+          <a href={routes.contact[lang]} class="btn-sand">
+            {isBreeding ? copy.enquire : t('cta.message')}
+          </a>
+          {
+            isBreeding && hasPedigreeDoc && (
+              <button type="button" class="see-more" data-preview-open="pedigree-doc">
+                <span class="see-more__label">{copy.viewPedigree}</span>
+                <span class="see-more__line" aria-hidden="true" />
+              </button>
+            )
+          }
+          {
+            isBreeding && !hasPedigreeDoc && hasTree && (
+              <a href="#pedigree" class="see-more">
+                <span class="see-more__label">{copy.viewPedigree}</span>
+                <span class="see-more__line" aria-hidden="true" />
+              </a>
+            )
+          }
+        </div>
+
+        {
+          !isBreeding && (
+            <div class="mt-8">
+              <ContactButtons settings={settings} lang={lang} context={animal.name} />
+            </div>
+          )
+        }
+
         {
           animal.video && (
-            <div>
-              <h2 class="mb-3 text-xl font-semibold">{t('animal.video')}</h2>
+            <div class="mt-12">
+              <h2 class="eyebrow mb-4">{copy.video}</h2>
               <VideoEmbed url={animal.video} title={animal.name} />
             </div>
           )
         }
       </div>
-
-      <aside class="space-y-8">
-        {description && <p class="text-mut leading-relaxed whitespace-pre-line">{description}</p>}
-
-        <!-- Gold editorial stat blocks (Figma) -->
-        <dl class="space-y-5">
-          {
-            genderLabel && (
-              <div>
-                <dd class="font-display text-gold text-2xl">{genderLabel}</dd>
-                <dt class="eyebrow mt-1">{t('animal.gender')}</dt>
-              </div>
-            )
-          }
-          {
-            birthdate && (
-              <div>
-                <dd class="font-display text-gold text-2xl">{birthdate}</dd>
-                <dt class="eyebrow mt-1">{t('animal.birthdate')}</dt>
-              </div>
-            )
-          }
-          <div>
-            <dd class="font-display text-gold text-2xl">{priceLabel}</dd>
-            <dt class="eyebrow mt-1">{t('animal.price')}</dt>
-          </div>
-        </dl>
-
-        <div class="border-line border-t pt-6">
-          <ContactButtons settings={settings} lang={lang} context={animal.name} />
-        </div>
-      </aside>
     </div>
+
+    {
+      hasTree && (
+        <div class="mt-20 border-t border-line pt-16">
+          <PedigreeTree animal={animal} lang={lang} />
+        </div>
+      )
+    }
+
+    {
+      isBreeding && offspring.length > 0 && (
+        <section class="mt-20 border-t border-line pt-16" aria-labelledby="offspring-title">
+          <p class="eyebrow">{copy.offspring}</p>
+          <h2 id="offspring-title" class="mt-3 text-3xl sm:text-4xl">
+            {copy.offspringTitle}
+          </h2>
+          <ul class="mt-10 grid grid-cols-2 gap-x-5 gap-y-9 md:grid-cols-4" role="list">
+            {offspring.map((o) => (
+              <li>
+                <a href={animalPath(o.slug, lang)} class="group block">
+                  <div class="bg-cream-soft overflow-hidden">
+                    {o.photos?.[0]?.asset ? (
+                      <ProtectedImage
+                        image={o.photos[0]}
+                        alt={o.photos[0].alt ?? o.name}
+                        width={480}
+                        aspect="1/1"
+                        sizes="(max-width: 768px) 50vw, 280px"
+                        class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                      />
+                    ) : (
+                      <div class="bg-cream aspect-square" />
+                    )}
+                  </div>
+                  <div class="mt-3 flex items-center justify-between gap-2">
+                    <span class="font-display text-lg group-hover:text-sand-dark">{o.name}</span>
+                    <StatusBadge status={o.status} lang={lang} />
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
   </article>
+
+  {
+    hasPedigreeDoc && animal.pedigreeDocument && (
+      <ImagePreview
+        id="pedigree-doc"
+        lang={lang}
+        name={`${copy.pedigreeDoc} · ${animal.name}`}
+        items={[
+          {
+            image: animal.pedigreeDocument,
+            caption: `${copy.pedigreeDoc} · ${animal.name}`,
+            sub: pedigreeValue || undefined,
+          },
+        ]}
+      />
+    )
+  }
 </BaseLayout>

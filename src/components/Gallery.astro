@@ -1,109 +1,113 @@
 ---
 /**
- * Photo gallery with a dependency-free lightbox.
- * Thumbnails are responsive Sanity images; clicking opens a full-size overlay
- * with prev/next + keyboard nav. Progressive enhancement: without JS the
- * thumbnails still render and link to the full image.
+ * Animal photo gallery (profile design): one large photo + up to 4 thumbnails
+ * that swap it; clicking the large photo opens the ImagePreview dialog with
+ * every photo. Without JS the first photo still renders.
  */
 import type { SanityImageWithAlt } from '../sanity/lib/types';
-import { urlFor } from '../sanity/lib/image';
-import SanityImage from './SanityImage.astro';
+import type { Lang } from '../i18n/ui';
+import ProtectedImage from './ProtectedImage.astro';
+import ImagePreview from './ImagePreview.astro';
 
 interface Props {
   images: SanityImageWithAlt[];
   name: string;
+  lang?: Lang;
+  /** Caption shown under previewed photos (e.g. headline). */
+  sub?: string;
 }
+const { images, name, lang = 'ro', sub } = Astro.props;
 
-const { images, name } = Astro.props;
-
-const fulls = images.map((img) =>
-  urlFor(img).auto('format').fit('max').width(1600).quality(85).url(),
-);
+const valid = images.filter((i) => i?.asset);
+const shown = valid.slice(0, 4);
+const extra = valid.length - shown.length;
+const id = `gallery-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+const viewAll = lang === 'en' ? 'Enlarge photo' : 'Mărește fotografia';
 ---
 
-<div class="gallery" data-gallery>
-  <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-    {
-      images.map((img, i) => (
-        <a
-          href={fulls[i]}
-          class="rounded-card border-line bg-sand block overflow-hidden border"
-          data-index={i}
-        >
-          <SanityImage
-            image={img}
-            alt={img.alt ?? `${name} ${i + 1}`}
-            width={640}
-            aspect="1/1"
-            priority={i === 0}
-            sizes="(max-width: 640px) 50vw, 300px"
-            class="h-full w-full transition duration-300 hover:scale-105"
-          />
-        </a>
-      ))
-    }
-  </div>
+{
+  valid.length > 0 && (
+    <div data-gallery>
+      <div class="relative bg-cream-soft">
+        {shown.map((img, i) => (
+          <div data-main={i} hidden={i !== 0}>
+            <ProtectedImage
+              image={img}
+              alt={img.alt ?? `${name} ${i + 1}`}
+              width={800}
+              aspect="26/36"
+              priority={i === 0}
+              sizes="(max-width: 1024px) 100vw, 520px"
+              class="h-full w-full object-cover"
+              wrapperClass="w-full"
+            />
+          </div>
+        ))}
+        <button
+          type="button"
+          class="absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-sand"
+          data-preview-open={id}
+          data-index="0"
+          data-main-open
+          aria-label={`${viewAll}: ${name}`}
+        />
+      </div>
 
-  <dialog
-    class="lightbox fixed inset-0 z-50 m-0 h-full max-h-full w-full max-w-full bg-black/90 p-0 backdrop:bg-black/80"
-    data-lightbox
-  >
-    <button
-      type="button"
-      class="absolute top-4 right-4 z-10 rounded-full bg-white/10 px-4 py-2 text-2xl leading-none text-white hover:bg-white/20"
-      data-close
-      aria-label="Închide">×</button
-    >
-    <button
-      type="button"
-      class="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white/10 px-4 py-3 text-2xl text-white hover:bg-white/20 sm:left-6"
-      data-prev
-      aria-label="Anterior">‹</button
-    >
-    <button
-      type="button"
-      class="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-white/10 px-4 py-3 text-2xl text-white hover:bg-white/20 sm:right-6"
-      data-next
-      aria-label="Următor">›</button
-    >
-    <div class="flex h-full w-full items-center justify-center p-4">
-      <img data-stage alt={name} class="max-h-full max-w-full object-contain" />
+      {shown.length > 1 && (
+        <ul class="mt-3 grid grid-cols-4 gap-3 sm:gap-4" role="list">
+          {shown.map((img, i) => (
+            <li>
+              <button
+                type="button"
+                data-thumb={i}
+                aria-label={`${name} ${i + 1}`}
+                aria-current={i === 0 ? 'true' : undefined}
+                class="relative block w-full overflow-hidden border border-transparent aria-[current=true]:border-sand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sand"
+              >
+                <ProtectedImage
+                  image={img}
+                  alt=""
+                  width={240}
+                  aspect="1/1"
+                  sizes="120px"
+                  mark="none"
+                  class="h-full w-full object-cover"
+                />
+                {extra > 0 && i === shown.length - 1 && (
+                  <span class="absolute inset-0 grid place-items-center bg-black/45 text-sm text-white">
+                    +{extra}
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <ImagePreview
+        id={id}
+        lang={lang}
+        name={name}
+        items={valid.map((image) => ({ image, caption: image.alt ?? name, sub }))}
+      />
     </div>
-  </dialog>
-</div>
+  )
+}
 
-<script is:inline define:vars={{ fulls }}>
-  document.querySelectorAll('[data-gallery]').forEach((root) => {
-    const dialog = root.querySelector('[data-lightbox]');
-    const stage = root.querySelector('[data-stage]');
-    if (!dialog || !stage) return;
-    let current = 0;
-
-    const show = (i) => {
-      current = (i + fulls.length) % fulls.length;
-      stage.src = fulls[current];
-    };
-    const open = (i) => {
-      show(i);
-      if (typeof dialog.showModal === 'function') dialog.showModal();
-    };
-
-    root.querySelectorAll('[data-index]').forEach((a) => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        open(Number(a.getAttribute('data-index')));
-      });
-    });
-    root.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
-    root.querySelector('[data-prev]')?.addEventListener('click', () => show(current - 1));
-    root.querySelector('[data-next]')?.addEventListener('click', () => show(current + 1));
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) dialog.close();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (!dialog.open) return;
-      if (e.key === 'ArrowRight') show(current + 1);
-      if (e.key === 'ArrowLeft') show(current - 1);
-    });
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    const mains = root.querySelectorAll<HTMLElement>('[data-main]');
+    const thumbs = root.querySelectorAll<HTMLElement>('[data-thumb]');
+    const opener = root.querySelector<HTMLElement>('[data-main-open]');
+    thumbs.forEach((th) =>
+      th.addEventListener('click', () => {
+        const idx = th.dataset.thumb!;
+        mains.forEach((m) => (m.hidden = m.dataset.main !== idx));
+        thumbs.forEach((x) =>
+          x === th ? x.setAttribute('aria-current', 'true') : x.removeAttribute('aria-current'),
+        );
+        if (opener) opener.dataset.index = idx;
+      }),
+    );
   });
 </script>

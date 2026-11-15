@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProtectedImage from '../ProtectedImage.astro';
+import { routes, animalPath, localized, type Lang } from '../../i18n/ui';
+import { getBreedingAnimals, getLanding, getSiteSettings } from '../../sanity/lib/queries';
+import { ogImageUrl } from '../../sanity/lib/seo';
+import type { Species } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+}
+const { lang, species } = Astro.props;
+const isCat = species === 'cat';
+
+const [animals, landing, settings] = await Promise.all([
+  getBreedingAnimals(species),
+  getLanding(species),
+  getSiteSettings(),
+]);
+
+const copy = {
+  ro: {
+    title: isCat ? 'Pisicile noastre' : 'Câinii noștri',
+    eyebrowA: 'Pentru crescători',
+    eyebrowB: 'și companie',
+    intro: isCat
+      ? 'Matci și armăsari alese întâi după temperament. Acestea sunt pisicile din spatele fiecărui pui blîndețe.'
+      : 'Femele și masculi aleși întâi după temperament. Aceștia sunt câinii din spatele fiecărui pui blîndețe.',
+    note: isCat
+      ? 'Fiecare pisică este testată medical și înregistrată. Le poți cunoaște personal, doar cu programare.'
+      : 'Fiecare câine este testat medical și înregistrat. Îi poți cunoaște personal, doar cu programare.',
+    see: isCat ? 'Vezi pisoii disponibili' : 'Vezi cățeii disponibili',
+    emptyTitle: 'Reproducătorii vor apărea în curând',
+    emptyBody: 'Pregătim profilele cu pedigree, teste de sănătate și fotografii. Revino în curând sau scrie-ne.',
+    contact: 'Contactează-ne',
+    female: 'Femelă',
+    male: 'Mascul',
+    yr: (n: number) => (n === 1 ? '1 an' : `${n} ani`),
+    mo: (n: number) => `${n} luni`,
+    seo: isCat
+      ? 'Pisicile noastre de reproducție Persană Chinchilla, cu pedigree, din Arad.'
+      : 'Câinii noștri de reproducție Pomeranian / Kleinspitz, cu pedigree, din Arad.',
+  },
+  en: {
+    title: isCat ? 'Our Cats' : 'Our Dogs',
+    eyebrowA: 'For breeders',
+    eyebrowB: 'and pets',
+    intro: isCat
+      ? 'Females and males, each chosen for temperament first. These are the cats behind every litter at blindete.'
+      : 'Females and males, each chosen for temperament first. These are the dogs behind every litter at blindete.',
+    note: isCat
+      ? 'Every cat is health-tested and registered. Meet them in person, by appointment only.'
+      : 'Every dog is health-tested and registered. Meet them in person, by appointment only.',
+    see: isCat ? 'See available kittens' : 'See available puppies',
+    emptyTitle: 'Our breeding animals are coming soon',
+    emptyBody: 'We are preparing profiles with pedigree, health tests and photos. Check back soon or get in touch.',
+    contact: 'Contact us',
+    female: 'Female',
+    male: 'Male',
+    yr: (n: number) => (n === 1 ? '1 yr' : `${n} yrs`),
+    mo: (n: number) => `${n} mo`,
+    seo: isCat
+      ? 'Our Persian Chinchilla breeding cats with pedigree, in Arad, Romania.'
+      : 'Our Pomeranian / Kleinspitz breeding dogs with pedigree, in Arad, Romania.',
+  },
+}[lang];
+
+const intro = localized(landing?.ourIntroRo, landing?.ourIntroEn, lang) || copy.intro;
+
+const age = (d?: string) => {
+  if (!d) return '';
+  const b = new Date(d);
+  if (Number.isNaN(b.getTime())) return '';
+  const now = new Date();
+  let months = (now.getFullYear() - b.getFullYear()) * 12 + now.getMonth() - b.getMonth();
+  if (now.getDate() < b.getDate()) months--;
+  if (months < 0) return '';
+  return months < 12 ? copy.mo(Math.max(months, 1)) : copy.yr(Math.floor(months / 12));
+};
+
+const meta = (a: (typeof animals)[number]) =>
+  [a.color, a.gender === 'female' ? copy.female : a.gender === 'male' ? copy.male : '']
+    .filter(Boolean)
+    .join(' · ');
+
+const routeId = isCat ? 'catsOurs' : 'dogsOurs';
+const listingHref = routes[isCat ? 'catsListing' : 'dogsListing'][lang];
+const brand = 'blindete';
+const footerSocials = isCat
+  ? { facebook: settings?.facebook, instagram: settings?.instagram }
+  : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
+
+const firstPhoto = animals.find((a) => a.photos?.[0]?.asset)?.photos[0];
+const ogImg = firstPhoto ? ogImageUrl(firstPhoto) : undefined;
+---
+
+<BaseLayout
+  title={`${copy.title} · ${brand}`}
+  description={copy.seo}
+  roPath={routes[routeId].ro}
+  enPath={routes[routeId].en}
+  ogImage={ogImg}
+  settings={settings}
+  footerSocials={footerSocials}
+  subsite={species}
+>
+  <div class="mx-auto max-w-[1200px] px-6 pt-10 pb-16 md:pt-14">
+    <header
+      class="grid gap-6 border-b border-ink pb-8 md:grid-cols-[1fr_auto] md:items-end lg:grid-cols-[1.3fr_1fr_auto] lg:gap-10"
+    >
+      <h1 class="text-6xl leading-[0.95] tracking-tight sm:text-7xl lg:text-[6.5rem]">
+        {copy.title}
+      </h1>
+      <p class="text-mute max-w-md text-base leading-8 md:col-start-1 lg:col-start-auto">
+        {intro}
+      </p>
+      <p class="eyebrow hidden w-28 leading-[1.7] tracking-[0.2em] md:block md:row-start-1 md:col-start-2 lg:row-start-auto lg:col-start-auto">
+        <span class="text-sand block">{copy.eyebrowA}</span>
+        <span class="text-ink block">{copy.eyebrowB}</span>
+      </p>
+    </header>
+
+    {
+      animals.length > 0 ? (
+        <ul class="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-[1.43fr_1fr_1fr]" role="list">
+          {animals.map((a, i) => {
+            const big = i === 0;
+            return (
+              <li class:list={[big && 'sm:col-span-2 lg:col-span-1 lg:row-span-2']}>
+                <a href={animalPath(a.slug, lang)} class="group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sand">
+                  <div class="bg-cream-soft overflow-hidden">
+                    {a.photos?.[0]?.asset ? (
+                      <ProtectedImage
+                        image={a.photos[0]}
+                        alt={a.photos[0].alt ?? a.name}
+                        width={big ? 960 : 672}
+                        aspect={big ? '3/4' : '5/4'}
+                        priority={i < 2}
+                        sizes={big ? '(max-width: 1024px) 100vw, 480px' : '(max-width: 640px) 100vw, 336px'}
+                        class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                      />
+                    ) : (
+                      <div class:list={['bg-cream', big ? 'aspect-[3/4]' : 'aspect-[5/4]']} />
+                    )}
+                  </div>
+                  <div class="mt-4 flex items-baseline justify-between gap-4">
+                    <h2 class="font-display text-2xl leading-tight group-hover:text-sand-dark">{a.name}</h2>
+                    {age(a.birthdate) && <span class="text-mute text-sm">{age(a.birthdate)}</span>}
+                  </div>
+                  {meta(a) && <p class="text-mute mt-1.5 text-sm">{meta(a)}</p>}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <div class="bg-cream-soft mt-8 flex flex-col items-center px-6 py-20 text-center md:py-28">
+          <p class="eyebrow">{copy.eyebrowA} {copy.eyebrowB}</p>
+          <h2 class="mt-4 text-3xl sm:text-4xl">{copy.emptyTitle}</h2>
+          <p class="text-mute mt-4 max-w-md leading-7">{copy.emptyBody}</p>
+          <a href={routes.contact[lang]} class="btn-sand mt-8">{copy.contact}</a>
+        </div>
+      )
+    }
+
+    <div class="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-mute text-xs">{copy.note}</p>
+      <a href={listingHref} class="see-more">
+        <span class="see-more__label">{copy.see}</span>
+        <span class="see-more__line" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>

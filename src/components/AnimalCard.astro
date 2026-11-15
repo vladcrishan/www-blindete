@@ -1,7 +1,7 @@
 ---
 import type { Animal } from '../sanity/lib/types';
-import { useTranslations, animalPath, localized, type Lang } from '../i18n/ui';
-import SanityImage from './SanityImage.astro';
+import { useTranslations, animalPath, type Lang } from '../i18n/ui';
+import ProtectedImage from './ProtectedImage.astro';
 import StatusBadge from './StatusBadge.astro';
 
 interface Props {
@@ -13,41 +13,33 @@ const { animal, lang } = Astro.props;
 const t = useTranslations(lang);
 const href = animalPath(animal.slug, lang);
 const cover = animal.photos?.[0];
-const description = localized(animal.descriptionRo, animal.descriptionEn, lang);
-const breedLabel = t(`breed.${animal.breed}` as const);
-const isSold = animal.status === 'sold';
+const gender = animal.gender ? t(`animal.gender.${animal.gender}` as const) : '';
+const meta = [gender, animal.color].filter(Boolean).join(' · ');
 ---
 
-<a
-  href={href}
-  class:list={[
-    'group rounded-card border-line block overflow-hidden border bg-white shadow-sm transition hover:shadow-md',
-    isSold && 'opacity-90',
-  ]}
->
-  <div class="bg-sand relative overflow-hidden">
+<a href={href} class="group block" data-status={animal.status}>
+  <div class="bg-cream-soft relative aspect-[6/5] overflow-hidden">
     {
       cover ? (
-        <SanityImage
+        <ProtectedImage
           image={cover}
           alt={cover.alt ?? animal.name}
-          width={640}
-          aspect="4/3"
-          sizes="(max-width: 640px) 100vw, 360px"
-          class="h-full w-full transition duration-500 group-hover:scale-105"
+          width={720}
+          aspect="6/5"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+          class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          wrapperClass="h-full w-full"
         />
       ) : (
-        <div class="flex aspect-[4/3] items-center justify-center text-4xl">🐾</div>
+        <div class="text-mute flex h-full items-center justify-center text-xs tracking-[0.2em] uppercase">
+          blîndețe
+        </div>
       )
     }
-    <div class="absolute top-3 left-3">
-      <StatusBadge status={animal.status} lang={lang} />
-    </div>
   </div>
-
-  <div class="space-y-1 p-4">
-    <h3 class="text-lg leading-snug">{animal.name}</h3>
-    <p class="text-mut text-sm">{breedLabel}</p>
-    {description && <p class="text-mut line-clamp-2 pt-1 text-sm">{description}</p>}
+  <div class="mt-4 flex items-center justify-between gap-3">
+    <h3 class="font-sans text-xl leading-snug">{animal.name}</h3>
+    <StatusBadge status={animal.status} lang={lang} />
   </div>
+  {meta && <p class="text-mute mt-1 text-sm">{meta}</p>}
 </a>

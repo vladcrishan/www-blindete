@@ -11,30 +11,23 @@ interface Props {
 const { status, lang, class: className } = Astro.props;
 const t = useTranslations(lang);
 
+// Design pills: Available = sand fill, Reserved = cream fill, Sold = outline,
+// Upcoming = subtle muted outline.
 const styles: Record<AnimalStatus, string> = {
-  available: 'bg-available',
-  reserved: 'bg-reserved',
-  sold: 'bg-sold',
-  upcoming: 'bg-upcoming',
+  available: 'bg-sand text-ink border-sand',
+  reserved: 'bg-cream text-ink border-cream',
+  sold: 'bg-transparent text-ink border-ink',
+  upcoming: 'bg-transparent text-mute border-mute/50',
 };
-
-const dot: Record<AnimalStatus, string> = {
-  available: '🟢',
-  reserved: '🟡',
-  sold: '🔴',
-  upcoming: '🐣',
-};
-
 const label = t(`status.${status}` as const);
 ---
 
 <span
   class:list={[
-    'rounded-pill inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold tracking-wide text-white uppercase',
+    'rounded-pill inline-flex items-center border px-3.5 py-1 text-[0.68rem] font-medium tracking-[0.18em] uppercase',
     styles[status],
     className,
   ]}
 >
-  <span aria-hidden="true">{dot[status]}</span>
   {label}
 </span>

@@ -22,7 +22,7 @@ const socials = [
 ].filter(Boolean) as { href: string; label: string }[];
 ---
 
-<footer class="border-line bg-sand mt-20 border-t">
+<footer class="border-line bg-cream-soft mt-20 border-t">
   <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-3">
     <div>
       <div class="flex items-center gap-1">
@@ -96,7 +96,10 @@ const socials = [
   </div>
 
   <div class="border-line text-mut border-t px-4 py-4 text-center text-xs">
-    © {year}
-    {t('brand.name')}. {t('footer.rights')}
+    <p>
+      © {year}
+      {t('brand.name')}. {t('footer.rights')}
+    </p>
+    <p class="mx-auto mt-2 max-w-2xl">{t('footer.photos')}</p>
   </div>
 </footer>

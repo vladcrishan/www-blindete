@@ -17,15 +17,18 @@
   "dependencies": {
     "@astrojs/react": "^5.0.7",
     "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/vercel": "^11.0.22",
     "@sanity/astro": "^3.4.0",
     "@sanity/client": "^7.22.1",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.30.0",
     "astro": "^6.4.4",
+    "astro-portabletext": "^1.0.1",
     "groq": "^5.30.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "sanity": "^5.30.0",
+    "sanity-plugin-media": "^6.6.3",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {

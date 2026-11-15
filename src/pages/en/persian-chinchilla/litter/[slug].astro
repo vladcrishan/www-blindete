@@ -1,0 +1,13 @@
+---
+import LitterPage from '../../../../components/pages/LitterPage.astro';
+import { getLittersBySpecies } from '../../../../sanity/lib/queries';
+
+export async function getStaticPaths() {
+  const litters = await getLittersBySpecies('cat');
+  return litters.map((litter) => ({ params: { slug: litter.slug }, props: { litter } }));
+}
+
+const { litter } = Astro.props;
+---
+
+<LitterPage lang="en" species="cat" litter={litter} />

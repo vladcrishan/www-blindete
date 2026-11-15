@@ -22,9 +22,11 @@ export const ui = {
     'nav.contact': 'Contact',
     'nav.admin': 'Administrare',
     'nav.news': 'Noutăți',
-    'nav.kittens': 'Pisici',
-    'nav.puppies': 'Câini',
+    'nav.kittens': 'Pisoi',
+    'nav.puppies': 'Căței',
     'nav.gallery': 'Galerie',
+    'nav.ourCats': 'Pisicile noastre',
+    'nav.ourDogs': 'Câinii noștri',
 
     'home.availableNow': 'Disponibili acum',
     'home.available.one': 'animal disponibil',
@@ -76,11 +78,12 @@ export const ui = {
     'contact.phone': 'Telefon',
     'contact.message': 'Mesaj',
     'contact.send': 'Trimite mesajul',
-    'contact.success': 'Mulțumim! Mesajul a fost trimis.',
     'contact.city': 'Oraș',
     'contact.orReachUs': 'Sau contactează-ne direct:',
 
     'footer.rights': 'Toate drepturile rezervate.',
+    'footer.photos':
+      'Toate fotografiile sunt proprietatea blîndețe și sunt protejate de drepturile de autor. Folosirea lor fără acord scris este interzisă.',
     'footer.tagline':
       'Crescătorie de pisici Persane Chinchilla și câini Pomeranian / Kleinspitz în Arad, România.',
 
@@ -98,6 +101,8 @@ export const ui = {
     'nav.kittens': 'Kittens',
     'nav.puppies': 'Puppies',
     'nav.gallery': 'Gallery',
+    'nav.ourCats': 'Our cats',
+    'nav.ourDogs': 'Our dogs',
 
     'home.availableNow': 'Available now',
     'home.available.one': 'animal available',
@@ -149,11 +154,12 @@ export const ui = {
     'contact.phone': 'Phone',
     'contact.message': 'Message',
     'contact.send': 'Send message',
-    'contact.success': 'Thank you! Your message has been sent.',
     'contact.city': 'City',
     'contact.orReachUs': 'Or reach us directly:',
 
     'footer.rights': 'All rights reserved.',
+    'footer.photos':
+      'All photos are the property of blindete and protected by copyright. Use without written permission is prohibited.',
     'footer.tagline':
       'Breeder of Persian Chinchilla cats and Pomeranian / Kleinspitz dogs in Arad, Romania.',
 
@@ -172,11 +178,54 @@ export const routes = {
   // Sub-site landings (hero + news). The two species FB/IG accounts link here.
   cats: { ro: '/persana-chinchilla', en: '/en/persian-chinchilla' },
   dogs: { ro: '/pomeranian-kleinspitz', en: '/en/pomeranian-kleinspitz' },
-  // Animal listings, nested under each sub-site landing.
+  // Kittens/puppies (litters + offspring), nested under each sub-site landing.
   catsListing: { ro: '/persana-chinchilla/pisici', en: '/en/persian-chinchilla/kittens' },
   dogsListing: { ro: '/pomeranian-kleinspitz/caini', en: '/en/pomeranian-kleinspitz/puppies' },
+  // Breeding adults ("Our cats / Our dogs").
+  catsOurs: { ro: '/persana-chinchilla/pisicile-noastre', en: '/en/persian-chinchilla/our-cats' },
+  dogsOurs: {
+    ro: '/pomeranian-kleinspitz/cainii-nostri',
+    en: '/en/pomeranian-kleinspitz/our-dogs',
+  },
+  gallery: { ro: '/galerie', en: '/en/gallery' },
   contact: { ro: '/contact', en: '/en/contact' },
 } as const;
+
+/**
+ * Per-species dynamic route bases (slug appended).
+ * - litter: /persana-chinchilla/cuib/<slug>  <->  /en/persian-chinchilla/litter/<slug>
+ * - news:   /persana-chinchilla/noutati/<slug> <-> /en/persian-chinchilla/news/<slug>
+ */
+export const litterBase = {
+  cat: { ro: '/persana-chinchilla/cuib', en: '/en/persian-chinchilla/litter' },
+  dog: { ro: '/pomeranian-kleinspitz/cuib', en: '/en/pomeranian-kleinspitz/litter' },
+} as const;
+export const newsBase = {
+  cat: { ro: '/persana-chinchilla/noutati', en: '/en/persian-chinchilla/news' },
+  dog: { ro: '/pomeranian-kleinspitz/noutati', en: '/en/pomeranian-kleinspitz/news' },
+} as const;
+
+type SpeciesKey = keyof typeof litterBase;
+
+/** Localized litter page URL. */
+/** Price in euro, formatted for the page language: „1.200 €" (RO), „€1,200" (EN). */
+export function formatPrice(amount: number, lang: Lang): string {
+  return new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'ro-RO', {
+    style: 'currency',
+    currency: 'EUR',
+    currencyDisplay: 'narrowSymbol',
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+export function litterPath(species: SpeciesKey, slug: string, lang: Lang): string {
+  return `${litterBase[species][lang]}/${slug}`;
+}
+
+/** Localized news article URL. */
+export function postPath(species: SpeciesKey, slug: string, lang: Lang): string {
+  return `${newsBase[species][lang]}/${slug}`;
+}
 
 export type RouteId = keyof typeof routes;
 
@@ -220,6 +269,14 @@ export function switchLocalePath(url: URL, target: Lang): string {
   for (const id of Object.keys(routes) as RouteId[]) {
     if (routes[id][current] === path || routes[id][current] === stripTrailing(path)) {
       return routes[id][target];
+    }
+  }
+
+  // Litter / news detail: swap the per-species base, keep the slug.
+  for (const bases of [litterBase, newsBase]) {
+    for (const sp of Object.keys(bases) as SpeciesKey[]) {
+      const from = bases[sp][current];
+      if (path.startsWith(from + '/')) return bases[sp][target] + path.slice(from.length);
     }
   }
 

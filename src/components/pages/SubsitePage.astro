@@ -9,13 +9,22 @@
  * remain the front door at "/". This page is the sub-site's own home.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteShape from '../SiteShape.astro';
 import SubsiteHero from '../SubsiteHero.astro';
+import catHero1 from '../../assets/cat-hero-1.png';
+import catHero2 from '../../assets/cat-hero-2.png';
+import dogHero1 from '../../assets/dog-hero-1.png';
+import dogHero2 from '../../assets/dog-hero-2.png';
 import NewsList from '../NewsList.astro';
 import ContactButtons from '../ContactButtons.astro';
 import StaticMap from '../StaticMap.astro';
 import { useTranslations, localized, routes, type Lang } from '../../i18n/ui';
-import { getAnimalsBySpecies, getPostsBySpecies, getSiteSettings } from '../../sanity/lib/queries';
+import {
+  getBreedingAnimals,
+  getLanding,
+  getOffspringBySpecies,
+  getPostsBySpecies,
+  getSiteSettings,
+} from '../../sanity/lib/queries';
 import { ogImageUrl } from '../../sanity/lib/seo';
 import type { Species } from '../../sanity/lib/types';
 
@@ -27,44 +36,77 @@ const { lang, species } = Astro.props;
 const t = useTranslations(lang);
 const en = lang === 'en';
 
-const [animals, posts, settings] = await Promise.all([
-  getAnimalsBySpecies(species),
-  getPostsBySpecies(species, 6),
+const [landing, breeding, offspring, posts, settings] = await Promise.all([
+  getLanding(species),
+  getBreedingAnimals(species),
+  getOffspringBySpecies(species),
+  getPostsBySpecies(species, 12),
   getSiteSettings(),
 ]);
 
-const availableCount = animals.filter((a) => a.status === 'available').length;
-const leadAnimal = animals.find((a) => a.status === 'available' && a.photos?.[0]) ?? animals[0];
-const leadImage = leadAnimal?.photos?.[0] ?? settings?.heroImage;
+const isCat = species === 'cat';
+const routeId = isCat ? 'cats' : 'dogs';
+const oursRoute = isCat ? routes.catsOurs : routes.dogsOurs;
+const listingRoute = isCat ? routes.catsListing : routes.dogsListing;
 
-const routeId = species === 'cat' ? 'cats' : 'dogs';
-const heroTitle = localized(settings?.heroTitleRo, settings?.heroTitleEn, lang);
-const heroSubtitle = localized(settings?.heroSubtitleRo, settings?.heroSubtitleEn, lang);
+// Hero photos: landing -> first breeding photo -> first offspring photo -> site hero.
+const animalPhotos = [...breeding, ...offspring]
+  .map((a) => a.photos?.[0])
+  .filter((p) => p?.asset);
+const heroImage = landing?.heroImage1?.asset
+  ? landing.heroImage1
+  : (animalPhotos[0] ?? (settings?.heroImage?.asset ? settings.heroImage : undefined));
+const heroImage2 = landing?.heroImage2?.asset
+  ? landing.heroImage2
+  : animalPhotos.find((p) => p !== heroImage);
+
+const defaults = {
+  cat: {
+    ro: { title: 'Pisici persane', eyebrow: 'Calitate superioară', headline: 'Rasă pură', body: 'Pisici Persane Chinchilla cu pedigree, crescute cu drag în Arad: blânde, sănătoase și gata pentru o familie nouă.', ours: 'Pisicile noastre', young: 'Pisoi' },
+    en: { title: 'Persian cats', eyebrow: 'Superior quality', headline: 'Pure breed', body: 'Pedigreed Persian Chinchilla cats raised with love in Arad: gentle, healthy and ready for a new family.', ours: 'Our cats', young: 'Kittens' },
+  },
+  dog: {
+    ro: { title: 'Pomeranian Kleinspitz', eyebrow: 'Calitate superioară', headline: 'Rasă pură', body: 'Pomeranian / Kleinspitz cu pedigree, crescuți cu grijă în Arad: jucăuși, sociabili și plini de energie.', ours: 'Câinii noștri', young: 'Căței' },
+    en: { title: 'Pomeranian Dogs', eyebrow: 'Top quality', headline: 'Pure breed', body: 'Pedigreed Pomeranian / Kleinspitz dogs raised with care in Arad: playful, sociable and full of energy.', ours: 'Our dogs', young: 'Puppies' },
+  },
+}[species][lang];
+
+const title = localized(landing?.titleRo, landing?.titleEn, lang) || defaults.title;
+const eyebrow = localized(landing?.eyebrowRo, landing?.eyebrowEn, lang) || defaults.eyebrow;
+const headline = localized(landing?.headlineRo, landing?.headlineEn, lang) || defaults.headline;
+const body = localized(landing?.bodyRo, landing?.bodyEn, lang) || defaults.body;
+const traits =
+  (en ? (landing?.traitsEn?.length ? landing.traitsEn : landing?.traitsRo) : landing?.traitsRo) ??
+  (isCat ? ['Chinchilla', 'Golden', 'Silver'] : []);
+const ourIntro = localized(landing?.ourIntroRo, landing?.ourIntroEn, lang);
+const youngIntro = localized(landing?.youngIntroRo, landing?.youngIntroEn, lang);
 
 // Per-species socials for the enriched footer.
-const footerSocials =
-  species === 'cat'
-    ? { facebook: settings?.facebook, instagram: settings?.instagram }
-    : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
+const footerSocials = isCat
+  ? { facebook: settings?.facebook, instagram: settings?.instagram }
+  : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
 
-const seoTitle =
-  species === 'cat'
-    ? en
-      ? 'Persian Chinchilla Cats in Arad · blindete'
-      : 'Pisici Persane Chinchilla în Arad · blîndețe'
-    : en
-      ? 'Pomeranian / Kleinspitz Dogs in Arad · blindete'
-      : 'Câini Pomeranian / Kleinspitz în Arad · blîndețe';
-const seoDesc =
-  species === 'cat'
-    ? en
-      ? 'Persian Chinchilla kittens, news and availability from our cattery in Arad, Romania.'
-      : 'Pisici Persane Chinchilla, noutăți și disponibilitate din crescătoria noastră din Arad, România.'
-    : en
-      ? 'Pomeranian / Kleinspitz puppies, news and availability from our kennel in Arad, Romania.'
-      : 'Câini Pomeranian / Kleinspitz, noutăți și disponibilitate din crescătoria noastră din Arad, România.';
+const seoTitle = isCat
+  ? en
+    ? 'Persian Chinchilla Cats in Arad · blindete'
+    : 'Pisici Persane Chinchilla în Arad · blîndețe'
+  : en
+    ? 'Pomeranian / Kleinspitz Dogs in Arad · blindete'
+    : 'Câini Pomeranian / Kleinspitz în Arad · blîndețe';
+const seoDesc = isCat
+  ? en
+    ? 'Pedigreed Persian Chinchilla kittens, news and availability from our cattery in Arad, Romania.'
+    : 'Pisici Persane Chinchilla cu pedigree, noutăți și disponibilitate din crescătoria noastră din Arad, România.'
+  : en
+    ? 'Pedigreed Pomeranian / Kleinspitz puppies, news and availability from our kennel in Arad, Romania.'
+    : 'Câini Pomeranian / Kleinspitz cu pedigree, noutăți și disponibilitate din crescătoria noastră din Arad, România.';
 
-const ogImg = leadImage ? ogImageUrl(leadImage) : undefined;
+const ogImg = heroImage ? ogImageUrl(heroImage) : undefined;
+
+const entries = [
+  { href: oursRoute[lang], label: defaults.ours, intro: ourIntro },
+  { href: listingRoute[lang], label: defaults.young, intro: youngIntro },
+];
 ---
 
 <BaseLayout
@@ -77,48 +119,70 @@ const ogImg = leadImage ? ogImageUrl(leadImage) : undefined;
   footerSocials={footerSocials}
   subsite={species}
 >
-  <div class="relative">
-    <SiteShape />
+  <div class="mx-auto max-w-[1200px] px-6">
+    <SubsiteHero
+      lang={lang}
+      species={species}
+      title={title}
+      eyebrow={eyebrow}
+      headline={headline}
+      body={body}
+      traits={traits}
+      image={heroImage}
+      image2={heroImage2}
+      local={isCat ? catHero1 : dogHero1}
+      local2={isCat ? catHero2 : dogHero2}
+      primaryHref={oursRoute[lang]}
+      primaryLabel={defaults.ours}
+      secondaryHref={listingRoute[lang]}
+      secondaryLabel={defaults.young}
+    />
 
-    <div class="relative z-10 mx-auto max-w-[1200px] px-6">
-      <SubsiteHero
-        lang={lang}
-        species={species}
-        title={heroTitle}
-        subtitle={heroSubtitle}
-        availableCount={availableCount}
-        image={leadImage}
-      />
+    <!-- Entry points -->
+    <section class="border-ink grid gap-px border-t md:grid-cols-2" aria-label={en ? 'Explore' : 'Explorează'}>
+      {
+        entries.map((e) => (
+          <a href={e.href} class="group border-line block border-b py-10 md:pr-10 md:odd:border-r">
+            <p class="eyebrow">{en ? 'Explore' : 'Explorează'}</p>
+            <h2 class="mt-2 text-3xl sm:text-4xl">{e.label}</h2>
+            {e.intro && <p class="text-mute mt-3 max-w-md leading-relaxed">{e.intro}</p>}
+            <span class="see-more mt-6 text-xs font-medium">
+              <span class="see-more__label">{t('home.viewAll')}</span>
+              <span class="see-more__line" />
+            </span>
+          </a>
+        ))
+      }
+    </section>
 
-      <div class="border-line border-t py-16 md:py-20">
-        <NewsList posts={posts} lang={lang} />
-      </div>
-
-      <!-- Contact block (mirrors the home page) -->
-      <section class="border-line grid items-center gap-8 border-t py-16 md:grid-cols-2 md:py-24">
-        <StaticMap
-          place={settings?.city ?? 'Arad, România'}
-          label={`${settings?.city ?? 'Arad'} · ${t('cta.viewMap')}`}
-        />
-        <div>
-          {
-            settings?.city && (
-              <p class="text-2xl">
-                {en ? `${settings.city}, Romania` : `${settings.city}, România`}
-              </p>
-            )
-          }
-          {settings?.phone && <p class="font-display mt-2 text-3xl">{settings.phone}</p>}
-          <div class="mt-7">
-            <ContactButtons
-              settings={settings}
-              lang={lang}
-              buttons={['call', 'message']}
-              messageHref={routes.contact[lang]}
-            />
-          </div>
-        </div>
-      </section>
+    <div class="py-16 md:py-20">
+      <NewsList posts={posts} lang={lang} />
     </div>
+
+    <!-- Contact block (mirrors the home page) -->
+    <section class="border-line grid items-center gap-8 border-t py-16 md:grid-cols-2 md:py-24">
+      <StaticMap
+        place={settings?.city ?? 'Arad, România'}
+        label={`${settings?.city ?? 'Arad'} · ${t('cta.viewMap')}`}
+      />
+      <div>
+        {
+          settings?.city && (
+            <p class="text-2xl">
+              {en ? `${settings.city}, Romania` : `${settings.city}, România`}
+            </p>
+          )
+        }
+        {settings?.phone && <p class="font-display mt-2 text-3xl">{settings.phone}</p>}
+        <div class="mt-7">
+          <ContactButtons
+            settings={settings}
+            lang={lang}
+            buttons={['call', 'message']}
+            messageHref={routes.contact[lang]}
+          />
+        </div>
+      </div>
+    </section>
   </div>
 </BaseLayout>

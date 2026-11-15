@@ -1,0 +1,131 @@
+---
+/**
+ * Shared editorial landing hero (Cats + Dogs use the same frame layout).
+ *
+ * Desktop (>=md): a fixed-aspect relative box (the design frame is 1200 wide
+ * inside the 1440 canvas) anchors every element by percentage so overlaps hold
+ * at any width: tall photo left, large title overlapping its right edge,
+ * eyebrow beside the title, copy + sand CTA below, second photo bleeding off
+ * the right edge, vertical trait labels on the far right.
+ * Mobile: single column in reading order (same DOM, no duplicated images).
+ *
+ * All text and both photos come from Sanity (`content`); the props below are
+ * the fallbacks used until the owner fills the landing document.
+ */
+import type { ImageMetadata } from 'astro';
+import ProtectedImage from './ProtectedImage.astro';
+import { localized, type Lang } from '../i18n/ui';
+import type { LandingContent } from '../sanity/lib/types';
+
+interface Fallback {
+  title: string;
+  traits: string[];
+  forLine: string[];
+  eyebrow: string;
+  headline: string;
+  body: string;
+  alt1: string;
+  alt2: string;
+  seeMore: string;
+}
+
+interface Props {
+  lang: Lang;
+  content?: LandingContent | null;
+  href: string;
+  fallback: { ro: Fallback; en: Fallback };
+  local1: ImageMetadata;
+  local2: ImageMetadata;
+  /** Make the left photo taller (dogs frame). */
+  tall?: boolean;
+  as?: 'h1' | 'h2';
+  /** Dogs frame: serif title and a line-style link instead of the sand button. */
+  variant?: 'cat' | 'dog';
+}
+const { lang, content, href, fallback, local1, local2, tall = false, as: Tag = 'h2', variant = 'cat' } = Astro.props;
+const isDog = variant === 'dog';
+const fb = fallback[lang];
+
+const title = (localized(content?.titleRo, content?.titleEn, lang) || fb.title).trim();
+const sp = title.indexOf(' ');
+const titleLines = sp > 0 ? [title.slice(0, sp), title.slice(sp + 1)] : [title];
+const traitsRaw = lang === 'en' ? content?.traitsEn : content?.traitsRo;
+const cleaned = (traitsRaw ?? []).filter(Boolean);
+const traits: string[] = cleaned.length ? cleaned : fb.traits;
+const eyebrow = localized(content?.eyebrowRo, content?.eyebrowEn, lang) || fb.eyebrow;
+const headline = localized(content?.headlineRo, content?.headlineEn, lang) || fb.headline;
+const body = localized(content?.bodyRo, content?.bodyEn, lang) || fb.body;
+const [f0, f1, f2, f3] = fb.forLine;
+---
+
+<section class="overflow-x-clip">
+  <div class="mx-auto max-w-[1200px] px-6 pt-6 pb-16 md:pt-4 md:pb-24">
+    <div class="flex flex-col gap-8 md:relative md:block md:aspect-[1200/894] md:gap-0">
+      <!-- Photo 1 -->
+      <ProtectedImage
+        image={content?.heroImage1}
+        local={local1}
+        alt={content?.heroImage1?.alt || fb.alt1}
+        width={900}
+        priority
+        sizes="(max-width: 768px) 100vw, 480px"
+        class="h-full w-full object-cover"
+        wrapperClass={`relative aspect-[4/5] md:absolute md:top-0 md:left-0 md:aspect-auto md:w-[40%] ${tall ? 'md:h-[80%]' : 'md:h-[67%]'}`}
+      />
+
+      <!-- Title + eyebrow -->
+      <div class="z-10 flex flex-col gap-4 md:absolute md:top-[11%] md:left-[30.4%] md:flex-row md:items-start md:gap-6">
+        <Tag
+          class:list={[
+            isDog ? 'font-serif' : 'font-display',
+            'pointer-events-none text-[clamp(3.5rem,15vw,5.5rem)] leading-[1.05] font-normal tracking-tight md:text-[clamp(3.5rem,8.5vw,8rem)] md:leading-[1.05]',
+          ]}
+        >
+          {titleLines.map((l) => <span class="block">{l}</span>)}
+        </Tag>
+        <p class="text-[0.6875rem] leading-[1.55] tracking-[0.2em] uppercase md:mt-[0.9em]">
+          <span class="text-sand">{f0} {f1}</span>
+          <br class="hidden md:inline" />
+          <span class="text-ink">{f2} {f3}</span>
+        </p>
+      </div>
+
+      <!-- Copy -->
+      <div class="md:absolute md:top-[71%] md:left-[43.3%] md:w-[26%]">
+        <p class="eyebrow">{eyebrow}</p>
+        <h3 class="font-display mt-2 text-sm font-normal tracking-[0.18em] uppercase">{headline}</h3>
+        <p class="text-ink mt-5 text-xs leading-[1.6] md:text-[0.8125rem]">{body}</p>
+        {
+          isDog ? (
+            <a href={href} class="see-more mt-7">
+              <span class="see-more__label">{fb.seeMore}</span>
+              <span class="see-more__line" />
+            </a>
+          ) : (
+            <a href={href} class="btn-sand mt-7 !px-6 !py-3 !text-xs !tracking-[0.08em] !normal-case">
+              {fb.seeMore}
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Photo 2 (bleeds off the right edge on desktop) -->
+      <ProtectedImage
+        image={content?.heroImage2}
+        local={local2}
+        alt={content?.heroImage2?.alt || fb.alt2}
+        width={700}
+        sizes="(max-width: 768px) 100vw, 360px"
+        class="h-full w-full object-cover"
+        wrapperClass="relative aspect-[4/5] md:absolute md:right-[calc(50%-50vw)] md:bottom-0 md:aspect-auto md:h-[47%] md:w-[calc(14.2%+50vw-50%)]"
+      />
+
+      <!-- Trait labels -->
+      <ul
+        class="text-ink flex flex-wrap gap-x-6 gap-y-2 text-xs tracking-[0.3em] uppercase md:absolute md:top-0 md:right-0 md:flex-col md:flex-nowrap md:gap-14 md:[writing-mode:vertical-rl] lg:-right-6"
+      >
+        {traits.map((t: string) => <li>{t}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

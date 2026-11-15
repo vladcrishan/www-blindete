@@ -4,6 +4,7 @@ import { loadEnv } from 'vite';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import sanity from '@sanity/astro';
+import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 
 // Astro does NOT populate process.env with plain (non-PUBLIC_) .env vars at
@@ -24,9 +25,10 @@ if (!SANITY_PROJECT_ID) {
 export default defineConfig({
   site: 'https://blindete.ro',
 
-  // Static site generation — best for SEO + Netlify CDN.
-  // Sanity publish webhook -> Netlify build hook triggers rebuilds on edits.
+  // Static site generation on Vercel. Every page is prerendered (no on-demand routes).
+  // Sanity publish webhook -> Vercel deploy hook triggers rebuilds on edits.
   output: 'static',
+  adapter: vercel(),
 
   i18n: {
     defaultLocale: 'ro',
@@ -62,31 +64,49 @@ export default defineConfig({
       // explicitly rather than relying on automatic same-path pairing.
       serialize(item) {
         const base = 'https://blindete.ro';
-        // path -> [ro path, en path]
-        const pairs = [
-          ['/', '/', '/en/'],
-          ['/en/', '/', '/en/'],
-          ['/persana-chinchilla/', '/persana-chinchilla/', '/en/persian-chinchilla/'],
-          ['/en/persian-chinchilla/', '/persana-chinchilla/', '/en/persian-chinchilla/'],
-          ['/pomeranian-kleinspitz/', '/pomeranian-kleinspitz/', '/en/pomeranian-kleinspitz/'],
-          ['/en/pomeranian-kleinspitz/', '/pomeranian-kleinspitz/', '/en/pomeranian-kleinspitz/'],
-          ['/contact/', '/contact/', '/en/contact/'],
-          ['/en/contact/', '/contact/', '/en/contact/'],
+        // Static pages: [ro path, en path]. Dynamic pages: [ro prefix, en prefix]
+        // that share the trailing slug across locales.
+        const pages = [
+          ['/', '/en/'],
+          ['/persana-chinchilla/', '/en/persian-chinchilla/'],
+          ['/pomeranian-kleinspitz/', '/en/pomeranian-kleinspitz/'],
+          ['/persana-chinchilla/pisici/', '/en/persian-chinchilla/kittens/'],
+          ['/pomeranian-kleinspitz/caini/', '/en/pomeranian-kleinspitz/puppies/'],
+          ['/persana-chinchilla/pisicile-noastre/', '/en/persian-chinchilla/our-cats/'],
+          ['/pomeranian-kleinspitz/cainii-nostri/', '/en/pomeranian-kleinspitz/our-dogs/'],
+          ['/galerie/', '/en/gallery/'],
+          ['/contact/', '/en/contact/'],
+        ];
+        const prefixes = [
+          ['/animal/', '/en/animal/'],
+          ['/persana-chinchilla/cuib/', '/en/persian-chinchilla/litter/'],
+          ['/pomeranian-kleinspitz/cuib/', '/en/pomeranian-kleinspitz/litter/'],
+          ['/persana-chinchilla/noutati/', '/en/persian-chinchilla/news/'],
+          ['/pomeranian-kleinspitz/noutati/', '/en/pomeranian-kleinspitz/news/'],
         ];
         const path = new URL(item.url).pathname;
-        let match = pairs.find(([p]) => p === path);
-        // Animal detail pages share the slug across locales.
+        /** @type {[string, string] | undefined} */
+        let match;
+        const page = pages.find(([ro, en]) => ro === path || en === path);
+        if (page) match = [page[0], page[1]];
         if (!match) {
-          const m = path.match(/^\/(?:en\/)?animal\/(.+?)\/$/);
-          if (m) {
-            match = [path, `/animal/${m[1]}/`, `/en/animal/${m[1]}/`];
+          for (const [ro, en] of prefixes) {
+            const rest = path.startsWith(ro)
+              ? path.slice(ro.length)
+              : path.startsWith(en)
+                ? path.slice(en.length)
+                : null;
+            if (rest) {
+              match = [ro + rest, en + rest];
+              break;
+            }
           }
         }
         if (match) {
           item.links = [
-            { lang: 'ro', url: `${base}${match[1]}` },
-            { lang: 'en', url: `${base}${match[2]}` },
-            { lang: 'x-default', url: `${base}${match[1]}` },
+            { lang: 'ro', url: `${base}${match[0]}` },
+            { lang: 'en', url: `${base}${match[1]}` },
+            { lang: 'x-default', url: `${base}${match[0]}` },
           ];
         }
         return item;
@@ -106,6 +126,7 @@ export default defineConfig({
       include: [
         'sanity',
         'sanity/structure',
+        'sanity-plugin-media',
         'sanity/router',
         '@sanity/vision',
         'react',

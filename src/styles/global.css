@@ -2,38 +2,51 @@
 
 /*
  * ============================================================
- * DESIGN TOKENS — sourced from the Figma file (Dev Mode).
- * Palette read directly from the color frames:
- *   Black #000000 · Gold #C0B283 · Cream #EAE6D6 · white bg.
- * Font: Georgia (web-safe serif) everywhere — matches the logo.
+ * DESIGN TOKENS — sourced from the Crayons design (blindete.crayon,
+ * Foundations › Colors). Brand vars: ink, sand, cream, paper, mute.
+ * Fonts: Jost (UI + headings), Gelasio (logo / editorial titles / loader).
+ * Fonts are loaded from Google Fonts in BaseLayout.astro.
+ *
+ * Legacy names (gold, brand, mut, cream-soft) are kept as aliases so
+ * existing components keep compiling; prefer the design names in new code.
  * ============================================================
  */
 @theme {
-  /* Brand palette (Figma) */
-  --color-bg: #ffffff;
-  --color-cream: #eae6d6;
-  --color-cream-soft: #f4f1e8;
-  --color-sand: #f4f1e8; /* soft background for cards/footer/gallery (alias of cream-soft) */
+  /* Design palette */
   --color-ink: #000000;
-  --color-mut: #6b6b66;
-  --color-gold: #c0b283;
-  --color-gold-dark: #a99a68;
-  --color-brand: #c0b283; /* primary accent (alias of gold) */
-  --color-brand-dark: #a99a68; /* accent hover (alias of gold-dark) */
-  --color-line: #e6e2d6;
+  --color-sand: #c4b27c; /* accent: buttons, active nav, eyebrows, "Available" pill */
+  --color-sand-dark: #a8955c; /* accent hover */
+  --color-cream: #ebe5d5; /* "Reserved" pill, soft blocks */
+  --color-paper: #ffffff;
+  --color-mute: #6b665a; /* secondary text */
 
-  /* Status colors (kept readable, gold = reserved to match accent) */
+  /* Derived neutrals */
+  --color-bg: #ffffff;
+  --color-cream-soft: #f5f2ea; /* very light section/card background */
+  --color-line: #e4ddca;
+
+  /* Legacy aliases (do not use in new code) */
+  --color-mut: #6b665a;
+  --color-gold: #c4b27c;
+  --color-gold-dark: #a8955c;
+  --color-brand: #c4b27c;
+  --color-brand-dark: #a8955c;
+
+  /* Status colors — design pills: available = sand fill, reserved = cream fill,
+     sold = outline. Text-color variants kept readable. */
   --color-available: #4a7a52;
-  --color-reserved: #c0b283;
+  --color-reserved: #a8955c;
   --color-sold: #9a4b40;
   --color-upcoming: #6b7f9e;
 
-  /* Fonts — Georgia everywhere (web-safe serif, matches the logo) */
-  --font-display: Georgia, 'Times New Roman', serif;
-  --font-body: Georgia, 'Times New Roman', serif;
+  /* Fonts */
+  --font-sans: 'Jost', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Gelasio', Georgia, 'Times New Roman', serif;
+  --font-display: 'Jost', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Jost', ui-sans-serif, system-ui, sans-serif;
 
-  /* Radii — Figma uses crisp, mostly square corners */
-  --radius-card: 0.25rem;
+  /* Radii — the design uses square corners */
+  --radius-card: 0;
   --radius-pill: 999px;
 }
 
@@ -54,14 +67,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.05;
+/* In the base layer so utilities like `font-serif` on a heading win. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
 }
 
 a {
@@ -79,11 +96,11 @@ a {
   }
 }
 
-/* Small uppercase eyebrow label used across the design (gold) */
+/* Small uppercase eyebrow label used across the design (sand) */
 .eyebrow {
   font-family: var(--font-body);
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 0.7rem;
   color: var(--color-gold);
@@ -243,6 +260,63 @@ a {
 }
 .photo-grade--dog::before {
   opacity: 0.32;
+}
+
+/* Solid sand call-to-action button ("vezi mai mult", "Enquire", "Reserve"). */
+.btn-sand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background-color: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background-color 0.25s ease;
+}
+.btn-sand:hover {
+  background-color: var(--color-sand-dark);
+}
+
+/*
+ * Photo protection (see ProtectedImage.astro): no drag / selection / iOS
+ * long-press callout, and a "blîndețe" watermark over the image.
+ */
+.protected-photo img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+.protected-photo__mark {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.6rem;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1.4vw, 0.95rem);
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 0.7);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+}
+.protected-photo__mark--center {
+  inset: 0;
+  right: auto;
+  bottom: auto;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: clamp(1.5rem, 6vw, 4rem);
+  color: rgb(255 255 255 / 0.28);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -46,9 +46,9 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
     show('call') && settings?.phone && (
       <a
         href={`tel:${settings.phone}`}
-        class="rounded-pill bg-brand-dark hover:bg-gold inline-flex items-center gap-2.5 px-7 py-3.5 text-lg font-semibold text-ink transition"
+        class="bg-sand hover:bg-sand-dark inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
       >
-        <Icon name="phone" size={22} />
+        <Icon name="phone" size={20} />
         {t('cta.call')}
       </a>
     )
@@ -57,9 +57,9 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
     show('message') && messageHref && (
       <a
         href={messageHref}
-        class="rounded-pill bg-brand-dark hover:bg-gold inline-flex items-center gap-2.5 px-7 py-3.5 text-lg font-semibold text-ink transition"
+        class="bg-sand hover:bg-sand-dark inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
       >
-        <Icon name="message" size={22} />
+        <Icon name="message" size={20} />
         {t('cta.message')}
       </a>
     )
@@ -70,9 +70,9 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
         href={waHref}
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-pill inline-flex items-center gap-2.5 bg-[#25D366] px-7 py-3.5 text-lg font-semibold text-white transition hover:opacity-90"
+        class="border-ink hover:bg-ink hover:text-paper inline-flex items-center gap-2.5 border px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
       >
-        <Icon name="whatsapp" size={24} />
+        <Icon name="whatsapp" size={20} />
         {t('cta.whatsapp')}
       </a>
     )
@@ -83,9 +83,9 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
         href={settings.messenger}
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-pill inline-flex items-center gap-2.5 bg-[#0084FF] px-7 py-3.5 text-lg font-semibold text-white transition hover:opacity-90"
+        class="border-ink hover:bg-ink hover:text-paper inline-flex items-center gap-2.5 border px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
       >
-        <Icon name="message" size={22} />
+        <Icon name="message" size={20} />
         {t('cta.messenger')}
       </a>
     )

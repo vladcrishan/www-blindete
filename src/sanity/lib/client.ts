@@ -2,7 +2,7 @@ import { createClient } from '@sanity/client';
 
 // These run at build/SSR time in Node. Astro loads plain (non-PUBLIC_) .env
 // vars into `process.env`, NOT into `import.meta.env`, so read from there.
-// Fall back to import.meta.env so the Netlify build (which injects vars) and
+// Fall back to import.meta.env so the CI build (which injects vars) and
 // any PUBLIC_-style overrides still work.
 const env = { ...import.meta.env, ...process.env };
 

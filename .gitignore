@@ -25,3 +25,6 @@ testdetest.html
 
 # Sanity
 /.sanity/
+
+# Vercel
+.vercel/

@@ -27,7 +27,7 @@ const igSrc = isInstagram ? `${url.split('?')[0].replace(/\/$/, '')}/embed` : nu
 
 {
   ytId ? (
-    <div class="rounded-card aspect-video overflow-hidden">
+    <div class="aspect-video overflow-hidden bg-cream-soft">
       <iframe
         class="h-full w-full"
         src={`https://www.youtube-nocookie.com/embed/${ytId}`}
@@ -38,7 +38,7 @@ const igSrc = isInstagram ? `${url.split('?')[0].replace(/\/$/, '')}/embed` : nu
       />
     </div>
   ) : fbSrc ? (
-    <div class="rounded-card aspect-video overflow-hidden">
+    <div class="aspect-video overflow-hidden bg-cream-soft">
       <iframe
         class="h-full w-full"
         src={fbSrc}
@@ -49,7 +49,7 @@ const igSrc = isInstagram ? `${url.split('?')[0].replace(/\/$/, '')}/embed` : nu
       />
     </div>
   ) : igSrc ? (
-    <div class="rounded-card mx-auto max-w-md overflow-hidden">
+    <div class="mx-auto max-w-md overflow-hidden bg-cream-soft">
       <iframe
         class="aspect-square w-full"
         src={igSrc}
@@ -63,7 +63,7 @@ const igSrc = isInstagram ? `${url.split('?')[0].replace(/\/$/, '')}/embed` : nu
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      class="rounded-pill bg-brand hover:bg-brand-dark inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white"
+      class="btn-sand"
     >
       ▶ {title}
     </a>

@@ -24,26 +24,30 @@ const t = useTranslations(lang);
 const otherLang: Lang = lang === 'en' ? 'ro' : 'en';
 const switchHref = switchLocalePath(Astro.url, otherLang);
 
-type NavItem = { id: RouteId; label: string; hash?: string };
+type NavItem = { id: RouteId; label: string; hash?: string; neverActive?: boolean };
 
 /**
- * Sub-site nav links to the landing's #news anchor for "News", the listing
- * for "Kittens"/"Puppies", and the shared contact page. Gallery is deferred,
- * so it is omitted from the nav for now.
+ * Sub-site nav: our breeding adults, kittens/puppies (litters), the landing's
+ * #news anchor, the gallery pre-filtered to this species, and contact.
  */
 const catNav: NavItem[] = [
-  { id: 'cats', label: t('nav.news'), hash: '#news' },
+  { id: 'catsOurs', label: t('nav.ourCats') },
   { id: 'catsListing', label: t('nav.kittens') },
+  { id: 'cats', label: t('nav.news'), hash: '#news', neverActive: true },
+  { id: 'gallery', label: t('nav.gallery'), hash: '#cats' },
   { id: 'contact', label: t('nav.contact') },
 ];
 const dogNav: NavItem[] = [
-  { id: 'dogs', label: t('nav.news'), hash: '#news' },
+  { id: 'dogsOurs', label: t('nav.ourDogs') },
   { id: 'dogsListing', label: t('nav.puppies') },
+  { id: 'dogs', label: t('nav.news'), hash: '#news', neverActive: true },
+  { id: 'gallery', label: t('nav.gallery'), hash: '#dogs' },
   { id: 'contact', label: t('nav.contact') },
 ];
 const globalNav: NavItem[] = [
   { id: 'cats', label: t('nav.cats') },
   { id: 'dogs', label: t('nav.dogs') },
+  { id: 'gallery', label: t('nav.gallery') },
   { id: 'contact', label: t('nav.contact') },
 ];
 
@@ -56,9 +60,9 @@ const homeId: RouteId = 'home';
 const current = Astro.url.pathname;
 const stripSlash = (p: string) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p);
 const isActive = (item: NavItem) => {
-  // A bare landing#news link is never "current" on its own — it shares the
+  // A landing#news link is never "current" on its own — it shares the
   // landing path with the page itself; only highlight real section routes.
-  if (item.hash) return false;
+  if (item.neverActive) return false;
   const href = stripSlash(localizedRoute(item.id, lang));
   const here = stripSlash(current);
   return here === href || here.startsWith(href + '/');
@@ -71,8 +75,7 @@ const hrefFor = (item: NavItem) => `${localizedRoute(item.id, lang)}${item.hash 
     <div class="flex items-baseline gap-4">
       <a
         href={localizedRoute(homeId, lang)}
-        class="text-xl font-bold tracking-tight"
-        style="font-family:var(--font-display)"
+        class="font-serif text-2xl font-bold tracking-tight"
       >
         {t('brand.name')}<span class="text-ink">.</span>
       </a>
@@ -113,8 +116,8 @@ const hrefFor = (item: NavItem) => `${localizedRoute(item.id, lang)}${item.hash 
         <a
           href={hrefFor(item)}
           class:list={[
-            'hover:text-gold block py-2 text-sm tracking-wide transition-colors',
-            isActive(item) && 'text-gold',
+            'hover:text-sand block py-2 text-sm tracking-wide transition-colors',
+            isActive(item) && 'text-sand',
           ]}
           aria-current={isActive(item) ? 'page' : undefined}
         >

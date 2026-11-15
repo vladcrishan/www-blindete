@@ -37,7 +37,7 @@ export function animalProductSchema(
     '@type': 'Offer',
     url: opts.url,
     availability: STATUS_TO_SCHEMA[animal.status],
-    priceCurrency: 'RON',
+    priceCurrency: 'EUR',
     itemCondition: 'https://schema.org/NewCondition',
   };
   if (typeof animal.price === 'number') {

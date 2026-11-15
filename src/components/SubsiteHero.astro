@@ -1,95 +1,139 @@
 ---
 /**
- * Sub-site landing hero (cats or dogs). Distinct from the root-page
- * CatsHero/DogsHero editorial front-door heroes: this is the masthead for the
- * dedicated sub-site a visitor lands on from that species' social accounts.
- *
- * Title + intro copy + an available-count line + a CTA into the listing.
- * Copy comes from siteSettings hero fields when present, else per-species
- * defaults. A large lead photo sits to the right (the first available animal's
- * photo, passed in by the page).
+ * Sub-site landing hero (cats or dogs), after the "Landing — Cats/Dogs" frames:
+ * a tall portrait photo on the left, an oversized title that overlaps it, a
+ * "for breeders and pets" note, vertical colour/trait labels on the far right,
+ * a quality blurb with CTAs, and a second photo bleeding off the bottom-right.
+ * Every photo goes through ProtectedImage. All text props are already localized.
  */
-import { localizedRoute, useTranslations, type Lang } from '../i18n/ui';
+import type { ImageMetadata } from 'astro';
+import type { Lang } from '../i18n/ui';
 import type { SanityImageWithAlt, Species } from '../sanity/lib/types';
-import SanityImage from './SanityImage.astro';
+import ProtectedImage from './ProtectedImage.astro';
 
 interface Props {
   lang: Lang;
   species: Species;
-  /** Optional intro overrides (already localized by the page). */
-  title?: string;
-  subtitle?: string;
-  availableCount?: number;
-  /** Lead photo for the hero (e.g. the first available animal). */
-  image?: SanityImageWithAlt;
+  title: string;
+  eyebrow?: string;
+  headline?: string;
+  body?: string;
+  traits?: string[];
+  image?: SanityImageWithAlt | null;
+  image2?: SanityImageWithAlt | null;
+  /** Bundled photos used until the owner uploads hero photos in the Studio. */
+  local?: ImageMetadata;
+  local2?: ImageMetadata;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref: string;
+  secondaryLabel: string;
 }
-const { lang, species, title, subtitle, availableCount = 0, image } = Astro.props;
-const t = useTranslations(lang);
-const en = lang === 'en';
+const {
+  lang,
+  species,
+  title,
+  eyebrow,
+  headline,
+  body,
+  traits = [],
+  image,
+  image2,
+  local,
+  local2,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+} = Astro.props;
 
-const defaultTitle =
-  species === 'cat'
-    ? en
-      ? 'Persian Chinchilla'
-      : 'Persană Chinchilla'
-    : en
-      ? 'Pomeranian / Kleinspitz'
-      : 'Pomeranian / Kleinspitz';
+const note = {
+  ro: ['Pentru crescători', 'și animale'],
+  en: ['For breeders', 'and pets'],
+}[lang];
 
-const defaultSubtitle =
-  species === 'cat'
-    ? en
-      ? 'Healthy, gentle Persian Chinchilla kittens raised with love in Arad, ready for a new family.'
-      : 'Pisici Persane Chinchilla sănătoase și blânde, crescute cu drag în Arad, gata pentru o nouă familie.'
-    : en
-      ? 'Playful, sociable Pomeranian / Kleinspitz puppies raised with care in Arad, full of energy.'
-      : 'Câini Pomeranian / Kleinspitz jucăuși și sociabili, crescuți cu grijă în Arad, plini de energie.';
-
-const heroTitle = title || defaultTitle;
-const heroSubtitle = subtitle || defaultSubtitle;
-
-const listingHref = localizedRoute(species === 'cat' ? 'catsListing' : 'dogsListing', lang);
-const ctaLabel =
-  species === 'cat' ? (en ? 'See kittens' : 'Vezi pisicile') : en ? 'See puppies' : 'Vezi câinii';
-
-const availableLabel = availableCount === 1 ? t('home.available.one') : t('home.available.many');
-const altText = image?.alt ?? heroTitle;
+// Break the title after its first word, as in the design ("Pisici / persane").
+const words = title.trim().split(/\s+/);
+const lines = words.length > 1 ? [words[0], words.slice(1).join(' ')] : words;
+const titleFont = species === 'dog' ? 'font-serif' : 'font-sans';
 ---
 
-<section class="grid items-center gap-10 py-10 md:grid-cols-2 md:py-16">
-  <div>
-    <p class="eyebrow">{species === 'cat' ? t('nav.cats') : t('nav.dogs')}</p>
-    <h1 class="mt-3 text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">{heroTitle}</h1>
-    <p class="text-mut mt-6 max-w-md leading-relaxed">{heroSubtitle}</p>
-
+<section class="relative pt-6 pb-16 md:pt-10 lg:pb-24">
+  <div class="lg:grid lg:grid-cols-[480px_1fr] lg:gap-0">
     {
-      availableCount > 0 && (
-        <p class="mt-6 text-sm">
-          <span class="font-display text-gold text-2xl">{availableCount}</span>
-          <span class="text-mut ml-2">{availableLabel}</span>
-        </p>
+      image || local ? (
+        <ProtectedImage
+          image={image ?? undefined}
+          local={image ? undefined : local}
+          alt={image?.alt ?? title}
+          width={960}
+          aspect="4/5"
+          priority
+          sizes="(max-width: 1024px) 100vw, 480px"
+          class="h-full w-full object-cover"
+          wrapperClass="aspect-[4/5] w-full lg:aspect-[4/5]"
+        />
+      ) : (
+        <div class="bg-cream-soft aspect-[4/5] w-full" aria-hidden="true" />
       )
     }
 
-    <a href={listingHref} class="see-more mt-8 tracking-wide">
-      <span class="see-more__label">{ctaLabel}</span>
-      <span class="see-more__line"></span>
-    </a>
+    <div class="relative lg:pr-16">
+      <div class="mt-8 lg:mt-24 lg:-ml-[120px]">
+        <h1
+          class:list={[
+            titleFont,
+            'text-ink text-[clamp(3.25rem,10vw,7.5rem)] leading-[1.02] tracking-tight',
+          ]}
+        >
+          {lines.map((l) => <span class="block">{l}</span>)}
+        </h1>
+      </div>
+      <p class="mt-5 text-[0.7rem] leading-[1.7] tracking-[0.2em] uppercase lg:absolute lg:top-28 lg:right-0 lg:mt-0">
+        <span class="text-sand block">{note[0]}</span>
+        <span class="text-ink block">{note[1]}</span>
+      </p>
+
+      {
+        traits.length > 0 && (
+          <ul
+            class="mt-6 flex flex-wrap gap-x-5 gap-y-1 text-xs tracking-[0.25em] uppercase lg:absolute lg:top-0 lg:-right-2 lg:mt-0 lg:flex-col lg:flex-nowrap lg:gap-y-8 lg:[writing-mode:vertical-rl]"
+            aria-label={lang === 'en' ? 'Colours' : 'Culori'}
+          >
+            {traits.map((tr) => (
+              <li>{tr}</li>
+            ))}
+          </ul>
+        )
+      }
+
+      <div class="mt-10 max-w-sm lg:mt-[300px] lg:ml-[40px] lg:max-w-[300px]">
+        {eyebrow && <p class="eyebrow tracking-[0.2em]">{eyebrow}</p>}
+        {headline && <p class="mt-3 text-base tracking-[0.15em] uppercase">{headline}</p>}
+        {body && <p class="mt-5 text-sm leading-relaxed">{body}</p>}
+        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a href={primaryHref} class="btn-sand">{primaryLabel}</a>
+          <a href={secondaryHref} class="see-more">
+            <span class="see-more__label">{secondaryLabel}</span>
+            <span class="see-more__line"></span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
   {
-    image && (
-      <div class="overflow-hidden">
-        <SanityImage
-          image={image}
-          alt={altText}
-          width={900}
-          aspect="4/5"
-          priority
-          sizes="(max-width: 768px) 100vw, 560px"
-          class="w-full"
-        />
-      </div>
+    (image2 || local2) && (
+      <ProtectedImage
+        image={image2 ?? undefined}
+        local={image2 ? undefined : local2}
+        alt={image2?.alt ?? title}
+        width={600}
+        aspect="3/4"
+        sizes="(max-width: 1024px) 60vw, 290px"
+        class="h-full w-full object-cover"
+        wrapperClass="mt-8 ml-auto aspect-[3/4] w-3/5 sm:w-2/5 lg:absolute lg:right-[-24px] lg:bottom-0 lg:mt-0 lg:w-[260px]"
+      />
     )
   }
 </section>
