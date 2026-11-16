@@ -1,5 +1,5 @@
 ---
-import { useTranslations, getLangFromUrl, localizedRoute, type Lang } from '../i18n/ui';
+import { LOGO, useTranslations, getLangFromUrl, localizedRoute, type Lang } from '../i18n/ui';
 import type { SiteSettings } from '../sanity/lib/types';
 import Icon from './Icon.astro';
 
@@ -28,7 +28,7 @@ const socials = [
       <div class="flex items-center gap-1">
         <Icon name="paw" size={26} class="text-brand" />
         <span class="text-brand text-xl font-semibold" style="font-family:var(--font-display)"
-          >{t('brand.name')}.</span
+          >{LOGO}</span
         >
       </div>
       <p class="text-mut mt-3 max-w-xs text-sm">{t('footer.tagline')}</p>

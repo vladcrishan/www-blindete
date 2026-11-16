@@ -52,14 +52,6 @@ const settings = settingsProp ?? (await getSiteSettings());
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Design fonts: Jost (UI/headings) + Gelasio (logo, editorial titles). -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap"
-    />
-
     <SEO
       title={title}
       description={description}

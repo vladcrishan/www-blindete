@@ -11,6 +11,9 @@ export const languages = {
 export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'ro';
 
+/** Logo wordmark, identical in every language (with diacritics and the dot). */
+export const LOGO = 'blîndețe.';
+
 /** Static UI strings. RO is the source of truth; EN mirrors every key. */
 export const ui = {
   ro: {

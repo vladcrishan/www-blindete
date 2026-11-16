@@ -1,5 +1,6 @@
 ---
 import {
+  LOGO,
   getLangFromUrl,
   localizedRoute,
   switchLocalePath,
@@ -71,29 +72,29 @@ const hrefFor = (item: NavItem) => `${localizedRoute(item.id, lang)}${item.hash 
 ---
 
 <header class="bg-bg/95 sticky top-0 z-40 backdrop-blur">
-  <div class="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-6 py-5">
+  <div class="mx-auto flex max-w-[1288px] items-center justify-between gap-4 px-6 py-6">
     <div class="flex items-baseline gap-4">
       <a
         href={localizedRoute(homeId, lang)}
-        class="font-serif text-2xl font-bold tracking-tight"
+        class="text-[22px] leading-8 font-bold"
       >
-        {t('brand.name')}<span class="text-ink">.</span>
+        {LOGO}
       </a>
     </div>
 
-    <nav class="hidden items-center gap-9 md:flex" aria-label="Principal">
+    <nav class="hidden items-center gap-11 md:flex" aria-label="Principal">
       {
         nav.map((item) => (
           <a
             href={hrefFor(item)}
-            class:list={['nav-link text-sm tracking-wide', isActive(item) && 'is-active']}
+            class:list={['nav-link text-[15px]', isActive(item) && 'is-active']}
             aria-current={isActive(item) ? 'page' : undefined}
           >
             {item.label}
           </a>
         ))
       }
-      <a href={switchHref} class="nav-link text-sm tracking-wide" hreflang={otherLang}>
+      <a href={switchHref} class="nav-link text-[15px]" hreflang={otherLang}>
         {otherLang.toUpperCase()}
       </a>
     </nav>

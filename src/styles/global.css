@@ -4,8 +4,7 @@
  * ============================================================
  * DESIGN TOKENS — sourced from the Crayons design (blindete.crayon,
  * Foundations › Colors). Brand vars: ink, sand, cream, paper, mute.
- * Fonts: Jost (UI + headings), Gelasio (logo / editorial titles / loader).
- * Fonts are loaded from Google Fonts in BaseLayout.astro.
+ * Font: Georgia everywhere (web-safe, no webfont download).
  *
  * Legacy names (gold, brand, mut, cream-soft) are kept as aliases so
  * existing components keep compiling; prefer the design names in new code.
@@ -39,11 +38,12 @@
   --color-sold: #9a4b40;
   --color-upcoming: #6b7f9e;
 
-  /* Fonts */
-  --font-sans: 'Jost', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'Gelasio', Georgia, 'Times New Roman', serif;
-  --font-display: 'Jost', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Jost', ui-sans-serif, system-ui, sans-serif;
+  /* Fonts — Georgia everywhere, as in the Figma "Cats RO" / "Dogs RO" frames
+     (logo, nav, titles, eyebrows and body copy are all Georgia). */
+  --font-sans: Georgia, 'Times New Roman', serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-body: Georgia, 'Times New Roman', serif;
 
   /* Radii — the design uses square corners */
   --radius-card: 0;
@@ -262,6 +262,26 @@ a {
   opacity: 0.32;
 }
 
+/*
+ * High-key "airy" grade, matching the bright cream photos in the Figma
+ * "Cats EN" frame: lifts shadows, softens contrast, mutes saturation and warms
+ * slightly, then lays a thin cream veil on top so black text over the photo
+ * stays readable. Descendant selector (not `>`) because <Picture> wraps the img.
+ * The wrapper needs a positioning utility for the ::after veil (ProtectedImage
+ * adds `relative` unless the caller positions it).
+ */
+.photo-light img {
+  filter: brightness(1.14) contrast(0.78) saturate(0.72) sepia(0.12);
+}
+.photo-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgb(255 251 243 / 0.24);
+}
+
 /* Solid sand call-to-action button ("vezi mai mult", "Enquire", "Reserve"). */
 .btn-sand {
   display: inline-flex;
@@ -305,6 +325,11 @@ a {
   letter-spacing: 0.02em;
   color: rgb(255 255 255 / 0.7);
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+}
+/* Watermark temporarily disabled site-wide. Delete this rule to bring it back
+   (corner marks on photos + centred marks in the lightbox/preview). */
+.protected-photo__mark {
+  display: none;
 }
 .protected-photo__mark--center {
   inset: 0;

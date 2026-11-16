@@ -9,7 +9,7 @@
  *   only when the session flag is absent and the path is not /admin.
  * - Fades out on window `load` (min 600ms to avoid a flash, hard cap 1.5s).
  */
-import { getLangFromUrl } from '../i18n/ui';
+import { LOGO, getLangFromUrl } from '../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const line = lang === 'en' ? 'Fetching the puppies' : 'Aducem puișorii';
@@ -17,7 +17,7 @@ const line = lang === 'en' ? 'Fetching the puppies' : 'Aducem puișorii';
 
 <div id="blindete-loader" class="blindete-loader" aria-hidden="true">
   <div class="blindete-loader__inner">
-    <span class="blindete-loader__logo">blindete</span>
+    <span class="blindete-loader__logo">{LOGO}</span>
     <span class="blindete-loader__track"><span class="blindete-loader__bar"></span></span>
     <span class="blindete-loader__line">{line}</span>
   </div>

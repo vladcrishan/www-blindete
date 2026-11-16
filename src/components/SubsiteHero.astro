@@ -71,7 +71,7 @@ const titleFont = species === 'dog' ? 'font-serif' : 'font-sans';
           priority
           sizes="(max-width: 1024px) 100vw, 480px"
           class="h-full w-full object-cover"
-          wrapperClass="aspect-[4/5] w-full lg:aspect-[4/5]"
+          wrapperClass={`aspect-[4/5] w-full lg:aspect-[4/5] ${species === 'cat' ? 'photo-light' : ''}`}
         />
       ) : (
         <div class="bg-cream-soft aspect-[4/5] w-full" aria-hidden="true" />
@@ -79,7 +79,7 @@ const titleFont = species === 'dog' ? 'font-serif' : 'font-sans';
     }
 
     <div class="relative lg:pr-16">
-      <div class="mt-8 lg:mt-24 lg:-ml-[120px]">
+      <div class="relative z-10 mt-8 lg:mt-24 lg:-ml-[120px]">
         <h1
           class:list={[
             titleFont,
@@ -132,7 +132,7 @@ const titleFont = species === 'dog' ? 'font-serif' : 'font-sans';
         aspect="3/4"
         sizes="(max-width: 1024px) 60vw, 290px"
         class="h-full w-full object-cover"
-        wrapperClass="mt-8 ml-auto aspect-[3/4] w-3/5 sm:w-2/5 lg:absolute lg:right-[-24px] lg:bottom-0 lg:mt-0 lg:w-[260px]"
+        wrapperClass={`mt-8 ml-auto aspect-[3/4] w-3/5 sm:w-2/5 lg:absolute lg:right-[-24px] lg:bottom-0 lg:mt-0 lg:w-[260px] ${species === 'cat' ? 'photo-light' : ''}`}
       />
     )
   }
