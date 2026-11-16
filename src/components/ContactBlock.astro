@@ -1,12 +1,12 @@
 ---
 /**
- * "Visit us" contact block (home + sub-site pages), after the design mock:
- * a cream panel bleeding off the left edge with the place, a short note,
- * phone, visiting terms, Call / Message buttons and a directions link; an
- * illustrated map with a sand pin and a place label on the right.
+ * "Visit us" contact block (home + sub-site pages): on white, opened by the
+ * site's ink rule. Left: place, a short note, phone | visits in hairline-ruled
+ * columns, Call / Message buttons. Right: map with a sand pin and place label,
+ * captioned with city-level coordinates and a directions link.
  *
- * The map is a stylised SVG illustration (not real geography); the whole map
- * links to Google Maps. Location stays neighbourhood-level, no exact address.
+ * The map is a real OpenStreetMap render of the area (public/map-arad.svg);
+ * the whole map links to Google Maps. Location stays neighbourhood-level, no exact address.
  */
 import ContactButtons from './ContactButtons.astro';
 import { routes, useTranslations, type Lang } from '../i18n/ui';
@@ -46,60 +46,43 @@ const copy = en
       directions: 'Indicații de orientare',
     };
 
-// ---- Map illustration (viewBox 1060x700) -------------------------------
-// City blocks on a grid rotated ~-20deg; a few are parks. Deterministic.
-const W = 1060;
-const H = 700;
-const blocks: { x: number; y: number; w: number; h: number; park: boolean }[] = [];
-const pitchX = 148;
-const pitchY = 112;
-for (let r = -4; r < 10; r++) {
-  for (let c = -3; c < 11; c++) {
-    const seed = (r * 31 + c * 17 + 7) % 11;
-    const w = 104 + ((seed * 7) % 22);
-    const h = 74 + ((seed * 5) % 18);
-    const x = c * pitchX + (r % 2 ? 40 : 0) + ((seed * 3) % 10);
-    const y = r * pitchY + ((seed * 2) % 8);
-    blocks.push({ x, y, w, h, park: seed === 3 || seed === 8 });
-  }
-}
-const roads = [
-  'M-20 476 L1080 118', // shallow diagonal through the pin
-  'M592 -20 L836 720', // steep, top to bottom
-  'M1060 -16 L262 716', // long diagonal, top-right to bottom-left
-];
-const river =
-  'M-30 596 C 150 534 300 556 470 600 C 640 644 770 612 870 520 C 960 438 1010 336 1090 248';
-const pin = { x: 551, y: 320 };
 ---
 
-<section class="overflow-x-clip">
+<section>
   <div class="mx-auto max-w-[1288px] px-6">
-    <div class="grid md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-      <!-- Cream panel, bleeding off the left edge -->
-      <div
-        class="relative isolate py-14 before:absolute before:inset-y-0 before:-right-6 before:-left-6 before:-z-10 before:bg-cream-soft md:py-16 md:pr-12 md:before:right-0 md:before:left-[-100vw]"
-      >
+    <div
+      class="border-ink grid items-center gap-12 border-t pt-14 pb-20 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:pt-20 md:pb-28 lg:gap-20"
+    >
+      <!-- Text -->
+      <div>
         <p class="text-sand text-[13px] tracking-[0.2em] uppercase">{copy.eyebrow}</p>
         <h2 class="mt-4 text-5xl leading-[1.05] lg:text-6xl">{place}</h2>
         <p class="text-mute mt-6 max-w-md text-[15px] leading-relaxed">{copy.note}</p>
 
-        <hr class="border-line my-9 border-t" />
+        <!-- Phone | Visits: two hairline-ruled columns -->
+        <dl class="border-line mt-10 grid grid-cols-2 border-y">
+          {
+            settings?.phone && (
+              <div class="border-line border-r py-6 pr-5">
+                <dt class="text-sand text-xs tracking-[0.2em] uppercase">{copy.phone}</dt>
+                <dd class="mt-3">
+                  <a
+                    href={`tel:${settings.phone.replace(/\s+/g, '')}`}
+                    class="hover:text-sand-dark text-[1.35rem] leading-tight whitespace-nowrap transition lg:text-2xl"
+                  >
+                    {settings.phone}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          <div class:list={['py-6', settings?.phone ? 'pl-6' : 'col-span-2']}>
+            <dt class="text-sand text-xs tracking-[0.2em] uppercase">{copy.visits}</dt>
+            <dd class="mt-3 text-base leading-[1.6]">{copy.visitsValue}</dd>
+          </div>
+        </dl>
 
-        {
-          settings?.phone && (
-            <>
-              <p class="text-sand text-xs tracking-[0.2em] uppercase">{copy.phone}</p>
-              <a href={`tel:${settings.phone}`} class="mt-3 block text-[1.7rem] leading-tight">
-                {settings.phone}
-              </a>
-            </>
-          )
-        }
-        <p class="text-sand mt-8 text-xs tracking-[0.2em] uppercase">{copy.visits}</p>
-        <p class="mt-3 text-base">{copy.visitsValue}</p>
-
-        <div class="mt-9">
+        <div class="mt-10">
           <ContactButtons
             settings={settings}
             lang={lang}
@@ -107,65 +90,61 @@ const pin = { x: 551, y: 320 };
             messageHref={routes.contact[lang]}
           />
         </div>
-
-        <a
-          href={directionsHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-sand-dark mt-9 inline-flex items-center gap-3 text-sm transition"
-        >
-          {copy.directions}
-          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4">
-            <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8"></path>
-          </svg>
-        </a>
       </div>
 
-      <!-- Illustrated map -->
-      <div class="flex items-center py-10 md:py-16 md:pl-11">
+      <!-- Map (real OSM render) + caption -->
+      <figure>
         <a
           href={mapsHref}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${place} · ${t('cta.viewMap')}`}
-          class="group relative block aspect-[1060/700] w-full overflow-hidden"
+          class="group relative block aspect-[4/3] w-full overflow-hidden"
         >
+          <!-- Real OSM geometry around Str. Bagdazar, drawn in the site's illustrated style
+               (public/map-arad.svg, generated by scripts/render-map.mjs) -->
+          <img
+            src="/map-arad.svg"
+            alt=""
+            width="1200"
+            height="900"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+          <!-- pin at the centre of the render -->
           <svg
-            viewBox={`0 0 ${W} ${H}`}
-            preserveAspectRatio="xMidYMid slice"
-            class="absolute inset-0 h-full w-full"
+            viewBox="0 0 120 120"
+            class="map-pin absolute top-1/2 left-1/2 h-[96px] w-[96px] -translate-x-1/2 -translate-y-1/2"
             aria-hidden="true"
           >
-            <rect width={W} height={H} fill="#f3f0e6"></rect>
-            <g transform={`rotate(-20 ${W / 2} ${H / 2})`}>
-              {
-                blocks.map((b) => (
-                  <rect x={b.x} y={b.y} width={b.w} height={b.h} fill={b.park ? '#dfe2c8' : '#e9e3d2'} />
-                ))
-              }
-            </g>
-            <!-- river: bank, then water -->
-            <path d={river} fill="none" stroke="#e8dfc9" stroke-width="66" stroke-linecap="round"></path>
-            <path d={river} fill="none" stroke="#d6dcd6" stroke-width="48" stroke-linecap="round"></path>
-            <!-- main roads: tan casing, white fill -->
-            {roads.map((d) => <path d={d} stroke="#ddd0b1" stroke-width="22" fill="none" />)}
-            {roads.map((d) => <path d={d} stroke="#ffffff" stroke-width="16" fill="none" />)}
-            <!-- pin -->
-            <g class="map-pin">
-              <circle cx={pin.x} cy={pin.y} r="62" fill="#c4b27c" opacity="0.14"></circle>
-              <circle cx={pin.x} cy={pin.y} r="34" fill="#c4b27c" opacity="0.2"></circle>
-              <circle cx={pin.x} cy={pin.y} r="22" fill="#ffffff"></circle>
-              <circle cx={pin.x} cy={pin.y} r="15.5" fill="#c4b27c"></circle>
-            </g>
+            <circle cx="60" cy="60" r="56" fill="#c4b27c" opacity="0.14"></circle>
+            <circle cx="60" cy="60" r="30" fill="#c4b27c" opacity="0.2"></circle>
+            <circle cx="60" cy="60" r="19" fill="#ffffff"></circle>
+            <circle cx="60" cy="60" r="13.5" fill="#c4b27c"></circle>
           </svg>
           <!-- label in HTML so the text stays crisp and doesn't scale with the SVG -->
           <span
-            class="border-line text-ink absolute top-[33.5%] left-[54.9%] border bg-white px-3.5 py-2 text-sm whitespace-nowrap shadow-[0_1px_2px_rgb(0_0_0/0.04)]"
+            class="border-line text-ink absolute top-1/2 left-1/2 ml-8 -translate-y-[150%] border bg-white px-3.5 py-2 text-sm whitespace-nowrap shadow-[0_1px_2px_rgb(0_0_0/0.04)]"
           >
             {place}
           </span>
         </a>
-      </div>
+        <figcaption class="mt-4 flex items-center justify-between gap-4 text-sm">
+          <span class="text-mute text-xs tracking-[0.2em] uppercase">46.14° N · 21.31° E</span>
+          <a
+            href={directionsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-sand-dark inline-flex items-center gap-2.5 transition"
+          >
+            {copy.directions}
+            <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4">
+              <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8"></path>
+            </svg>
+          </a>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -173,11 +152,10 @@ const pin = { x: 551, y: 320 };
 <style>
   @media (prefers-reduced-motion: no-preference) {
     .map-pin {
-      transform-origin: 551px 320px;
-      transition: transform 0.35s ease;
+      transition: scale 0.35s ease;
     }
     .group:hover .map-pin {
-      transform: scale(1.08);
+      scale: 1.08;
     }
   }
 </style>

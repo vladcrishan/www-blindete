@@ -46,7 +46,7 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
     show('call') && settings?.phone && (
       <a
         href={`tel:${settings.phone}`}
-        class="bg-sand hover:bg-sand-dark inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
+        class="bg-sand hover:bg-sand-dark inline-flex min-w-[9.25rem] items-center justify-center gap-3 px-8 py-4 text-[13px] font-bold tracking-[0.16em] uppercase transition !text-white"
       >
         <Icon name="phone" size={20} />
         {t('cta.call')}
@@ -57,7 +57,7 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
     show('message') && messageHref && (
       <a
         href={messageHref}
-        class="border-sand hover:bg-sand inline-flex border bg-white items-center gap-2.5 px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
+        class="border-sand hover:bg-sand inline-flex min-w-[9.25rem] items-center justify-center gap-3 px-8 py-4 text-[13px] font-bold tracking-[0.16em] uppercase transition border bg-white text-ink"
       >
         <Icon name="message" size={20} />
         {t('cta.message')}
