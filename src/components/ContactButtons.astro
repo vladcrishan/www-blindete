@@ -57,7 +57,7 @@ const waHref = waNumber ? `https://wa.me/${waNumber}${waText ? `?text=${waText}`
     show('message') && messageHref && (
       <a
         href={messageHref}
-        class="bg-sand hover:bg-sand-dark inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
+        class="border-sand hover:bg-sand inline-flex border bg-white items-center gap-2.5 px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase text-ink transition"
       >
         <Icon name="message" size={20} />
         {t('cta.message')}

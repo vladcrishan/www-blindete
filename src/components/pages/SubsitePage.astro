@@ -15,8 +15,7 @@ import catHero2 from '../../assets/cat-hero-2.png';
 import dogHero1 from '../../assets/dog-hero-1.png';
 import dogHero2 from '../../assets/dog-hero-2.png';
 import NewsList from '../NewsList.astro';
-import ContactButtons from '../ContactButtons.astro';
-import StaticMap from '../StaticMap.astro';
+import ContactBlock from '../ContactBlock.astro';
 import { useTranslations, localized, routes, type Lang } from '../../i18n/ui';
 import {
   getBreedingAnimals,
@@ -159,30 +158,7 @@ const entries = [
       <NewsList posts={posts} lang={lang} />
     </div>
 
-    <!-- Contact block (mirrors the home page) -->
-    <section class="border-line grid items-center gap-8 border-t py-16 md:grid-cols-2 md:py-24">
-      <StaticMap
-        place={settings?.city ?? 'Arad, România'}
-        label={`${settings?.city ?? 'Arad'} · ${t('cta.viewMap')}`}
-      />
-      <div>
-        {
-          settings?.city && (
-            <p class="text-2xl">
-              {en ? `${settings.city}, Romania` : `${settings.city}, România`}
-            </p>
-          )
-        }
-        {settings?.phone && <p class="font-display mt-2 text-3xl">{settings.phone}</p>}
-        <div class="mt-7">
-          <ContactButtons
-            settings={settings}
-            lang={lang}
-            buttons={['call', 'message']}
-            messageHref={routes.contact[lang]}
-          />
-        </div>
-      </div>
-    </section>
   </div>
+
+  <ContactBlock lang={lang} settings={settings} />
 </BaseLayout>

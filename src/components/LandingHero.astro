@@ -84,7 +84,13 @@ const titleCqw = Math.min(
 ---
 
 <section class="overflow-x-clip">
-  <div class="mx-auto max-w-[1288px] px-6 pt-6 pb-16 lg:pt-5 lg:pb-28">
+  <div
+    class:list={[
+      'mx-auto max-w-[1288px] px-6 pb-16 lg:pb-28',
+      // Dogs follow Cats on the landing: extra breathing room between the two heroes
+      dog ? 'pt-16 lg:pt-36' : 'pt-6 lg:pt-5',
+    ]}
+  >
     <div
       class:list={[
         'flex flex-col gap-8 lg:@container lg:relative lg:block lg:gap-0',
@@ -100,7 +106,7 @@ const titleCqw = Math.min(
         priority
         sizes="(max-width: 1024px) 100vw, 530px"
         class="h-full w-full object-cover"
-        wrapperClass={`relative aspect-[546/818] ${dog ? '' : 'photo-light'} lg:absolute lg:top-0 lg:aspect-auto lg:w-[44%] ${dog ? 'lg:left-[52.6%] lg:h-[92.2%]' : 'lg:left-0 lg:h-[88.5%]'}`}
+        wrapperClass={`relative aspect-[546/818] photo-light lg:absolute lg:top-0 lg:aspect-auto lg:w-[44%] ${dog ? 'lg:left-[52.6%] lg:h-[92.2%]' : 'lg:left-0 lg:h-[88.5%]'}`}
       />
 
       <!-- Title: overlaps photo 1's right edge -->
@@ -156,7 +162,7 @@ const titleCqw = Math.min(
         width={800}
         sizes="(max-width: 1024px) 100vw, 400px"
         class="h-full w-full object-cover"
-        wrapperClass={`relative aspect-[360/540] ${dog ? '' : 'photo-light'} lg:absolute lg:bottom-0 lg:aspect-auto ${
+        wrapperClass={`relative aspect-[360/540] photo-light lg:absolute lg:bottom-0 lg:aspect-auto ${
           dog
             ? 'lg:z-[1] lg:top-[46.1%] lg:left-[39%] lg:w-[29%]'
             : 'lg:top-[41.6%] lg:left-[79%] lg:right-[max(calc(50%_-_50vw),-100px)]'
