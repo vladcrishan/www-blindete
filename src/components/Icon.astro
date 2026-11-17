@@ -1,0 +1,96 @@
+---
+/**
+ * Inline line-style icons that inherit `currentColor`, so they pick up the
+ * surrounding text/button color and stay consistent with the site theme.
+ */
+interface Props {
+  name: 'phone' | 'whatsapp' | 'mail' | 'message' | 'pin' | 'paw';
+  class?: string;
+  size?: number;
+}
+const { name, class: className, size = 18 } = Astro.props;
+const common = {
+  width: size,
+  height: size,
+  viewBox: '0 0 24 24',
+  'aria-hidden': true,
+  class: className,
+};
+---
+
+{
+  name === 'phone' && (
+    <svg
+      {...common}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M6.5 3.5h3l1.5 4-2 1.2a12 12 0 0 0 5.3 5.3l1.2-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z" />
+    </svg>
+  )
+}
+{
+  name === 'whatsapp' && (
+    <svg {...common} fill="currentColor">
+      <path d="M12.04 2.5a9.46 9.46 0 0 0-8.1 14.32L2.5 21.5l4.8-1.38A9.46 9.46 0 1 0 12.04 2.5Zm0 1.72a7.74 7.74 0 0 1 6.6 11.82 7.74 7.74 0 0 1-9.9 2.86l-.34-.18-2.85.82.83-2.78-.2-.36A7.74 7.74 0 0 1 12.04 4.22Zm-3.3 3.7c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.74 4.2 3.74 2.1.84 2.52.68 2.98.64.46-.04 1.48-.6 1.7-1.2.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.46-.28-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.42-1.34-1.66-.14-.24-.02-.36.1-.48.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.46-.4-.4-.54-.4Z" />
+    </svg>
+  )
+}
+{
+  name === 'mail' && (
+    <svg
+      {...common}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3.5 7 8.5 6 8.5-6" />
+    </svg>
+  )
+}
+{
+  name === 'message' && (
+    <svg
+      {...common}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 3.5V17H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+    </svg>
+  )
+}
+{
+  name === 'pin' && (
+    <svg
+      {...common}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 21s7-5.6 7-11a7 7 0 0 0-14 0c0 5.4 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  )
+}
+{
+  name === 'paw' && (
+    <svg {...common} fill="currentColor">
+      <ellipse cx="6" cy="11" rx="1.6" ry="2.2" />
+      <ellipse cx="10" cy="7.5" rx="1.7" ry="2.4" />
+      <ellipse cx="14" cy="7.5" rx="1.7" ry="2.4" />
+      <ellipse cx="18" cy="11" rx="1.6" ry="2.2" />
+      <path d="M12 12c2.4 0 4.5 1.7 4.5 3.9 0 1.7-1.5 2.6-3 2.6-.7 0-1-.3-1.5-.3s-.8.3-1.5.3c-1.5 0-3-.9-3-2.6C7.5 13.7 9.6 12 12 12Z" />
+    </svg>
+  )
+}

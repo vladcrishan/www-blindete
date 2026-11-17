@@ -1,0 +1,48 @@
+---
+/**
+ * Sub-site "News" section (anchored at #news): journal header, a featured
+ * first story, then divided rows — or a quiet empty state.
+ */
+import { useTranslations, type Lang } from '../i18n/ui';
+import type { Post } from '../sanity/lib/types';
+import NewsCard from './NewsCard.astro';
+
+interface Props {
+  posts: Post[];
+  lang: Lang;
+}
+const { posts, lang } = Astro.props;
+const t = useTranslations(lang);
+const [first, ...rest] = posts;
+const copy = {
+  ro: {
+    eyebrow: 'Jurnal',
+    intro: 'Pui, expoziții și notițe din crescătorie, scrise de cei care îi cresc.',
+  },
+  en: {
+    eyebrow: 'Journal',
+    intro: 'Litters, shows and notes from the kennel and cattery, written by the people who raise them.',
+  },
+}[lang];
+---
+
+<section id="news" class="scroll-mt-24">
+  <p class="eyebrow">{copy.eyebrow}</p>
+  <div class="border-ink flex flex-col gap-4 border-b pb-6 md:flex-row md:items-end md:justify-between">
+    <h2 class="font-serif text-5xl sm:text-7xl">{t('news.title')}</h2>
+    <p class="text-mute max-w-sm font-serif text-sm leading-relaxed">{copy.intro}</p>
+  </div>
+
+  {
+    first ? (
+      <div class="divide-line divide-y">
+        <NewsCard post={first} lang={lang} variant="featured" />
+        {rest.map((p) => (
+          <NewsCard post={p} lang={lang} variant="row" />
+        ))}
+      </div>
+    ) : (
+      <p class="text-mute py-10 font-serif">{t('news.empty')}</p>
+    )
+  }
+</section>

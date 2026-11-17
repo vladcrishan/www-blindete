@@ -1,0 +1,258 @@
+---
+/**
+ * News article page, after the "News — article" frame: back link, date +
+ * sub-site tag, serif title, excerpt as standfirst, protected cover, a
+ * reading-time aside, Portable Text body, optional YouTube embed, share row,
+ * next story, and more news. EN falls back to RO fields.
+ */
+import { PortableText } from 'astro-portabletext';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JsonLd from '../JsonLd.astro';
+import NewsCard from '../NewsCard.astro';
+import ProtectedImage from '../ProtectedImage.astro';
+import VideoEmbed from '../VideoEmbed.astro';
+import { localized, postPath, routes, useTranslations, type Lang } from '../../i18n/ui';
+import { getPostsBySpecies, getSiteSettings } from '../../sanity/lib/queries';
+import { ogImageUrl } from '../../sanity/lib/seo';
+import type { PostDetail, Species } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+  post: PostDetail;
+}
+const { lang, species, post } = Astro.props;
+const t = useTranslations(lang);
+const en = lang === 'en';
+
+const copy = {
+  ro: { journal: 'Jurnal', back: 'Noutăți', read: 'Timp de citire', min: 'minute', share: 'Distribuie', copy: 'Copiază linkul', copied: 'Copiat', next: 'Următoarea', more: 'Mai multe noutăți', tag: species === 'cat' ? 'Pisici' : 'Câini' },
+  en: { journal: 'Journal', back: 'News', read: 'Reading time', min: 'minutes', share: 'Share', copy: 'Copy link', copied: 'Copied', next: 'Next story', more: 'More news', tag: species === 'cat' ? 'Cats' : 'Dogs' },
+}[lang];
+
+const [all, settings] = await Promise.all([getPostsBySpecies(species), getSiteSettings()]);
+
+const title = localized(post.titleRo, post.titleEn, lang) ?? post.titleRo;
+const excerpt = localized(post.excerptRo, post.excerptEn, lang);
+const body = (localized(post.bodyRo, post.bodyEn, lang) ?? []) as any[];
+const cover = post.coverImage?.asset ? post.coverImage : null;
+
+const date = post.publishedAt
+  ? new Intl.DateTimeFormat(en ? 'en-GB' : 'ro-RO', { day: '2-digit', month: 'short', year: 'numeric' })
+      .format(new Date(post.publishedAt))
+      .replace(/\./g, '')
+  : '';
+
+const words = body
+  .filter((b) => b?._type === 'block')
+  .map((b) => (b.children ?? []).map((c: any) => c.text ?? '').join(''))
+  .join(' ')
+  .split(/\s+/)
+  .filter(Boolean).length;
+const minutes = Math.max(1, Math.round(words / 200));
+
+const others = all.filter((p) => p.slug !== post.slug);
+const idx = all.findIndex((p) => p.slug === post.slug);
+const next = (idx >= 0 ? all[idx + 1] : undefined) ?? others[0];
+const more = others.filter((p) => p !== next).slice(0, 3);
+
+const listHref = `${routes[species === 'cat' ? 'cats' : 'dogs'][lang]}#news`;
+const roPath = postPath(species, post.slug, 'ro');
+const enPath = postPath(species, post.slug, 'en');
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(lang === 'en' ? enPath : roPath, site).toString();
+const ogImg = cover ? ogImageUrl(cover) : undefined;
+const description = excerpt ?? title;
+
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  inLanguage: lang,
+  mainEntityOfPage: canonical,
+  url: canonical,
+  author: { '@type': 'Organization', name: t('brand.name') },
+  publisher: { '@type': 'Organization', name: t('brand.name') },
+};
+if (post.publishedAt) {
+  jsonLd.datePublished = post.publishedAt;
+  jsonLd.dateModified = post.publishedAt;
+}
+if (ogImg) jsonLd.image = [ogImg];
+
+const fbShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}`;
+---
+
+<BaseLayout
+  title={`${title} · ${t('brand.name')}`}
+  description={description}
+  roPath={roPath}
+  enPath={enPath}
+  ogImage={ogImg}
+  ogType="article"
+  settings={settings}
+  subsite={species}
+>
+  <JsonLd schema={jsonLd} />
+
+  <article class="mx-auto max-w-[1288px] px-6 pt-8 pb-20">
+    <a href={listHref} class="inline-flex items-center gap-2 text-xs font-medium tracking-wide hover:text-sand">
+      <span aria-hidden="true">←</span>{copy.back}
+    </a>
+
+    <header class="mt-10">
+      <p class="eyebrow flex items-center gap-3">
+        {date && <time datetime={post.publishedAt}>{date}</time>}
+        {date && <span aria-hidden="true" class="bg-sand inline-block h-1 w-1"></span>}
+        <span>{copy.tag}</span>
+      </p>
+      <h1 class="mt-4 max-w-5xl font-serif text-4xl leading-[1.1] sm:text-5xl lg:text-6xl">{title}</h1>
+      {excerpt && <p class="text-mute mt-6 max-w-2xl font-serif text-xl leading-relaxed italic">{excerpt}</p>}
+    </header>
+
+    {
+      cover && (
+        <ProtectedImage
+          image={cover}
+          alt={cover.alt ?? title}
+          width={1600}
+          aspect="2.85/1"
+          priority
+          sizes="(max-width: 1200px) 100vw, 1200px"
+          class="h-full w-full object-cover"
+          wrapperClass="mt-10 aspect-[16/10] w-full md:aspect-[2.85/1]"
+          mark="center"
+        />
+      )
+    }
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-[320px_minmax(0,640px)] lg:gap-0">
+      <aside class="lg:pt-1">
+        <p class="eyebrow">{copy.read}</p>
+        <p class="mt-1 font-serif text-sm">{minutes} {copy.min}</p>
+      </aside>
+
+      <div>
+        {body.length > 0 && <div class="article-body"><PortableText value={body} /></div>}
+        {
+          post.youtubeUrl && (
+            <div class="mt-10">
+              <VideoEmbed url={post.youtubeUrl} title={title} />
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <footer class="border-ink mt-16 flex flex-col gap-8 border-t pt-8 md:flex-row md:items-start md:justify-between">
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 font-serif text-sm">
+        <span class="eyebrow">{copy.share}</span>
+        <a href={fbShare} target="_blank" rel="noopener noreferrer" class="hover:text-sand">Facebook</a>
+        <button type="button" data-copy-link={canonical} data-done={copy.copied} class="hover:text-sand cursor-pointer">
+          {copy.copy}
+        </button>
+      </div>
+      {
+        next && (
+          <a href={postPath(species, next.slug, lang)} class="group md:max-w-md md:text-right">
+            <span class="eyebrow">{copy.next} →</span>
+            <span class="mt-2 block font-serif text-xl leading-snug group-hover:underline decoration-sand underline-offset-4">
+              {localized(next.titleRo, next.titleEn, lang) ?? next.titleRo}
+            </span>
+          </a>
+        )
+      }
+    </footer>
+
+    {
+      more.length > 0 && (
+        <section class="mt-20" aria-labelledby="more-news">
+          <h2 id="more-news" class="font-serif text-3xl">{copy.more}</h2>
+          <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {more.map((p) => <NewsCard post={p} lang={lang} variant="tile" />)}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const label = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copyLink ?? location.href);
+        btn.textContent = btn.dataset.done ?? 'OK';
+        setTimeout(() => (btn.textContent = label), 1800);
+      } catch {
+        /* clipboard unavailable: ignore */
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  .article-body {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .article-body > * + * {
+    margin-top: 1.4em;
+  }
+  .article-body h2,
+  .article-body h3,
+  .article-body h4 {
+    font-family: var(--font-serif);
+    line-height: 1.2;
+    margin-top: 2.2em;
+  }
+  .article-body h2 { font-size: 1.75rem; }
+  .article-body h3 { font-size: 1.4rem; }
+  .article-body h4 { font-size: 1.15rem; }
+  .article-body ul,
+  .article-body ol {
+    padding-left: 1.4em;
+  }
+  .article-body ul { list-style: square; }
+  .article-body ol { list-style: decimal; }
+  .article-body li + li { margin-top: 0.4em; }
+  .article-body li::marker { color: var(--color-sand); }
+  .article-body blockquote {
+    border-top: 1px solid var(--color-sand);
+    border-bottom: 1px solid var(--color-sand);
+    padding: 1.2em 0;
+    font-size: 1.5rem;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--color-ink);
+  }
+  .article-body a {
+    text-decoration: underline;
+    text-decoration-color: var(--color-sand);
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  .article-body a:hover { color: var(--color-sand-dark); }
+  /* Subtle link affordance: small arrow after links. */
+  .article-body a::after {
+    content: '\2197';
+    display: inline-block;
+    margin-left: 0.2em;
+    font-size: 0.7em;
+    color: var(--color-sand);
+    text-decoration: none;
+    transform: translateY(-0.15em);
+  }
+  .article-body a[href^='/']::after,
+  .article-body a[href^='#']::after {
+    content: '\2192';
+  }
+  .article-body a[href^='mailto:']::after,
+  .article-body a[href^='tel:']::after {
+    content: '';
+    margin: 0;
+  }
+</style>

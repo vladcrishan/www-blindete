@@ -1,0 +1,185 @@
+---
+/**
+ * Shared editorial landing hero (Cats + Dogs use the same frame layout),
+ * matched to the Figma "Cats RO" / "Dogs RO" frames (1440 canvas, 1240 content
+ * frame starting at x=100, hero box 1240x924 below the header).
+ *
+ * Desktop (>=lg): a fixed-aspect @container box anchors every element by
+ * percentage of that frame, and the title scales in cqw, so overlaps hold at
+ * any width: photo 1 left (546x818), title overlapping its right edge,
+ * "for breeders" block + photo 2 in the right column (x=79%), photo 2 bleeding
+ * off the right edge, copy + "see more" line link at x=50%, vertical trait
+ * labels in the right margin. Everything is Georgia, no letter-spacing.
+ * Mobile: single column in reading order (same DOM, no duplicated images).
+ *
+ * All text and both photos come from Sanity (`content`); the props below are
+ * the fallbacks used until the owner fills the landing document.
+ */
+import type { ImageMetadata } from 'astro';
+import ProtectedImage from './ProtectedImage.astro';
+import { localized, type Lang } from '../i18n/ui';
+import type { LandingContent } from '../sanity/lib/types';
+
+interface Fallback {
+  title: string;
+  traits: string[];
+  forLine: string[];
+  eyebrow: string;
+  headline: string;
+  body: string;
+  alt1: string;
+  alt2: string;
+  seeMore: string;
+}
+
+interface Props {
+  lang: Lang;
+  content?: LandingContent | null;
+  href: string;
+  fallback: { ro: Fallback; en: Fallback };
+  local1: ImageMetadata;
+  local2: ImageMetadata;
+  as?: 'h1' | 'h2';
+  /** 'cat' = photo left, text right (Cats frame). 'dog' = mirrored Dogs frame:
+   *  title + copy left, big photo right, small photo overlapping its bottom-left,
+   *  trait labels beside the small photo, no "for breeders" block. */
+  layout?: 'cat' | 'dog';
+}
+const {
+  lang,
+  content,
+  href,
+  fallback,
+  local1,
+  local2,
+  as: Tag = 'h2',
+  layout = 'cat',
+} = Astro.props;
+const dog = layout === 'dog';
+const fb = fallback[lang];
+
+const title = (localized(content?.titleRo, content?.titleEn, lang) || fb.title).trim();
+const sp = title.indexOf(' ');
+const titleLines = sp > 0 ? [title.slice(0, sp), title.slice(sp + 1)] : [title];
+const traitsRaw = lang === 'en' ? content?.traitsEn : content?.traitsRo;
+const cleaned = (traitsRaw ?? []).filter(Boolean);
+const traits: string[] = cleaned.length ? cleaned : fb.traits;
+const eyebrow = localized(content?.eyebrowRo, content?.eyebrowEn, lang) || fb.eyebrow;
+const headline = localized(content?.headlineRo, content?.headlineEn, lang) || fb.headline;
+const body = localized(content?.bodyRo, content?.bodyEn, lang) || fb.body;
+const [f0, f1, f2, f3] = fb.forLine;
+
+// Title size, in container-width units (cqw) of the 1240-wide design frame.
+// Figma: 145px Georgia on a 1240 frame = 11.7cqw. Line 2 sits level with the
+// "for breeders" block (starts at 79%), so a long second line (e.g. RO
+// "Câini / Pomeranian") is scaled down to end before it (~0.53em per glyph, measured).
+// Dogs frame: the title starts at x=0 and may overlap photo 1 (x=52.6%) a little,
+// so the longest line is capped to end around 58%.
+const line2 = titleLines[1] ?? '';
+const longest = Math.max(...titleLines.map((l) => l.length));
+const titleCqw = Math.min(
+  11.7,
+  dog ? 58 / (0.53 * longest) : line2 ? 41 / (0.53 * line2.length) : 11.7,
+).toFixed(2);
+---
+
+<section class="overflow-x-clip">
+  <div
+    class:list={[
+      'mx-auto max-w-[1288px] px-6 pb-16 lg:pb-28',
+      // Dogs follow Cats on the landing: extra breathing room between the two heroes
+      dog ? 'pt-16 lg:pt-36' : 'pt-6 lg:pt-5',
+    ]}
+  >
+    <div
+      class:list={[
+        'flex flex-col gap-8 lg:@container lg:relative lg:block lg:gap-0',
+        dog ? 'lg:aspect-[1240/890]' : 'lg:aspect-[1240/924]',
+      ]}
+    >
+      <!-- Photo 1: x0 y0, 546x818 -->
+      <ProtectedImage
+        image={content?.heroImage1}
+        local={local1}
+        alt={content?.heroImage1?.alt || fb.alt1}
+        width={1000}
+        priority
+        sizes="(max-width: 1024px) 100vw, 530px"
+        class="h-full w-full object-cover"
+        wrapperClass={`relative aspect-[546/818] photo-light lg:absolute lg:top-0 lg:aspect-auto lg:w-[44%] ${dog ? 'lg:left-[52.6%] lg:h-[92.2%]' : 'lg:left-0 lg:h-[88.5%]'}`}
+      />
+
+      <!-- Title: overlaps photo 1's right edge -->
+      <Tag
+        class:list={[
+          'pointer-events-none z-10 text-[clamp(3.5rem,16vw,6rem)] leading-none font-normal tracking-normal lg:absolute lg:top-[7.8%] lg:text-[length:var(--title-size)] lg:whitespace-nowrap',
+          dog ? 'lg:left-0' : 'lg:left-[34.5%]',
+        ]}
+        style={`--title-size:${titleCqw}cqw`}
+      >
+        {titleLines.map((l) => <span class="block">{l}</span>)}
+      </Tag>
+
+      <!-- "For breeders and pets": right column, one word per line -->
+      {
+        !dog && (
+          <p class="text-sm leading-[1.15] uppercase lg:absolute lg:top-[29.5%] lg:left-[79%]">
+            <span class="text-sand">
+              {f0}
+              <br class="hidden lg:inline" /> {f1}
+            </span>
+            <br />
+            <span class="text-ink">
+              {f2}
+              <br class="hidden lg:inline" /> {f3}
+            </span>
+          </p>
+        )
+      }
+
+      <!-- Copy -->
+      <div
+        class:list={[
+          'lg:absolute lg:w-[24.5%]',
+          dog ? 'lg:top-[49%] lg:left-0' : 'lg:top-[62.5%] lg:left-1/2',
+        ]}
+      >
+        <p class="text-sand text-lg leading-[1.3] uppercase">{eyebrow}</p>
+        <h3 class="text-lg leading-[1.3] font-normal tracking-normal uppercase">{headline}</h3>
+        <p class="text-ink mt-5 text-sm leading-[1.7]">{body}</p>
+        <a href={href} class="see-more mt-5 !gap-2 !text-sm !tracking-normal">
+          <span class="see-more__label">{fb.seeMore}</span>
+          <span class="see-more__line" />
+        </a>
+      </div>
+
+      <!-- Photo 2: right column, bottom-aligned, bleeds to the viewport edge
+           (capped at the 1440-frame's 100px margin on wider screens). -->
+      <ProtectedImage
+        image={content?.heroImage2}
+        local={local2}
+        alt={content?.heroImage2?.alt || fb.alt2}
+        width={800}
+        sizes="(max-width: 1024px) 100vw, 400px"
+        class="h-full w-full object-cover"
+        wrapperClass={`relative aspect-[360/540] photo-light lg:absolute lg:bottom-0 lg:aspect-auto ${
+          dog
+            ? 'lg:z-[1] lg:top-[46.1%] lg:left-[39%] lg:w-[29%]'
+            : 'lg:top-[41.6%] lg:left-[79%] lg:right-[max(calc(50%_-_50vw),-100px)]'
+        }`}
+      />
+
+      <!-- Trait labels: vertical, reading bottom-to-top, in the right margin -->
+      <ul
+        class:list={[
+          'text-ink flex flex-wrap gap-x-6 gap-y-2 text-[13px] uppercase lg:absolute lg:flex-col lg:flex-nowrap lg:items-center',
+          dog
+            ? 'lg:right-[calc(61%_+_18px)] lg:bottom-0 lg:gap-[32px]'
+            : 'lg:top-[5.6%] lg:right-0 lg:gap-[46px] min-[90rem]:right-[-79px]',
+        ]}
+      >
+        {traits.map((t: string) => <li class="lg:rotate-180 lg:[writing-mode:vertical-rl]">{t}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

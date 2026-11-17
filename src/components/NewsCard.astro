@@ -1,0 +1,132 @@
+---
+/**
+ * One news entry, after the "News" frame. `featured`: wide cover left, date /
+ * title / excerpt right. `row`: date column, title + excerpt, thumbnail right.
+ * The whole card links to the article; posts with a YouTube link get a play
+ * badge on the thumbnail.
+ */
+import { localized, postPath, useTranslations, type Lang } from '../i18n/ui';
+import type { Post } from '../sanity/lib/types';
+import ProtectedImage from './ProtectedImage.astro';
+
+interface Props {
+  post: Post;
+  lang: Lang;
+  variant?: 'featured' | 'row' | 'tile';
+}
+const { post, lang, variant = 'row' } = Astro.props;
+const t = useTranslations(lang);
+
+const title = localized(post.titleRo, post.titleEn, lang) ?? post.titleRo;
+const excerpt = localized(post.excerptRo, post.excerptEn, lang);
+const href = postPath(post.species, post.slug, lang);
+const date = post.publishedAt
+  ? new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'ro-RO', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+      .format(new Date(post.publishedAt))
+      .replace(/\./g, '')
+  : '';
+const cover = post.coverImage?.asset ? post.coverImage : null;
+const hasVideo = Boolean(post.youtubeUrl);
+---
+
+<Fragment>
+  {
+    variant === 'featured' ? (
+      <a
+        href={href}
+        class="group grid items-center gap-6 py-8 md:grid-cols-[1.5fr_1fr] md:gap-12"
+      >
+        <div class="bg-cream-soft relative aspect-[16/9] md:aspect-[2.8/1]">
+          {cover && (
+            <ProtectedImage
+              image={cover}
+              alt={cover.alt ?? title}
+              width={1000}
+              aspect="2.8/1"
+              sizes="(max-width: 768px) 100vw, 700px"
+              class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+              wrapperClass="absolute inset-0"
+            />
+          )}
+          {hasVideo && (
+            <span class="absolute bottom-3 left-3 z-10 inline-flex items-center gap-2 bg-black/60 px-3 py-1.5 text-[0.65rem] tracking-[0.2em] text-white uppercase">
+              <span aria-hidden="true">▶</span>
+              {t('news.video')}
+            </span>
+          )}
+        </div>
+        <div>
+          {date && <p class="eyebrow">{date}</p>}
+          <h3 class="mt-3 font-serif text-3xl leading-tight sm:text-4xl">{title}</h3>
+          {excerpt && <p class="text-mute mt-4 max-w-prose font-serif leading-relaxed">{excerpt}</p>}
+          <span class="see-more mt-5 text-xs font-medium">
+            <span class="see-more__label">{t('news.readMore')}</span>
+            <span class="see-more__line" />
+          </span>
+        </div>
+      </a>
+    ) : variant === 'tile' ? (
+      <a href={href} class="group block">
+        <div class="bg-cream-soft relative aspect-[4/3]">
+          {cover && (
+            <ProtectedImage
+              image={cover}
+              alt={cover.alt ?? title}
+              width={600}
+              aspect="4/3"
+              sizes="(max-width: 768px) 100vw, 380px"
+              class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+              wrapperClass="absolute inset-0"
+            />
+          )}
+        </div>
+        {date && <p class="eyebrow mt-4">{date}</p>}
+        <h3 class="mt-2 font-serif text-xl leading-snug group-hover:underline decoration-sand underline-offset-4">{title}</h3>
+      </a>
+    ) : (
+      <a
+        href={href}
+        class="group grid items-center gap-4 py-6 md:grid-cols-[150px_1fr_180px] md:gap-8"
+      >
+        {date && <p class="eyebrow order-1 md:order-none">{date}</p>}
+        <div class="order-3 md:order-none">
+          <h3 class="font-serif text-2xl leading-tight sm:text-3xl">{title}</h3>
+          {excerpt && (
+            <p class="text-mute mt-2 max-w-xl font-serif text-sm leading-relaxed">{excerpt}</p>
+          )}
+          <span class="see-more mt-3 text-xs font-medium">
+            <span class="see-more__label">{t('news.readMore')}</span>
+            <span class="see-more__line" />
+          </span>
+        </div>
+        <div class="bg-cream-soft relative order-2 aspect-[8/5] md:order-none">
+          {cover && (
+            <ProtectedImage
+              image={cover}
+              alt={cover.alt ?? title}
+              width={400}
+              aspect="8/5"
+              sizes="(max-width: 768px) 100vw, 180px"
+              class="h-full w-full object-cover"
+              wrapperClass="absolute inset-0"
+              mark="none"
+            />
+          )}
+          {hasVideo && (
+            <span
+              class="absolute right-2 bottom-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-black/60 text-[0.65rem] text-white"
+              title={t('news.video')}
+            >
+              <span aria-hidden="true">▶</span>
+              <span class="sr-only">{t('news.video')}</span>
+            </span>
+          )}
+        </div>
+      </a>
+    )
+  }
+</Fragment>

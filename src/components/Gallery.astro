@@ -1,0 +1,113 @@
+---
+/**
+ * Animal photo gallery (profile design): one large photo + up to 4 thumbnails
+ * that swap it; clicking the large photo opens the ImagePreview dialog with
+ * every photo. Without JS the first photo still renders.
+ */
+import type { SanityImageWithAlt } from '../sanity/lib/types';
+import type { Lang } from '../i18n/ui';
+import ProtectedImage from './ProtectedImage.astro';
+import ImagePreview from './ImagePreview.astro';
+
+interface Props {
+  images: SanityImageWithAlt[];
+  name: string;
+  lang?: Lang;
+  /** Caption shown under previewed photos (e.g. headline). */
+  sub?: string;
+}
+const { images, name, lang = 'ro', sub } = Astro.props;
+
+const valid = images.filter((i) => i?.asset);
+const shown = valid.slice(0, 4);
+const extra = valid.length - shown.length;
+const id = `gallery-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+const viewAll = lang === 'en' ? 'Enlarge photo' : 'Mărește fotografia';
+---
+
+{
+  valid.length > 0 && (
+    <div data-gallery>
+      <div class="relative bg-cream-soft">
+        {shown.map((img, i) => (
+          <div data-main={i} hidden={i !== 0}>
+            <ProtectedImage
+              image={img}
+              alt={img.alt ?? `${name} ${i + 1}`}
+              width={800}
+              aspect="26/36"
+              priority={i === 0}
+              sizes="(max-width: 1024px) 100vw, 520px"
+              class="h-full w-full object-cover"
+              wrapperClass="w-full"
+            />
+          </div>
+        ))}
+        <button
+          type="button"
+          class="absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-sand"
+          data-preview-open={id}
+          data-index="0"
+          data-main-open
+          aria-label={`${viewAll}: ${name}`}
+        />
+      </div>
+
+      {shown.length > 1 && (
+        <ul class="mt-3 grid grid-cols-4 gap-3 sm:gap-4" role="list">
+          {shown.map((img, i) => (
+            <li>
+              <button
+                type="button"
+                data-thumb={i}
+                aria-label={`${name} ${i + 1}`}
+                aria-current={i === 0 ? 'true' : undefined}
+                class="relative block w-full overflow-hidden border border-transparent aria-[current=true]:border-sand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sand"
+              >
+                <ProtectedImage
+                  image={img}
+                  alt=""
+                  width={240}
+                  aspect="1/1"
+                  sizes="120px"
+                  mark="none"
+                  class="h-full w-full object-cover"
+                />
+                {extra > 0 && i === shown.length - 1 && (
+                  <span class="absolute inset-0 grid place-items-center bg-black/45 text-sm text-white">
+                    +{extra}
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <ImagePreview
+        id={id}
+        lang={lang}
+        name={name}
+        items={valid.map((image) => ({ image, caption: image.alt ?? name, sub }))}
+      />
+    </div>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    const mains = root.querySelectorAll<HTMLElement>('[data-main]');
+    const thumbs = root.querySelectorAll<HTMLElement>('[data-thumb]');
+    const opener = root.querySelector<HTMLElement>('[data-main-open]');
+    thumbs.forEach((th) =>
+      th.addEventListener('click', () => {
+        const idx = th.dataset.thumb!;
+        mains.forEach((m) => (m.hidden = m.dataset.main !== idx));
+        thumbs.forEach((x) =>
+          x === th ? x.setAttribute('aria-current', 'true') : x.removeAttribute('aria-current'),
+        );
+        if (opener) opener.dataset.index = idx;
+      }),
+    );
+  });
+</script>

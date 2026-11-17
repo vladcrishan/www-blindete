@@ -1,0 +1,270 @@
+---
+/**
+ * Reusable full-size photo preview dialog (design: "Image preview").
+ * Items are serialised as JSON; any element with
+ * `data-preview-open="<id>"` (+ optional `data-index`) opens it.
+ * Keyboard: ← / → / Esc. Native <dialog> traps focus and returns it to the
+ * trigger on close. Content is wrapped in `data-protected` (no right-click).
+ */
+import { urlFor } from '../sanity/lib/image';
+import type { SanityImageWithAlt } from '../sanity/lib/types';
+import type { Lang } from '../i18n/ui';
+
+export interface PreviewItem {
+  image: SanityImageWithAlt;
+  caption?: string;
+  sub?: string;
+}
+
+interface Props {
+  id: string;
+  items: PreviewItem[];
+  lang: Lang;
+  /** Used as a fallback caption/alt. */
+  name?: string;
+}
+const { id, items, lang, name = '' } = Astro.props;
+
+const copy = {
+  ro: { close: 'Închide', prev: 'Fotografia anterioară', next: 'Fotografia următoare', photo: 'Fotografia', of: 'din', disclaimer: 'Fotografie protejată' },
+  en: { close: 'Close', prev: 'Previous photo', next: 'Next photo', photo: 'Photo', of: 'of', disclaimer: 'Protected photo' },
+}[lang];
+
+const data = items
+  .filter((i) => i.image?.asset)
+  .map((i, idx) => ({
+    src: urlFor(i.image).auto('format').fit('max').width(1600).quality(85).url(),
+    alt: i.image.alt ?? i.caption ?? `${name} ${idx + 1}`,
+    caption: i.caption ?? i.image.alt ?? '',
+    sub: i.sub ?? '',
+  }));
+const multi = data.length > 1;
+---
+
+{
+  data.length > 0 && (
+    <dialog
+      class="image-preview"
+      data-preview={id}
+      data-protected
+      data-copy={JSON.stringify(copy)}
+      aria-label={name || copy.photo}
+    >
+      <script is:inline type="application/json" data-items set:html={JSON.stringify(data)} />
+      <div class="image-preview__inner">
+        <button type="button" class="image-preview__btn image-preview__close" data-close aria-label={copy.close}>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
+        </button>
+        {multi && (
+          <button type="button" class="image-preview__btn image-preview__prev" data-prev aria-label={copy.prev}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+          </button>
+          <button type="button" class="image-preview__btn image-preview__next" data-next aria-label={copy.next}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+          </button>
+        )}
+        <figure class="image-preview__figure">
+          <div class="protected-photo image-preview__stage">
+            <img data-stage alt="" draggable="false" />
+            <span class="protected-photo__mark protected-photo__mark--center" aria-hidden="true">blîndețe</span>
+          </div>
+          <figcaption class="image-preview__caption">
+            <div>
+              <p class="image-preview__title" data-caption />
+              <p class="image-preview__sub" data-sub />
+            </div>
+            {multi && <p class="image-preview__count" data-count aria-live="polite" />}
+          </figcaption>
+          <div class="image-preview__rule" aria-hidden="true"><span data-progress /></div>
+        </figure>
+      </div>
+    </dialog>
+  )
+}
+
+<style is:global>
+  .image-preview {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(24 24 24 / 0.96);
+    color: #fff;
+  }
+  .image-preview::backdrop {
+    background: rgb(0 0 0 / 0.6);
+  }
+  .image-preview__inner {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 4.5rem 1rem 1.5rem;
+  }
+  .image-preview__figure {
+    width: min(800px, 100%);
+    margin: 0;
+  }
+  .image-preview__stage {
+    display: grid;
+    place-items: center;
+    background: #111;
+  }
+  .image-preview__stage img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 14rem);
+    object-fit: contain;
+  }
+  .image-preview__caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    font-family: var(--font-serif);
+  }
+  .image-preview__title {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .image-preview__sub {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--color-sand);
+  }
+  .image-preview__count {
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    color: rgb(255 255 255 / 0.8);
+  }
+  .image-preview__rule {
+    margin-top: 1.25rem;
+    height: 1px;
+    background: rgb(255 255 255 / 0.25);
+  }
+  .image-preview__rule span {
+    display: block;
+    height: 1px;
+    width: 0;
+    background: var(--color-sand);
+    transition: width 0.3s ease;
+  }
+  .image-preview__btn {
+    position: absolute;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 1px solid rgb(255 255 255 / 0.85);
+    border-radius: 999px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .image-preview__btn:hover {
+    background: #fff;
+    color: #000;
+  }
+  .image-preview__btn:focus-visible {
+    outline: 2px solid var(--color-sand);
+    outline-offset: 3px;
+  }
+  .image-preview__close {
+    top: 1.25rem;
+    right: 1.25rem;
+  }
+  .image-preview__prev,
+  .image-preview__next {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    background: rgb(0 0 0 / 0.35);
+  }
+  .image-preview__prev {
+    left: 0.5rem;
+  }
+  .image-preview__next {
+    right: 0.5rem;
+  }
+  @media (min-width: 1100px) {
+    .image-preview__prev {
+      left: 12.5%;
+    }
+    .image-preview__next {
+      right: 12.5%;
+    }
+    .image-preview__prev,
+    .image-preview__next {
+      width: 3.5rem;
+      height: 3.5rem;
+      background: transparent;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLDialogElement>('dialog[data-preview]').forEach((dialog) => {
+    const id = dialog.dataset.preview!;
+    const items: { src: string; alt: string; caption: string; sub: string }[] = JSON.parse(
+      dialog.querySelector('script[data-items]')?.textContent ?? '[]',
+    );
+    const copy = JSON.parse(dialog.dataset.copy ?? '{}');
+    const stage = dialog.querySelector<HTMLImageElement>('[data-stage]')!;
+    const cap = dialog.querySelector<HTMLElement>('[data-caption]')!;
+    const sub = dialog.querySelector<HTMLElement>('[data-sub]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-count]');
+    const bar = dialog.querySelector<HTMLElement>('[data-progress]');
+    let current = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      current = (i + items.length) % items.length;
+      const it = items[current];
+      stage.src = it.src;
+      stage.alt = it.alt;
+      cap.textContent = it.caption;
+      sub.textContent = it.sub;
+      sub.hidden = !it.sub;
+      if (count) count.textContent = `${copy.photo} ${current + 1} ${copy.of} ${items.length}`;
+      if (bar) bar.style.width = `${((current + 1) / items.length) * 25}%`;
+    };
+
+    document.addEventListener('click', (e) => {
+      const trigger = (e.target as Element).closest<HTMLElement>(`[data-preview-open="${id}"]`);
+      if (!trigger) return;
+      e.preventDefault();
+      opener = trigger;
+      show(Number(trigger.dataset.index ?? 0));
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      dialog.querySelector<HTMLElement>('[data-close]')?.focus();
+    });
+    dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-prev]')?.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-next]')?.addEventListener('click', () => show(current + 1));
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog || (e.target as Element).classList.contains('image-preview__inner'))
+        dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (items.length < 2) return;
+      if (e.key === 'ArrowRight') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1);
+    });
+    dialog.addEventListener('close', () => {
+      stage.removeAttribute('src');
+      opener?.focus();
+    });
+  });
+</script>

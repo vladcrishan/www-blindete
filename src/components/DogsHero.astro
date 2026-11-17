@@ -1,0 +1,49 @@
+---
+import LandingHero from './LandingHero.astro';
+import dogHero1 from '../assets/dog-hero-1.png';
+import dogHero2 from '../assets/dog-hero-2.png';
+import { localizedRoute, type Lang } from '../i18n/ui';
+import type { LandingContent } from '../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  content?: LandingContent | null;
+}
+const { lang, content } = Astro.props;
+
+const fallback = {
+  ro: {
+    title: 'Câini Pomeranian',
+    traits: ['Drăgălași', 'Energici', 'Jucăuși'],
+    forLine: ['Pentru', 'crescători', 'și', 'animale'],
+    eyebrow: 'Calitate superioară',
+    headline: 'Rasă pură',
+    body: 'Câini Pomeranian / Kleinspitz crescuți cu grijă în Arad: jucăuși, sociabili și plini de energie. Fiecare pui vine cu pedigree complet.',
+    alt1: 'Câine Pomeranian în zăpadă înghețată',
+    alt2: 'Câine Pomeranian jucându-se pe iarbă',
+    seeMore: 'vezi mai mult',
+  },
+  en: {
+    title: 'Pomeranian Dogs',
+    traits: ['Cute', 'Energetic', 'Playful'],
+    forLine: ['For', 'breeders', 'and', 'pets'],
+    eyebrow: 'Superior quality',
+    headline: 'Pure breed',
+    body: 'Pomeranian / Kleinspitz dogs raised with care in Arad: playful, sociable and full of energy. Every puppy comes with full pedigree papers.',
+    alt1: 'Pomeranian puppy among frosted rose hips',
+    alt2: 'Pomeranian dog playing on grass',
+    seeMore: 'see more',
+  },
+};
+---
+
+<LandingHero
+  lang={lang}
+  content={content}
+  href={localizedRoute('dogs', lang)}
+  fallback={fallback}
+  local1={dogHero1}
+  local2={dogHero2}
+  as="h2"
+  layout="dog"
+/>

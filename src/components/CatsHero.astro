@@ -1,0 +1,48 @@
+---
+import LandingHero from './LandingHero.astro';
+import catHero1 from '../assets/cat-hero-1.png';
+import catHero2 from '../assets/cat-hero-2.png';
+import { localizedRoute, type Lang } from '../i18n/ui';
+import type { LandingContent } from '../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  content?: LandingContent | null;
+}
+const { lang, content } = Astro.props;
+
+const fallback = {
+  ro: {
+    title: 'Pisici persane',
+    traits: ['Chinchilla', 'Golden', 'Silver'],
+    forLine: ['Pentru', 'crescători', 'și', 'animale'],
+    eyebrow: 'Calitate superioară',
+    headline: 'Rasă pură',
+    body: 'Pisici Persane Chinchilla crescute cu drag în Arad: sănătoase, blânde și pregătite pentru o nouă familie. Fiecare pui vine cu pedigree complet.',
+    alt1: 'Pisică Persană Chinchilla',
+    alt2: 'Pisică Persană Chinchilla dormind',
+    seeMore: 'vezi mai mult',
+  },
+  en: {
+    title: 'Persian Cats',
+    traits: ['Chinchilla', 'Golden', 'Silver'],
+    forLine: ['For', 'breeders', 'and', 'pets'],
+    eyebrow: 'Superior quality',
+    headline: 'Pure breed',
+    body: 'Persian Chinchilla cats raised with love in Arad: healthy, gentle and ready for a new family. Every kitten comes with full pedigree papers.',
+    alt1: 'Persian Chinchilla cat',
+    alt2: 'Persian Chinchilla cat sleeping',
+    seeMore: 'see more',
+  },
+};
+---
+
+<LandingHero
+  lang={lang}
+  content={content}
+  href={localizedRoute('cats', lang)}
+  fallback={fallback}
+  local1={catHero1}
+  local2={catHero2}
+  as="h1"
+/>

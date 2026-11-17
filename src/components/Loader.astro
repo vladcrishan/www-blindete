@@ -1,0 +1,128 @@
+---
+/**
+ * First-visit-per-session loading screen (designs "Loading 1/2").
+ *
+ * - Hidden by default (CSS), so no-JS users, crawlers and repeat visits never
+ *   see it and there is zero layout shift: it is position:fixed and the page
+ *   content stays in the HTML underneath.
+ * - A tiny inline script, placed first in <body>, shows it before first paint
+ *   only when the session flag is absent and the path is not /admin.
+ * - Fades out on window `load` (min 600ms to avoid a flash, hard cap 1.5s).
+ */
+import { LOGO, getLangFromUrl } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const line = lang === 'en' ? 'Fetching the puppies' : 'Aducem puișorii';
+---
+
+<div id="blindete-loader" class="blindete-loader" aria-hidden="true">
+  <div class="blindete-loader__inner">
+    <span class="blindete-loader__logo">{LOGO}</span>
+    <span class="blindete-loader__track"><span class="blindete-loader__bar"></span></span>
+    <span class="blindete-loader__line">{line}</span>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    try {
+      var d = document.documentElement;
+      if (location.pathname.indexOf('/admin') === 0) return;
+      if (sessionStorage.getItem('blindete-loaded')) return;
+      sessionStorage.setItem('blindete-loaded', '1');
+      d.classList.add('loader-on');
+      var start = Date.now();
+      var done = false;
+      var hide = function () {
+        if (done) return;
+        done = true;
+        d.classList.add('loader-out');
+        setTimeout(function () {
+          d.classList.remove('loader-on', 'loader-out');
+        }, 600);
+      };
+      var onLoad = function () {
+        setTimeout(hide, Math.max(0, 600 - (Date.now() - start)));
+      };
+      if (document.readyState === 'complete') onLoad();
+      else window.addEventListener('load', onLoad);
+      setTimeout(hide, 1500);
+    } catch (e) {}
+  })();
+</script>
+
+<style is:global>
+  .blindete-loader {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    place-items: center;
+    background: var(--color-paper);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  html.loader-on .blindete-loader {
+    display: grid;
+  }
+  html.loader-out .blindete-loader {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .blindete-loader__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .blindete-loader__logo {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(2.75rem, 8vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  .blindete-loader__track {
+    display: block;
+    width: 13.75rem;
+    height: 2px;
+    margin-top: 3rem;
+    background: var(--color-line);
+    overflow: hidden;
+  }
+  .blindete-loader__bar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--color-sand);
+    transform-origin: left center;
+    transform: scaleX(0.4);
+    animation: blindete-loader-progress 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .blindete-loader__line {
+    margin-top: 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  @keyframes blindete-loader-progress {
+    from {
+      transform: scaleX(0.1);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blindete-loader {
+      transition: none;
+    }
+    .blindete-loader__bar {
+      animation: none;
+      transform: scaleX(1);
+    }
+  }
+</style>

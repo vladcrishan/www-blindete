@@ -1,0 +1,212 @@
+---
+/**
+ * Contact page, in the editorial language of the Crayons frames: oversized
+ * title + intro + "for breeders and pets" note over a hairline rule, then the
+ * contact form (underline fields) on the left and direct contact on the right.
+ * There is no backend: the form builds a mailto: link to the owner's address
+ * (settings.email) so the visitor's own email app opens with the message ready.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactButtons from '../ContactButtons.astro';
+import { useTranslations, routes, type Lang } from '../../i18n/ui';
+import { getSiteSettings } from '../../sanity/lib/queries';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const settings = await getSiteSettings();
+const en = lang === 'en';
+
+const seoTitle = `${t('contact.title')} · ${t('brand.name')}`;
+const seoDesc = en
+  ? 'Contact blindete in Arad for Persian Chinchilla kittens and Pomeranian puppies. Phone, WhatsApp, Messenger.'
+  : 'Contactează blîndețe în Arad pentru pisici Persane Chinchilla și câini Pomeranian. Telefon, WhatsApp, Messenger.';
+
+const note = en ? ['For breeders', 'and pets'] : ['Pentru crescători', 'și animale'];
+const visits = en ? 'Visits by appointment only, in Arad.' : 'Vizite doar cu programare, în Arad.';
+
+const ownerEmail = settings?.email?.trim() ?? '';
+const sendNote = en
+  ? 'Your email app will open with the message ready. Press Send there.'
+  : 'Se va deschide aplicația ta de email cu mesajul completat. Apasă Trimite acolo.';
+const subjectPrefix = en ? 'Message from blindete.ro – ' : 'Mesaj de pe blindete.ro de la ';
+
+const field =
+  'border-ink/25 focus:border-ink w-full border-0 border-b bg-transparent px-0 py-3 text-base outline-none transition-colors placeholder:text-mute';
+const label = 'text-mute block text-[0.6875rem] font-medium tracking-[0.2em] uppercase';
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={routes.contact.ro}
+  enPath={routes.contact.en}
+  settings={settings}
+>
+  <div class="mx-auto max-w-[1288px] px-6 pt-10 pb-20 lg:pt-16 lg:pb-28">
+    <!-- Header -->
+    <header
+      class="border-ink grid gap-6 border-b pb-8 md:grid-cols-[1fr_auto_auto] md:items-end md:gap-12"
+    >
+      <h1 class="text-[clamp(3.25rem,9vw,7rem)] leading-[1.02] tracking-tight">
+        {t('contact.title')}
+      </h1>
+      <p class="text-mute max-w-sm text-base leading-relaxed md:pb-3">{t('contact.intro')}</p>
+      <p class="text-[0.6875rem] leading-[1.7] tracking-[0.2em] uppercase md:pb-3">
+        <span class="text-sand block">{note[0]}</span>
+        <span class="text-ink block">{note[1]}</span>
+      </p>
+    </header>
+
+    <div
+      class:list={[
+        'mt-12 grid gap-16 lg:mt-16 lg:gap-24',
+        ownerEmail ? 'lg:grid-cols-[1fr_380px]' : 'lg:grid-cols-1',
+      ]}
+    >
+      <!-- Form: no backend. The submit handler below opens the visitor's own email
+               app via mailto:<owner> with subject and body pre-filled (name, phone,
+               message). Without JS the form falls back to a plain mailto: GET submit. -->
+      {
+        ownerEmail && (
+          <section id="form" aria-labelledby="contact-form-title" class="scroll-mt-28">
+            <h2 id="contact-form-title" class="eyebrow">
+              {en ? 'Write to us' : 'Scrie-ne'}
+            </h2>
+
+            <form
+              id="contact-form"
+              method="get"
+              action={`mailto:${ownerEmail}`}
+              class="mt-6 space-y-8"
+              data-to={ownerEmail}
+              data-subject-prefix={subjectPrefix}
+              data-name-label={t('contact.name')}
+              data-phone-label={t('contact.phone')}
+            >
+              <div>
+                <label class={label} for="name">
+                  {t('contact.name')}
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                  class={field}
+                />
+              </div>
+
+              <div>
+                <label class={label} for="phone">
+                  {t('contact.phone')}
+                </label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" class={field} />
+              </div>
+
+              <div>
+                <label class={label} for="message">
+                  {t('contact.message')}
+                </label>
+                <textarea
+                  id="message"
+                  name="body"
+                  rows="5"
+                  required
+                  class:list={[field, 'resize-y']}
+                />
+              </div>
+
+              <div>
+                <button type="submit" class="btn-sand">
+                  {t('contact.send')}
+                </button>
+                <p class="text-mute mt-3 text-sm">{sendNote}</p>
+              </div>
+            </form>
+          </section>
+        )
+      }
+
+      <!-- Direct contact -->
+      <aside class="lg:border-line lg:border-l lg:pl-12" aria-labelledby="contact-direct-title">
+        <h2 id="contact-direct-title" class="eyebrow">
+          {t('contact.orReachUs').replace(/:$/, '')}
+        </h2>
+
+        <dl class="mt-6 space-y-6">
+          {
+            settings?.phone && (
+              <div>
+                <dt class={label}>{t('contact.phone')}</dt>
+                <dd class="mt-1">
+                  <a
+                    href={`tel:${settings.phone}`}
+                    class="hover:text-sand text-2xl transition-colors"
+                  >
+                    {settings.phone}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            settings?.email && (
+              <div>
+                <dt class={label}>{t('contact.email')}</dt>
+                <dd class="mt-1">
+                  <a
+                    href={`mailto:${settings.email}`}
+                    class="hover:text-sand text-lg break-all transition-colors"
+                  >
+                    {settings.email}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            settings?.city && (
+              <div>
+                <dt class={label}>{t('contact.city')}</dt>
+                <dd class="mt-1 text-lg">{settings.city}</dd>
+              </div>
+            )
+          }
+        </dl>
+
+        <div class="mt-8">
+          <ContactButtons settings={settings} lang={lang} />
+        </div>
+
+        <p class="text-mute mt-8 text-sm">{visits}</p>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // No backend: build a mailto: link and let the visitor's email app take over.
+  // The native submit event only fires when the required fields are valid.
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const phone = String(data.get('phone') ?? '').trim();
+    const message = String(data.get('body') ?? '')
+      .trim()
+      .replace(/\r?\n/g, '\r\n');
+    const { to = '', subjectPrefix = '', nameLabel = '', phoneLabel = '' } = form.dataset;
+
+    const lines = [message, '', `${nameLabel}: ${name}`];
+    if (phone) lines.push(`${phoneLabel}: ${phone}`);
+
+    const subject = encodeURIComponent(`${subjectPrefix}${name}`);
+    const body = encodeURIComponent(lines.join('\r\n'));
+    location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  });
+</script>

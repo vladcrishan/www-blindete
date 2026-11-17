@@ -1,0 +1,139 @@
+---
+/**
+ * Sub-site landing hero (cats or dogs), after the "Landing — Cats/Dogs" frames:
+ * a tall portrait photo on the left, an oversized title that overlaps it, a
+ * "for breeders and pets" note, vertical colour/trait labels on the far right,
+ * a quality blurb with CTAs, and a second photo bleeding off the bottom-right.
+ * Every photo goes through ProtectedImage. All text props are already localized.
+ */
+import type { ImageMetadata } from 'astro';
+import type { Lang } from '../i18n/ui';
+import type { SanityImageWithAlt, Species } from '../sanity/lib/types';
+import ProtectedImage from './ProtectedImage.astro';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+  title: string;
+  eyebrow?: string;
+  headline?: string;
+  body?: string;
+  traits?: string[];
+  image?: SanityImageWithAlt | null;
+  image2?: SanityImageWithAlt | null;
+  /** Bundled photos used until the owner uploads hero photos in the Studio. */
+  local?: ImageMetadata;
+  local2?: ImageMetadata;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref: string;
+  secondaryLabel: string;
+}
+const {
+  lang,
+  species,
+  title,
+  eyebrow,
+  headline,
+  body,
+  traits = [],
+  image,
+  image2,
+  local,
+  local2,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+} = Astro.props;
+
+const note = {
+  ro: ['Pentru crescători', 'și animale'],
+  en: ['For breeders', 'and pets'],
+}[lang];
+
+// Break the title after its first word, as in the design ("Pisici / persane").
+const words = title.trim().split(/\s+/);
+const lines = words.length > 1 ? [words[0], words.slice(1).join(' ')] : words;
+const titleFont = species === 'dog' ? 'font-serif' : 'font-sans';
+---
+
+<section class="relative pt-6 pb-16 md:pt-10 lg:pb-24">
+  <div class="lg:grid lg:grid-cols-[480px_1fr] lg:gap-0">
+    {
+      image || local ? (
+        <ProtectedImage
+          image={image ?? undefined}
+          local={image ? undefined : local}
+          alt={image?.alt ?? title}
+          width={960}
+          aspect="4/5"
+          priority
+          sizes="(max-width: 1024px) 100vw, 480px"
+          class="h-full w-full object-cover"
+          wrapperClass={`aspect-[4/5] w-full lg:aspect-[4/5] photo-light`}
+        />
+      ) : (
+        <div class="bg-cream-soft aspect-[4/5] w-full" aria-hidden="true" />
+      )
+    }
+
+    <div class="relative lg:pr-16">
+      <div class="relative z-10 mt-8 lg:mt-24 lg:-ml-[120px]">
+        <h1
+          class:list={[
+            titleFont,
+            'text-ink text-[clamp(3.25rem,10vw,7.5rem)] leading-[1.02] tracking-tight',
+          ]}
+        >
+          {lines.map((l) => <span class="block">{l}</span>)}
+        </h1>
+      </div>
+      <p class="mt-5 text-[0.7rem] leading-[1.7] tracking-[0.2em] uppercase lg:absolute lg:top-28 lg:right-0 lg:mt-0">
+        <span class="text-sand block">{note[0]}</span>
+        <span class="text-ink block">{note[1]}</span>
+      </p>
+
+      {
+        traits.length > 0 && (
+          <ul
+            class="mt-6 flex flex-wrap gap-x-5 gap-y-1 text-xs tracking-[0.25em] uppercase lg:absolute lg:top-0 lg:-right-2 lg:mt-0 lg:flex-col lg:flex-nowrap lg:gap-y-8 lg:[writing-mode:vertical-rl]"
+            aria-label={lang === 'en' ? 'Colours' : 'Culori'}
+          >
+            {traits.map((tr) => (
+              <li>{tr}</li>
+            ))}
+          </ul>
+        )
+      }
+
+      <div class="mt-10 max-w-sm lg:mt-[300px] lg:ml-[40px] lg:max-w-[300px]">
+        {eyebrow && <p class="eyebrow tracking-[0.2em]">{eyebrow}</p>}
+        {headline && <p class="mt-3 text-base tracking-[0.15em] uppercase">{headline}</p>}
+        {body && <p class="mt-5 text-sm leading-relaxed">{body}</p>}
+        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a href={primaryHref} class="btn-sand">{primaryLabel}</a>
+          <a href={secondaryHref} class="see-more">
+            <span class="see-more__label">{secondaryLabel}</span>
+            <span class="see-more__line"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {
+    (image2 || local2) && (
+      <ProtectedImage
+        image={image2 ?? undefined}
+        local={image2 ? undefined : local2}
+        alt={image2?.alt ?? title}
+        width={600}
+        aspect="3/4"
+        sizes="(max-width: 1024px) 60vw, 290px"
+        class="h-full w-full object-cover"
+        wrapperClass={`mt-8 ml-auto aspect-[3/4] w-3/5 sm:w-2/5 lg:absolute lg:right-[-24px] lg:bottom-0 lg:mt-0 lg:w-[260px] photo-light`}
+      />
+    )
+  }
+</section>

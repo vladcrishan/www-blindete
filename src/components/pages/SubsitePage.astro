@@ -1,0 +1,164 @@
+---
+/**
+ * Sub-site landing page (cats or dogs). This is the entry point a visitor
+ * reaches from that species' Facebook / Instagram. It carries the species-
+ * scoped header nav, the soft cream backdrop shape, a dedicated hero, the
+ * News feed for that sub-site, and a contact block.
+ *
+ * The root-page editorial heroes (CatsHero / DogsHero) are unchanged — those
+ * remain the front door at "/". This page is the sub-site's own home.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SubsiteHero from '../SubsiteHero.astro';
+import catHero1 from '../../assets/cat-hero-1.png';
+import catHero2 from '../../assets/cat-hero-2.png';
+import dogHero1 from '../../assets/dog-hero-1.png';
+import dogHero2 from '../../assets/dog-hero-2.png';
+import NewsList from '../NewsList.astro';
+import ContactBlock from '../ContactBlock.astro';
+import { useTranslations, localized, routes, type Lang } from '../../i18n/ui';
+import {
+  getBreedingAnimals,
+  getLanding,
+  getOffspringBySpecies,
+  getPostsBySpecies,
+  getSiteSettings,
+} from '../../sanity/lib/queries';
+import { ogImageUrl } from '../../sanity/lib/seo';
+import type { Species } from '../../sanity/lib/types';
+
+interface Props {
+  lang: Lang;
+  species: Species;
+}
+const { lang, species } = Astro.props;
+const t = useTranslations(lang);
+const en = lang === 'en';
+
+const [landing, breeding, offspring, posts, settings] = await Promise.all([
+  getLanding(species),
+  getBreedingAnimals(species),
+  getOffspringBySpecies(species),
+  getPostsBySpecies(species, 12),
+  getSiteSettings(),
+]);
+
+const isCat = species === 'cat';
+const routeId = isCat ? 'cats' : 'dogs';
+const oursRoute = isCat ? routes.catsOurs : routes.dogsOurs;
+const listingRoute = isCat ? routes.catsListing : routes.dogsListing;
+
+// Hero photos: landing -> first breeding photo -> first offspring photo -> site hero.
+const animalPhotos = [...breeding, ...offspring]
+  .map((a) => a.photos?.[0])
+  .filter((p) => p?.asset);
+const heroImage = landing?.heroImage1?.asset
+  ? landing.heroImage1
+  : (animalPhotos[0] ?? (settings?.heroImage?.asset ? settings.heroImage : undefined));
+const heroImage2 = landing?.heroImage2?.asset
+  ? landing.heroImage2
+  : animalPhotos.find((p) => p !== heroImage);
+
+const defaults = {
+  cat: {
+    ro: { title: 'Pisici persane', eyebrow: 'Calitate superioară', headline: 'Rasă pură', body: 'Pisici Persane Chinchilla cu pedigree, crescute cu drag în Arad: blânde, sănătoase și gata pentru o familie nouă.', ours: 'Pisicile noastre', young: 'Pisoi' },
+    en: { title: 'Persian cats', eyebrow: 'Superior quality', headline: 'Pure breed', body: 'Pedigreed Persian Chinchilla cats raised with love in Arad: gentle, healthy and ready for a new family.', ours: 'Our cats', young: 'Kittens' },
+  },
+  dog: {
+    ro: { title: 'Pomeranian Kleinspitz', eyebrow: 'Calitate superioară', headline: 'Rasă pură', body: 'Pomeranian / Kleinspitz cu pedigree, crescuți cu grijă în Arad: jucăuși, sociabili și plini de energie.', ours: 'Câinii noștri', young: 'Căței' },
+    en: { title: 'Pomeranian Dogs', eyebrow: 'Top quality', headline: 'Pure breed', body: 'Pedigreed Pomeranian / Kleinspitz dogs raised with care in Arad: playful, sociable and full of energy.', ours: 'Our dogs', young: 'Puppies' },
+  },
+}[species][lang];
+
+const title = localized(landing?.titleRo, landing?.titleEn, lang) || defaults.title;
+const eyebrow = localized(landing?.eyebrowRo, landing?.eyebrowEn, lang) || defaults.eyebrow;
+const headline = localized(landing?.headlineRo, landing?.headlineEn, lang) || defaults.headline;
+const body = localized(landing?.bodyRo, landing?.bodyEn, lang) || defaults.body;
+const traits =
+  (en ? (landing?.traitsEn?.length ? landing.traitsEn : landing?.traitsRo) : landing?.traitsRo) ??
+  (isCat ? ['Chinchilla', 'Golden', 'Silver'] : []);
+const ourIntro = localized(landing?.ourIntroRo, landing?.ourIntroEn, lang);
+const youngIntro = localized(landing?.youngIntroRo, landing?.youngIntroEn, lang);
+
+// Per-species socials for the enriched footer.
+const footerSocials = isCat
+  ? { facebook: settings?.facebook, instagram: settings?.instagram }
+  : { facebook: settings?.facebookDog, instagram: settings?.instagramDog };
+
+const seoTitle = isCat
+  ? en
+    ? 'Persian Chinchilla Cats in Arad · blindete'
+    : 'Pisici Persane Chinchilla în Arad · blîndețe'
+  : en
+    ? 'Pomeranian / Kleinspitz Dogs in Arad · blindete'
+    : 'Câini Pomeranian / Kleinspitz în Arad · blîndețe';
+const seoDesc = isCat
+  ? en
+    ? 'Pedigreed Persian Chinchilla kittens, news and availability from our cattery in Arad, Romania.'
+    : 'Pisici Persane Chinchilla cu pedigree, noutăți și disponibilitate din crescătoria noastră din Arad, România.'
+  : en
+    ? 'Pedigreed Pomeranian / Kleinspitz puppies, news and availability from our kennel in Arad, Romania.'
+    : 'Câini Pomeranian / Kleinspitz cu pedigree, noutăți și disponibilitate din crescătoria noastră din Arad, România.';
+
+const ogImg = heroImage ? ogImageUrl(heroImage) : undefined;
+
+const entries = [
+  { href: oursRoute[lang], label: defaults.ours, intro: ourIntro },
+  { href: listingRoute[lang], label: defaults.young, intro: youngIntro },
+];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  roPath={routes[routeId].ro}
+  enPath={routes[routeId].en}
+  ogImage={ogImg}
+  settings={settings}
+  footerSocials={footerSocials}
+  subsite={species}
+>
+  <div class="mx-auto max-w-[1288px] px-6">
+    <SubsiteHero
+      lang={lang}
+      species={species}
+      title={title}
+      eyebrow={eyebrow}
+      headline={headline}
+      body={body}
+      traits={traits}
+      image={heroImage}
+      image2={heroImage2}
+      local={isCat ? catHero1 : dogHero1}
+      local2={isCat ? catHero2 : dogHero2}
+      primaryHref={oursRoute[lang]}
+      primaryLabel={defaults.ours}
+      secondaryHref={listingRoute[lang]}
+      secondaryLabel={defaults.young}
+    />
+
+    <!-- Entry points -->
+    <section class="border-ink grid gap-px border-t md:grid-cols-2" aria-label={en ? 'Explore' : 'Explorează'}>
+      {
+        entries.map((e) => (
+          <a href={e.href} class="group border-line block border-b py-10 md:pr-10 md:odd:border-r">
+            <p class="eyebrow">{en ? 'Explore' : 'Explorează'}</p>
+            <h2 class="mt-2 text-3xl sm:text-4xl">{e.label}</h2>
+            {e.intro && <p class="text-mute mt-3 max-w-md leading-relaxed">{e.intro}</p>}
+            <span class="see-more mt-6 text-xs font-medium">
+              <span class="see-more__label">{t('home.viewAll')}</span>
+              <span class="see-more__line" />
+            </span>
+          </a>
+        ))
+      }
+    </section>
+
+    <div class="py-16 md:py-20">
+      <NewsList posts={posts} lang={lang} />
+    </div>
+
+  </div>
+
+  <ContactBlock lang={lang} settings={settings} />
+</BaseLayout>

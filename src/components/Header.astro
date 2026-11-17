@@ -1,0 +1,139 @@
+---
+import {
+  LOGO,
+  getLangFromUrl,
+  localizedRoute,
+  switchLocalePath,
+  useTranslations,
+  type Lang,
+  type RouteId,
+} from '../i18n/ui';
+import type { Species } from '../sanity/lib/types';
+
+interface Props {
+  /**
+   * When set, the header renders the species-scoped sub-site nav (News /
+   * Kittens|Puppies / Gallery / Contact) plus a subtle link back to the main
+   * landing. When omitted, the global nav (Cats / Dogs / Contact) is shown.
+   */
+  subsite?: Species;
+}
+const { subsite } = Astro.props;
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const otherLang: Lang = lang === 'en' ? 'ro' : 'en';
+const switchHref = switchLocalePath(Astro.url, otherLang);
+
+type NavItem = { id: RouteId; label: string; hash?: string; neverActive?: boolean };
+
+/**
+ * Sub-site nav: our breeding adults, kittens/puppies (litters), the landing's
+ * #news anchor, the gallery pre-filtered to this species, and contact.
+ */
+const catNav: NavItem[] = [
+  { id: 'catsOurs', label: t('nav.ourCats') },
+  { id: 'catsListing', label: t('nav.kittens') },
+  { id: 'cats', label: t('nav.news'), hash: '#news', neverActive: true },
+  { id: 'gallery', label: t('nav.gallery'), hash: '#cats' },
+  { id: 'contact', label: t('nav.contact') },
+];
+const dogNav: NavItem[] = [
+  { id: 'dogsOurs', label: t('nav.ourDogs') },
+  { id: 'dogsListing', label: t('nav.puppies') },
+  { id: 'dogs', label: t('nav.news'), hash: '#news', neverActive: true },
+  { id: 'gallery', label: t('nav.gallery'), hash: '#dogs' },
+  { id: 'contact', label: t('nav.contact') },
+];
+const globalNav: NavItem[] = [
+  { id: 'cats', label: t('nav.cats') },
+  { id: 'dogs', label: t('nav.dogs') },
+  { id: 'gallery', label: t('nav.gallery') },
+  { id: 'contact', label: t('nav.contact') },
+];
+
+const nav: NavItem[] = subsite === 'cat' ? catNav : subsite === 'dog' ? dogNav : globalNav;
+
+// The logo always points to the main landing — on a sub-site it doubles as
+// the "back to main" link, so no separate back link is needed.
+const homeId: RouteId = 'home';
+
+const current = Astro.url.pathname;
+const stripSlash = (p: string) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p);
+const isActive = (item: NavItem) => {
+  // A landing#news link is never "current" on its own — it shares the
+  // landing path with the page itself; only highlight real section routes.
+  if (item.neverActive) return false;
+  const href = stripSlash(localizedRoute(item.id, lang));
+  const here = stripSlash(current);
+  return here === href || here.startsWith(href + '/');
+};
+const hrefFor = (item: NavItem) => `${localizedRoute(item.id, lang)}${item.hash ?? ''}`;
+---
+
+<header class="bg-bg/95 sticky top-0 z-40 backdrop-blur">
+  <div class="mx-auto flex max-w-[1288px] items-center justify-between gap-4 px-6 py-6">
+    <div class="flex items-baseline gap-4">
+      <a
+        href={localizedRoute(homeId, lang)}
+        class="text-[22px] leading-8 font-bold"
+      >
+        {LOGO}
+      </a>
+    </div>
+
+    <nav class="hidden items-center gap-11 md:flex" aria-label="Principal">
+      {
+        nav.map((item) => (
+          <a
+            href={hrefFor(item)}
+            class:list={['nav-link text-[15px]', isActive(item) && 'is-active']}
+            aria-current={isActive(item) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href={switchHref} class="nav-link text-[15px]" hreflang={otherLang}>
+        {otherLang.toUpperCase()}
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class="text-2xl leading-none md:hidden"
+      aria-label="Meniu"
+      data-menu-toggle>☰</button
+    >
+  </div>
+
+  <nav
+    class="border-line hidden border-t px-6 pt-2 pb-4 md:hidden"
+    data-mobile-menu
+    aria-label="Mobil"
+  >
+    {
+      nav.map((item) => (
+        <a
+          href={hrefFor(item)}
+          class:list={[
+            'hover:text-sand block py-2 text-sm tracking-wide transition-colors',
+            isActive(item) && 'text-sand',
+          ]}
+          aria-current={isActive(item) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+    <a href={switchHref} class="text-mut block py-2 text-sm tracking-wide" hreflang={otherLang}>
+      {t('lang.switchTo')}
+    </a>
+  </nav>
+</header>
+
+<script is:inline>
+  document.querySelector('[data-menu-toggle]')?.addEventListener('click', () => {
+    document.querySelector('[data-mobile-menu]')?.classList.toggle('hidden');
+  });
+</script>

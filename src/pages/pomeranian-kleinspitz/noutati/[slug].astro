@@ -1,0 +1,13 @@
+---
+import ArticlePage from '../../../components/pages/ArticlePage.astro';
+import { getPostDetailsBySpecies } from '../../../sanity/lib/queries';
+
+export async function getStaticPaths() {
+  const posts = await getPostDetailsBySpecies('dog');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+---
+
+<ArticlePage lang="ro" species="dog" post={post} />
